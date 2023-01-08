@@ -19,10 +19,10 @@ class GroupFormBloc extends FormBloc<String, String> {
       groupId,
     ]);
   }
+  // function when validate success
+
   @override
-  FutureOr<void> onSubmitting() {
-    //  emitSuccess();
-  }
+  FutureOr<void> onSubmitting() {}
 }
 
 class GroupCreateFormBloc extends FormBloc<String, String> {
@@ -45,6 +45,33 @@ class GroupCreateFormBloc extends FormBloc<String, String> {
       groupName,
     ]);
   }
+  //to map<String, dynamic> factory
+  factory GroupCreateFormBloc.fromMap(Map<String, dynamic> map) {
+    return GroupCreateFormBloc()
+      ..groupId.updateValue(map['groupId'])
+      ..groupName.updateValue(map['groupName']);
+  }
+  //to map<String, dynamic>
+  Map<String, dynamic> toMap() {
+    return {
+      'groupId': groupId.value,
+      'groupName': groupName.value,
+    };
+  }
+
   @override
-  FutureOr<void> onSubmitting() {}
+  FutureOr<void> onSubmitting() async {
+    try {
+      var ans = await GroupCreate.createGroup(
+        groupId.value,
+        this.toMap(),
+      );
+      if (ans == null)
+        emitSuccess();
+      else
+        emitFailure(failureResponse: ans);
+    } catch (e) {
+      print(e);
+    }
+  }
 }

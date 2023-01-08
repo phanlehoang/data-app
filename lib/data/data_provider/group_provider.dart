@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:data_app/data/data_provider/search_document.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
@@ -20,13 +21,17 @@ class GroupValidator {
 }
 
 class GroupCreate {
-  static Future<String?> createGroup(String id, ) async {
-    var db = FirebaseStorage.instance;
-    var ref = db.ref('groups/$id');
-    var ans = await ref.putData([]));
-    if (ans.state == TaskState.success) {
+  static Future<String?> createGroup(
+      String id, Map<String, dynamic> map) async {
+    var db = FirebaseFirestore.instance;
+    var ref = db.collection('groups').doc(id);
+    try {
+      var ans = ref.set(map);
       return null;
+    } catch (e) {
+      print(e);
     }
+
     return 'Error creating group';
   }
 }

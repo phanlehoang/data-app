@@ -8,6 +8,7 @@ import 'package:flutter_form_bloc/flutter_form_bloc.dart';
 
 import '../../widgets/bars/bottom_navitgator_bar.dart';
 import 'create_group_screen.dart';
+import 'find_group.dart';
 
 class HomeScreen extends StatelessWidget {
   HomeScreen({Key? key}) : super(key: key);
@@ -43,48 +44,6 @@ class HomeScreen extends StatelessWidget {
         ),
       ),
       bottomNavigationBar: BottomNavigatorBar(),
-    );
-  }
-}
-
-class FindGroup extends StatelessWidget {
-  const FindGroup({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return BlocProvider<GroupFormBloc>(
-      create: (context) => GroupFormBloc(),
-      child: Builder(
-        builder: (context) {
-          final formBloc = context.watch<GroupFormBloc>();
-          return FormBlocListener<GroupFormBloc, String, String>(
-            onSubmitting: (context, state) => Center(
-              child: CircularProgressIndicator(),
-            ),
-            onSuccess: (context, state) {
-              print('success');
-              print(state.successResponse);
-            },
-            onFailure: (context, state) {
-              print('failure');
-              print(state.failureResponse);
-            },
-            child: Column(
-              children: [
-                TextFieldBlocBuilder(
-                  textFieldBloc: formBloc.groupId,
-                  decoration: InputDecoration(
-                    labelText: 'Group ID',
-                    prefixIcon: Icon(Icons.group),
-                  ),
-                ),
-              ],
-            ),
-          );
-        },
-      ),
     );
   }
 }

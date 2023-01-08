@@ -34,8 +34,7 @@ class CreateGroupScreen extends StatelessWidget {
                       content: Text('Success'),
                     ),
                   );
-
-                  // Navigator.of(context).pop();
+                  Navigator.of(context).pop();
                 },
                 onFailure: (context, state) {
                   print('failure');
@@ -59,7 +58,7 @@ class CreateGroupScreen extends StatelessWidget {
                     ),
                     ElevatedButton(
                       onPressed: formBloc.submit,
-                      child: Text('Submit'),
+                      child: Text('Nộp'),
                     ),
                   ],
                 ),
