@@ -1,20 +1,38 @@
 //create a simple app
-import 'package:data_app/home_screen.dart';
+import 'package:data_app/presentation/router/app_router.dart';
+import 'package:data_app/presentation/widgets/nice_widgets/nice_export.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-void main() => runApp(new MyApp());
+import 'logic/status_cubit/navigator_bar_cubit.dart';
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  runApp(MyApp(
+    appRouter: AppRouter(),
+  ));
+}
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  final AppRouter appRouter;
+  const MyApp({Key? key, required this.appRouter}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<BottomNavigatorBarCubit>(
+          create: (navigatorBarCubitContext) => BottomNavigatorBarCubit(),
+        ),
+      ],
+      child: MaterialApp(
+        title: 'Flutter Demo',
+        debugShowCheckedModeBanner: false,
+        theme: winterTheme(Brightness.light),
+        onGenerateRoute: appRouter.onGeneratedRoute,
       ),
-      home: HomeScreen(),
     );
   }
 }
