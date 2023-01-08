@@ -1,6 +1,37 @@
-# bloc_app
-# # App dùng kiến trúc BLoC
- Link note giải thích: https://docs.google.com/document/d/1Ld0PW_GckhDz8GgOszZTPl0rKYv_s1o_X-kJUerTL8c/edit
- 
- Thử nghiệm 1: Viết app thông báo tình trạng Internet. Phải có Internet mới chạy được
- 
+# data app 
+Xây lại app 
+
+1. B1: Lấy hết nice widget đã tạo
+
+2. B2: Kiến trúc: 
+    1. Layer 1: (UI) presentaion:
+       1. Pages: là các trang cụ thể
+       2. Screen: là các template màn hình ở bên trong trang đó
+       3. Widgets: là các nice widget 
+       4. router: app router cho navigator 
+       5. animations: các animation: loading, đồ thị,...
+    2. Layer 2: (Logic)
+       1. form: các loại logic form điền 
+       2. medical_logic:
+           - sonde_logic: 
+           - TPN
+       3. patient_logic:
+          - profile
+          - medicalMethod  
+    3. Layer 3: (data)
+       1. models
+          1. group
+          2. patient
+          3. medicalMethod
+          4. profile 
+       2. datahouse 
+          - La noi cung cap dia chi data
+       3. repositories 
+          - La noi nhan data tư dia chi 
+          - Chuyen data tu model -> repo
+          - Chuyen repo -> model.
+  
+
+
+
+
