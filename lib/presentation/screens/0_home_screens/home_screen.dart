@@ -16,6 +16,7 @@ class HomeScreen extends StatelessWidget {
     //var trial = searchGroupId('groups', id)
     return Scaffold(
       body: SingleChildScrollView(
+        reverse: true,
         child: Column(
           children: [
             GroupDecoration(),

@@ -46,7 +46,5 @@ class GroupCreateFormBloc extends FormBloc<String, String> {
     ]);
   }
   @override
-  FutureOr<void> onSubmitting() {
-    emitSuccess();
-  }
+  FutureOr<void> onSubmitting() {}
 }
