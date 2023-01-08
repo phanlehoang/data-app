@@ -30,7 +30,13 @@ Xây lại app
           - La noi nhan data tư dia chi 
           - Chuyen data tu model -> repo
           - Chuyen repo -> model.
+<<<<<<< HEAD
 
+=======
+         ![kiến trúc bloc](https://user-images.githubusercontent.com/90677680/211181525-45d07893-d845-4d9a-b9ee-2affec72b4e5.png)
+
+  
+>>>>>>> 78e0034ebb011b138a9a325b0b978e568ef3376f
 
 
 
