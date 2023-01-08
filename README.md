@@ -30,8 +30,7 @@ Xây lại app
           - La noi nhan data tư dia chi 
           - Chuyen data tu model -> repo
           - Chuyen repo -> model.
-         
- [image](https://user-images.githubusercontent.com/90677680/211181495-578d760a-d942-4307-b68a-5ef48497a630.png)
+         ![kiến trúc bloc](https://user-images.githubusercontent.com/90677680/211181525-45d07893-d845-4d9a-b9ee-2affec72b4e5.png)
 
   
 
