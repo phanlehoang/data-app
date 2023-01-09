@@ -1,6 +1,7 @@
 # data app 
 Xây lại app 
-
+note: 
+https://docs.google.com/document/d/1Za86BEva8bzPrN_Qs1ly0Gfu1sUHBG_9dK9zM2rYLss/edit#heading=h.mtq41j9m95sk
 1. B1: Lấy hết nice widget đã tạo
 
 2. B2: Kiến trúc: 
