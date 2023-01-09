@@ -41,7 +41,10 @@ class WizardFormScreen extends StatelessWidget {
                   if (state.stepCompleted == 4) {
                     ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(content: Text('Tạo hồ sơ thành công')));
+                    Navigator.of(context).pop();
+                    Navigator.of(context).pushReplacementNamed('/');
                   }
+                  //
                 },
 
                 onFailure: (context, state) {
