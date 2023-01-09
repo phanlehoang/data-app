@@ -16,6 +16,7 @@ import '../../widgets/bars/bottom_navitgator_bar.dart';
 import '3_create_patient/3_wizard_form_screen.dart';
 import '2_create_group_screen.dart';
 import '1_find_group.dart';
+import '4_list_short_patients.dart';
 
 class HomeScreen extends StatelessWidget {
   HomeScreen({Key? key}) : super(key: key);
@@ -98,54 +99,6 @@ class ButtonToCreateGroup extends StatelessWidget {
         );
       },
       text: 'Tạo nhóm',
-    );
-  }
-}
-
-class ListOfPatients extends StatelessWidget {
-  const ListOfPatients({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Builder(
-      builder: (context) {
-        final cGroupCubit = context.watch<CurrentGroupIdCubit>();
-        if (cGroupCubit.state == 'Unknown') {
-          return Text('Chưa có nhóm nào được chọn');
-        } else {
-          return BlocProvider<ListPatientIdsCubit>(
-            create: (context) => ListPatientIdsCubit(),
-            child: Builder(
-              builder: (listPContext) {
-                final listPIdsCubit = listPContext.watch<ListPatientIdsCubit>();
-                listPIdsCubit.getPatientIdsFromGroupId(cGroupCubit.state);
-                return BlocBuilder(
-                  bloc: listPIdsCubit,
-                  builder: (BuildContext context, state) {
-                    if (listPIdsCubit.state.length == 0) {
-                      return Text('Chưa có bệnh nhân nào trong nhóm');
-                    } else {
-                      return ListView.builder(
-                        shrinkWrap: true,
-                        itemCount: listPIdsCubit.state.length,
-                        itemBuilder: (_, index) {
-                          return NiceItem(
-                              index: index,
-                              title: 'df',
-                              subtitle: 'subtitle',
-                              trailing: Text('TPN'));
-                        },
-                      );
-                    }
-                  },
-                );
-              },
-            ),
-          );
-        }
-      },
     );
   }
 }

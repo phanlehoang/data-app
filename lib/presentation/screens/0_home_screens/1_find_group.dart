@@ -1,4 +1,5 @@
 import 'package:data_app/logic/current/current_group/current_group_cubit.dart';
+import 'package:data_app/presentation/widgets/status/loading_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_bloc/flutter_form_bloc.dart';
@@ -19,6 +20,7 @@ class FindGroup extends StatelessWidget {
           final formBloc = context.watch<GroupFormBloc>();
           final currentGroupId = context.read<CurrentGroupIdCubit>();
           //value in field
+          //nếu ô thay đôi thì mới update
           if (formBloc.groupId.value != '') {
             if (formBloc.state.isValid()) {
               currentGroupId.update(formBloc.groupId.value);
@@ -27,11 +29,18 @@ class FindGroup extends StatelessWidget {
           }
 
           return FormBlocListener<GroupFormBloc, String, String>(
-            onSubmitting: (context, state) => Center(
-              child: CircularProgressIndicator(),
-            ),
-            onSuccess: (context, state) {},
+            onSubmitting: (context, state) {
+              LoadingDialog.show(context);
+            },
+            onLoading: (context, state) {
+              LoadingDialog.show(context);
+            },
+            onSuccess: (context, state) {
+              LoadingDialog.hide(context);
+            },
             onFailure: (context, state) {
+              LoadingDialog.show(context);
+
               print('failure');
               print(state.failureResponse);
             },

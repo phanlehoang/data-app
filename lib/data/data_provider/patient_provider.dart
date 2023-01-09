@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+import '../repositories/group_repo.dart';
+
 class PatientCreate {
   //create a group in firebase
   static Future<String?> createPatient(Map<String, dynamic> map) async {
@@ -21,10 +23,10 @@ class PatientCreate {
 }
 
 class PatientRead {
-  static Future<Map<String, dynamic>?> getShortPatient(
-      String room, String id) async {
+  static Future<ShortPatient?> getShortPatient(String room, String id) async {
     var db = FirebaseFirestore.instance;
     var ref = db.collection('groups').doc(room).collection('patients').doc(id);
+    print('read');
     try {
       var rawData = await ref.get();
       var profile = rawData['profile'];
@@ -32,8 +34,12 @@ class PatientRead {
         'id': profile['id'],
         'name': profile['name'],
         'medicalMethod': profile['medicalMethod'],
+        'room': profile['room'],
       };
-      return shorData;
+      print(shorData);
+      var shortModel = ShortPatient.fromMap(shorData);
+      print(shortModel);
+      return shortModel;
     } catch (e) {
       print(e);
     }

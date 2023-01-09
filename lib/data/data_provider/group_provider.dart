@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:data_app/data/data_provider/patient_provider.dart';
 import 'package:data_app/data/data_provider/search_document.dart';
+import 'package:data_app/data/repositories/group_repo.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
 class GroupValidator {
@@ -45,6 +47,24 @@ class GroupRead {
       var patientIds = ans.then((value) => value.map((e) => e.id).toList());
 
       return patientIds;
+    } catch (e) {
+      print(e);
+      return [];
+    }
+  }
+
+  static Future<List<ShortPatient>> shortPatients(String groupId) async {
+    try {
+      //get patient ids
+      var patientIds = await patients(groupId);
+      List<ShortPatient> ans = [];
+      for (var id in patientIds) {
+        var patient = await PatientRead.getShortPatient(groupId, id);
+        if (patient != null) {
+          ans.add(patient);
+        }
+      }
+      return ans;
     } catch (e) {
       print(e);
       return [];
