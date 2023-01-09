@@ -1,4 +1,5 @@
 //create a simple app
+import 'package:data_app/logic/current/current_export.dart';
 import 'package:data_app/presentation/router/app_router.dart';
 import 'package:data_app/presentation/widgets/nice_widgets/nice_export.dart';
 import 'package:flutter/material.dart';
@@ -25,6 +26,10 @@ class MyApp extends StatelessWidget {
       providers: [
         BlocProvider<BottomNavigatorBarCubit>(
           create: (navigatorBarCubitContext) => BottomNavigatorBarCubit(),
+        ),
+        //current group id cubit
+        BlocProvider<CurrentGroupIdCubit>(
+          create: (currentGroupIdCubitContext) => CurrentGroupIdCubit(),
         ),
       ],
       child: MaterialApp(

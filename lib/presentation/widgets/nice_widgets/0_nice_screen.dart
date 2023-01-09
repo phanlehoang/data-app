@@ -14,7 +14,6 @@ class NiceScreen extends StatelessWidget {
     double a = MediaQuery.of(context).size.width * 0.04;
 
     return Container(
-      padding: EdgeInsetsDirectional.fromSTEB(a * 2, a * 2, a * 2, a * 2),
       child: SingleChildScrollView(
         scrollDirection: Axis.vertical,
         reverse: true,

@@ -24,3 +24,12 @@ class VietnameseFieldBlocValidators {
     return null;
   }
 }
+
+class Hospital {
+  static String? checkLength10(String value) {
+    if (value.length != 10) {
+      return 'Mã bệnh nhân phải có 10 kí tự';
+    }
+    return null;
+  }
+}

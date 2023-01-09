@@ -1,8 +1,9 @@
+import 'package:data_app/logic/current/current_group/current_group_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_bloc/flutter_form_bloc.dart';
 
-import '../../../logic/form_blocs/group_form.dart';
+import '../../../logic/form_blocs/1_group_form.dart';
 
 class FindGroup extends StatelessWidget {
   const FindGroup({
@@ -16,14 +17,20 @@ class FindGroup extends StatelessWidget {
       child: Builder(
         builder: (context) {
           final formBloc = context.watch<GroupFormBloc>();
+          final currentGroupId = context.read<CurrentGroupIdCubit>();
+          //value in field
+          if (formBloc.groupId.value != '') {
+            if (formBloc.state.isValid()) {
+              currentGroupId.update(formBloc.groupId.value);
+            } else
+              currentGroupId.update('Unknown');
+          }
+
           return FormBlocListener<GroupFormBloc, String, String>(
             onSubmitting: (context, state) => Center(
               child: CircularProgressIndicator(),
             ),
-            onSuccess: (context, state) {
-              print('success');
-              print(state.successResponse);
-            },
+            onSuccess: (context, state) {},
             onFailure: (context, state) {
               print('failure');
               print(state.failureResponse);
@@ -34,9 +41,12 @@ class FindGroup extends StatelessWidget {
                   textFieldBloc: formBloc.groupId,
                   decoration: InputDecoration(
                     labelText: 'Group ID',
+                    //hint text
+                    hintText: currentGroupId.state,
                     prefixIcon: Icon(Icons.group),
                   ),
                 ),
+                Text('Mã nhóm hiện tại là: ' + currentGroupId.state),
               ],
             ),
           );

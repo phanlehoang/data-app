@@ -1,5 +1,6 @@
 //nice button
 import 'package:flutter/material.dart';
+import 'package:flutter_form_bloc/flutter_form_bloc.dart';
 import 'package:nice_buttons/nice_buttons.dart';
 
 class NiceButton extends StatelessWidget {
@@ -77,4 +78,30 @@ double getWidth(String text) {
     width = 100;
   }
   return width;
+}
+
+class GreenGreyButton extends StatelessWidget {
+  const GreenGreyButton({
+    Key? key,
+    required this.formBloc,
+  }) : super(key: key);
+
+  final formBloc;
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<FormBloc<String, String>, FormBlocState<String, String>>(
+        bloc: formBloc,
+        builder: (context, state) {
+          //check all validate
+          switch (state.isValid()) {
+            case true:
+              return GreenButton(
+                  text: 'Đăng nhập', onTap: () => formBloc.submit());
+            default:
+              return GreyButton(
+                  text: 'Đăng nhập', onTap: () => formBloc.submit());
+          }
+        });
+  }
 }

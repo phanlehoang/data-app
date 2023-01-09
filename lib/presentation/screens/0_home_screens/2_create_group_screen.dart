@@ -1,10 +1,11 @@
 //create class
 
+import 'package:data_app/logic/current/current_group/current_group_cubit.dart';
 import 'package:data_app/presentation/widgets/nice_widgets/nice_export.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_bloc/flutter_form_bloc.dart';
 
-import '../../../logic/form_blocs/group_form.dart';
+import '../../../logic/form_blocs/1_group_form.dart';
 import '../../widgets/nice_widgets/sizeDevide.dart';
 import '../../widgets/status/loading_dialog.dart';
 
@@ -34,7 +35,9 @@ class CreateGroupScreen extends StatelessWidget {
                       content: Text('Success'),
                     ),
                   );
-                  Navigator.of(context).pop();
+                  //go to home screen
+                  Navigator.pop(context);
+                  Navigator.of(context).pushReplacementNamed('/');
                 },
                 onFailure: (context, state) {
                   print('failure');
@@ -76,40 +79,48 @@ class GroupDecoration extends StatelessWidget {
   GroupDecoration({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Container(
-        child: Container(
-          padding: EdgeInsets.symmetric(
-              vertical: heightDevideMethod(context, 0.05),
-              horizontal: widthDevideMethod(context, 0.086)),
-          height: heightDevideMethod(context, 0.6),
-          color: Color(0xff091a31),
-          child: Column(children: [
-            //image group
+    return BlocBuilder<CurrentGroupIdCubit, String>(
+      builder: (context, state) {
+        final currentGroupId = state;
+        if (state != 'Unknown')
+          return Text('');
+        else
+          return Container(
+            child: Container(
+              child: Container(
+                padding: EdgeInsets.symmetric(
+                    vertical: heightDevideMethod(context, 0.05),
+                    horizontal: widthDevideMethod(context, 0.086)),
+                height: heightDevideMethod(context, 0.6),
+                color: Color(0xff091a31),
+                child: Column(children: [
+                  //image group
 
-            Image.asset(
-              'assets/images/hospitalback.jpg',
-            ),
-            const Text(
-              'NHẬP MÃ NHÓM',
-              style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold),
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            const Text(
-              textAlign: TextAlign.center,
-              'Mã nhóm cho phép mọi người có thể theo dõi một danh sách bệnh nhân cùng một nhóm',
-              style: TextStyle(
-                color: Colors.white,
+                  Image.asset(
+                    'assets/images/hospitalback.jpg',
+                  ),
+                  const Text(
+                    'NHẬP MÃ NHÓM',
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  const Text(
+                    textAlign: TextAlign.center,
+                    'Mã nhóm cho phép mọi người có thể theo dõi một danh sách bệnh nhân cùng một nhóm',
+                    style: TextStyle(
+                      color: Colors.white,
+                    ),
+                  )
+                ]),
               ),
-            )
-          ]),
-        ),
-      ),
+            ),
+          );
+      },
     );
   }
 }
