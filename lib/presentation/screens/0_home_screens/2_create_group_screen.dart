@@ -86,39 +86,35 @@ class GroupDecoration extends StatelessWidget {
           return Text('');
         else
           return Container(
-            child: Container(
-              child: Container(
-                padding: EdgeInsets.symmetric(
-                    vertical: heightDevideMethod(context, 0.05),
-                    horizontal: widthDevideMethod(context, 0.086)),
-                height: heightDevideMethod(context, 0.6),
-                color: Color(0xff091a31),
-                child: Column(children: [
-                  //image group
+            padding: EdgeInsets.symmetric(
+                vertical: heightDevideMethod(context, 0.05),
+                horizontal: widthDevideMethod(context, 0.086)),
+            height: heightDevideMethod(context, 0.6),
+            color: Color(0xff091a31),
+            child: Column(children: [
+              //image group
 
-                  Image.asset(
-                    'assets/images/hospitalback.jpg',
-                  ),
-                  const Text(
-                    'NHẬP MÃ NHÓM',
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  const Text(
-                    textAlign: TextAlign.center,
-                    'Mã nhóm cho phép mọi người có thể theo dõi một danh sách bệnh nhân cùng một nhóm',
-                    style: TextStyle(
-                      color: Colors.white,
-                    ),
-                  )
-                ]),
+              Image.asset(
+                'assets/images/hospitalback.jpg',
               ),
-            ),
+              const Text(
+                'NHẬP MÃ NHÓM',
+                style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold),
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              const Text(
+                textAlign: TextAlign.center,
+                'Mã nhóm cho phép mọi người có thể theo dõi một danh sách bệnh nhân cùng một nhóm',
+                style: TextStyle(
+                  color: Colors.white,
+                ),
+              )
+            ]),
           );
       },
     );

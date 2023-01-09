@@ -25,19 +25,24 @@ class HomeScreen extends StatelessWidget {
     //var trial = searchGroupId('groups', id)
     return Scaffold(
       body: NiceScreen(
-        child: Column(
-          children: [
-            GroupDecoration(),
-            Row(
-              children: [
-                SizedBox(width: 200, child: FindGroup()),
-                SizedBox(width: 10),
-                SizedBox(width: 100, child: ButtonToCreateGroup()),
-              ],
-            ),
-            ButtonToCreatePatient(),
-            NiceScreen(child: ListOfPatients()),
-          ],
+        child: Center(
+          child: Column(
+            children: [
+              GroupDecoration(),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SizedBox(
+                      width: MediaQuery.of(context).size.width / 1.5,
+                      child: FindGroup()),
+                  SizedBox(width: 10),
+                  SizedBox(width: 100, child: ButtonToCreateGroup()),
+                ],
+              ),
+              ButtonToCreatePatient(),
+              NiceScreen(child: ListOfPatients()),
+            ],
+          ),
         ),
       ),
       bottomNavigationBar: BottomNavigatorBar(),
@@ -58,24 +63,26 @@ class ButtonToCreatePatient extends StatelessWidget {
         if (state == 'Unknown')
           return Container();
         else
-          return Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              SizedBox(
-                width: 100,
-                child: NiceButtons(
-                  child: AddPatientIcon(),
-                  onTap: (finish) {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => WizardFormScreen(),
-                      ),
-                    );
-                  },
+          return Center(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                SizedBox(
+                  width: 100,
+                  child: NiceButtons(
+                    child: AddPatientIcon(),
+                    onTap: (finish) {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => WizardFormScreen(),
+                        ),
+                      );
+                    },
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           );
       },
     );
@@ -89,8 +96,8 @@ class ButtonToCreateGroup extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GreenButton(
-      onTap: () {
+    return TextButton(
+      onPressed: () {
         Navigator.push(
           context,
           MaterialPageRoute(
@@ -98,7 +105,14 @@ class ButtonToCreateGroup extends StatelessWidget {
           ),
         );
       },
-      text: 'Tạo nhóm',
+      child: Text('Tạo nhóm ',
+          style: // thêm màu cho chữ, thêm gạch chân, thêm đậm, thêm kích thước
+              TextStyle(
+            color: Colors.green,
+            decoration: TextDecoration.underline,
+            fontWeight: FontWeight.bold,
+            fontSize: 10,
+          )),
     );
   }
 }
