@@ -6,8 +6,8 @@ import '1_nice_container.dart';
 
 class NiceItem extends StatelessWidget {
   final int index;
-  final String? title;
-  final String? subtitle;
+  final String title;
+  final String subtitle;
   final Widget trailing;
   final onTap;
   const NiceItem({
@@ -34,8 +34,8 @@ class NiceItem extends StatelessWidget {
           children: [
             SimpleContainer(
               child: ListTile(
-                title: Text('Item $index'),
-                subtitle: Text('Subtitle $index'),
+                title: Text(title),
+                subtitle: Text(subtitle),
                 leading: Container(
                   child: ClipOval(
                     child: Image.asset(

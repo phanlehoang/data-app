@@ -1,5 +1,6 @@
 //create a home screen
 import 'package:data_app/data/data_provider/search_document.dart';
+import 'package:data_app/data/repositories/group_repo.dart';
 import 'package:data_app/logic/current/current_group/current_group_cubit.dart';
 import 'package:data_app/logic/form_blocs/1_group_form.dart';
 import 'package:data_app/presentation/widgets/nice_widgets/add_patient_icon.dart';
@@ -10,6 +11,7 @@ import 'package:flutter_form_bloc/flutter_form_bloc.dart';
 import 'package:nice_buttons/nice_buttons.dart';
 
 import '../../../data/data_provider/group_provider.dart';
+import '../../../data/data_provider/patient_provider.dart';
 import '../../widgets/bars/bottom_navitgator_bar.dart';
 import '3_create_patient/3_wizard_form_screen.dart';
 import '2_create_group_screen.dart';
@@ -107,15 +109,41 @@ class ListOfPatients extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder(
-      bloc: context.read<CurrentGroupIdCubit>(),
-      builder: (BuildContext context, state) {
-        final idCubit = context.read<CurrentGroupIdCubit>();
-        if (state == 'Unknown')
-          return Column();
-        else {
-          dynamic val = GroupRead.patients(idCubit.state);
-          return Text(val.toString());
+    return Builder(
+      builder: (context) {
+        final cGroupCubit = context.watch<CurrentGroupIdCubit>();
+        if (cGroupCubit.state == 'Unknown') {
+          return Text('Chưa có nhóm nào được chọn');
+        } else {
+          return BlocProvider<ListPatientIdsCubit>(
+            create: (context) => ListPatientIdsCubit(),
+            child: Builder(
+              builder: (listPContext) {
+                final listPIdsCubit = listPContext.watch<ListPatientIdsCubit>();
+                listPIdsCubit.getPatientIdsFromGroupId(cGroupCubit.state);
+                return BlocBuilder(
+                  bloc: listPIdsCubit,
+                  builder: (BuildContext context, state) {
+                    if (listPIdsCubit.state.length == 0) {
+                      return Text('Chưa có bệnh nhân nào trong nhóm');
+                    } else {
+                      return ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: listPIdsCubit.state.length,
+                        itemBuilder: (_, index) {
+                          return NiceItem(
+                              index: index,
+                              title: 'df',
+                              subtitle: 'subtitle',
+                              trailing: Text('TPN'));
+                        },
+                      );
+                    }
+                  },
+                );
+              },
+            ),
+          );
         }
       },
     );

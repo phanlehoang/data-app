@@ -90,9 +90,12 @@ class WizardFormBloc extends FormBloc<String, String> {
 
   @override
   Future<void> onSubmitting() async {
-    //step 
-     var ans = //step 
-     
+    //step
+
+    if (state.currentStep < 4) {
+      emitSuccess();
+      return;
+    }
     try {
       var ans = await PatientCreate.createPatient(toMap());
       if (ans != null) {

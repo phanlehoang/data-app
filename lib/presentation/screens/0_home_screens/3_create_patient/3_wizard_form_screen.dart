@@ -38,9 +38,12 @@ class WizardFormScreen extends StatelessWidget {
                 onSubmissionFailed: (context, state) {},
                 //   LoadingDialog.hide(context),
                 onSuccess: (context, state) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text('Tạo hồ sơ thành công')));
+                  if (state.stepCompleted == 4) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text('Tạo hồ sơ thành công')));
+                  }
                 },
+
                 onFailure: (context, state) {
                   //LoadingDialog.hide(context);
                   ScaffoldMessenger.of(context).showSnackBar(

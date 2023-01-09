@@ -37,19 +37,17 @@ class GroupCreate {
 }
 
 class GroupRead {
-  static Future<List<dynamic>?> patients(String id) async {
+  static Future<List<String>> patients(String id) async {
     try {
       var db = FirebaseFirestore.instance;
       var ref = db.collection('groups').doc(id).collection('patients').get();
       var ans = ref.then((value) => value.docs);
-      var documents = await ans;
-      if (documents.length > 0) {
-        return documents.map((e) => e.data()).toList();
-      }
+      var patientIds = ans.then((value) => value.map((e) => e.id).toList());
+
+      return patientIds;
     } catch (e) {
       print(e);
+      return [];
     }
-
-    return null;
   }
 }

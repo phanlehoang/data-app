@@ -21,16 +21,17 @@ class PatientCreate {
 }
 
 class PatientRead {
-  static Future<Map<String, dynamic>?> getPatient(
+  static Future<Map<String, dynamic>?> getShortPatient(
       String room, String id) async {
     var db = FirebaseFirestore.instance;
     var ref = db.collection('groups').doc(room).collection('patients').doc(id);
     try {
       var rawData = await ref.get();
+      var profile = rawData['profile'];
       var shorData = {
-        'id': rawData['id'],
-        'name': rawData['name'],
-        'medicalMethod': rawData['medicalMethod'],
+        'id': profile['id'],
+        'name': profile['name'],
+        'medicalMethod': profile['medicalMethod'],
       };
       return shorData;
     } catch (e) {
