@@ -37,12 +37,20 @@ class FindGroup extends StatelessWidget {
             },
             onSuccess: (context, state) {
               LoadingDialog.hide(context);
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(
+                  content: Text('Đã tìm thấy nhóm.'),
+                ),
+              );
             },
             onFailure: (context, state) {
-              LoadingDialog.show(context);
+              LoadingDialog.hide(context);
 
-              print('failure');
-              print(state.failureResponse);
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(
+                  content: Text('Có lỗi xảy ra. Vui lòng kiểm tra lại mạng.'),
+                ),
+              );
             },
             child: Column(
               children: [

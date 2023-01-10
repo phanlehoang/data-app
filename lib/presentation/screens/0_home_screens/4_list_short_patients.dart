@@ -61,23 +61,21 @@ class ListShortPatientsShow extends StatelessWidget {
           builder: (_context, shortPatients) {
             return Column(
               children: [
-                Text(cGroupCubit.state),
-                if (shortPatients.length == 0)
-                  Text('Chưa có bệnh nhân nào trong nhóm này')
-                else
-                  for (var i = 0; i < shortPatients.length; i++)
-                    NiceItem(
-                      index: i,
-                      title: shortPatients[i].name,
-                      subtitle: shortPatients[i].id,
-                      trailing: Text(shortPatients[i].medicalMethod),
-                      onTap: () {
-                        //go to patient screen
-                        Navigator.of(_context).pushReplacementNamed('/patient');
-                        //patient navigation bar
-                        _context.read<BottomNavigatorBarCubit>().emit(1);
-                      },
-                    )
+                Text(
+                    'Nhóm ${cGroupCubit.state} có ${shortPatients.length} bệnh nhân'),
+                for (var i = 0; i < shortPatients.length; i++)
+                  NiceItem(
+                    index: i,
+                    title: shortPatients[i].name,
+                    subtitle: shortPatients[i].id,
+                    trailing: Text(shortPatients[i].medicalMethod),
+                    onTap: () {
+                      //go to patient screen
+                      Navigator.of(_context).pushReplacementNamed('/patient');
+                      //patient navigation bar
+                      // _context.read<BottomNavigatorBarCubit>().emit(1);
+                    },
+                  )
               ],
             );
           },

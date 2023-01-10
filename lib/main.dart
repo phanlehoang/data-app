@@ -1,4 +1,5 @@
 //create a simple app
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:data_app/logic/current/current_export.dart';
 import 'package:data_app/presentation/router/app_router.dart';
 import 'package:data_app/presentation/widgets/nice_widgets/nice_export.dart';
@@ -6,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'logic/status_cubit/internet/internet_cubit.dart';
 import 'logic/status_cubit/navigator_bar_cubit.dart';
 
 void main() async {
@@ -24,6 +26,12 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
+        //internet cubit
+        BlocProvider<InternetCubit>(
+          create: (internetCubitContext) => InternetCubit(
+            connectivity: Connectivity(),
+          ),
+        ),
         BlocProvider<BottomNavigatorBarCubit>(
           create: (navigatorBarCubitContext) => BottomNavigatorBarCubit(),
         ),

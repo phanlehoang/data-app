@@ -10,7 +10,7 @@ class GroupFormBloc extends FormBloc<String, String> {
       validators: [
         VietnameseFieldBlocValidators.lightRequired,
       ],
-      asyncValidatorDebounceTime: const Duration(milliseconds: 100),
+      asyncValidatorDebounceTime: const Duration(milliseconds: 300),
       asyncValidators: [GroupValidator.idExist]);
   //add field blocs
   @override
@@ -60,7 +60,19 @@ class GroupCreateFormBloc extends FormBloc<String, String> {
   }
 
   @override
+  void emit(dynamic state) {
+    try {
+      super.emit(state);
+    } catch (e) {
+      if (e == StateError('Cannot emit new states after calling close')) {
+        return;
+      }
+    }
+  }
+
+  @override
   FutureOr<void> onSubmitting() async {
+    //delay 100ms
     try {
       var ans = await GroupCreate.createGroup(
         groupId.value,
@@ -73,5 +85,13 @@ class GroupCreateFormBloc extends FormBloc<String, String> {
     } catch (e) {
       print(e);
     }
+  }
+
+  //close
+  @override
+  Future<void> close() async {
+    groupId.close();
+    groupName.close();
+    super.close();
   }
 }

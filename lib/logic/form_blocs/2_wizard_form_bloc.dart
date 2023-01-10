@@ -87,7 +87,16 @@ class WizardFormBloc extends FormBloc<String, String> {
       'room': groupId,
     };
   }
-
+@override
+  void emit(dynamic state) {
+    try {
+      super.emit(state);
+    } catch (e) {
+      if (e == StateError('Cannot emit new states after calling close')) {
+        return;
+      }
+    }
+  }
   @override
   Future<void> onSubmitting() async {
     //step
@@ -106,5 +115,16 @@ class WizardFormBloc extends FormBloc<String, String> {
     } catch (e) {
       emitFailure(failureResponse: e.toString());
     }
+  }
+
+  //close
+  @override
+  Future<void> close() async {
+    name.close();
+    id.close();
+    height.close();
+    weight.close();
+    address.close();
+    phone.close();
   }
 }

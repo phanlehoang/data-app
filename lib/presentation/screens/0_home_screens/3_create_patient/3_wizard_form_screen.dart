@@ -24,7 +24,7 @@ class WizardFormScreen extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Tạo hồ sơ bệnh nhân'),
       ),
-      body: SingleChildScrollView(
+      body: NiceInternetScreen(
         child: BlocProvider(
             create: (_) => WizardFormBloc(
                 groupId: context.read<CurrentGroupIdCubit>().state),

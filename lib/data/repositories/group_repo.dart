@@ -1,14 +1,30 @@
+import 'dart:async';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../data_provider/group_provider.dart';
 
 class ListShortPatientsCubit extends Cubit<List<ShortPatient>> {
-  //init
-  ListShortPatientsCubit() : super([]);
+  @override
+  void emit(dynamic state) {
+    try {
+      super.emit(state);
+    } catch (e) {
+      if (e == StateError('Cannot emit new states after calling close')) {
+        return;
+      }
+    }
+  }
+
+  ListShortPatientsCubit() : super([]) {}
 
   void clear() => emit([]);
 
   Future<void> getPatientIdsFromGroupId(String groupId) async {
+    //sau 2 giây sẽ kết thúc hàm
+    await Future.delayed(Duration(seconds: 2));
+
     var patientIds;
 
     try {
@@ -20,17 +36,8 @@ class ListShortPatientsCubit extends Cubit<List<ShortPatient>> {
     if (patientIds != null) {
       emit(patientIds);
     }
-    var pids = await GroupRead.patients(groupId);
-    print(pids);
-    var spids = await GroupRead.shortPatients(groupId);
-    print(spids);
   }
 
-  //close
-  @override
-  Future<void> close() {
-    return super.close();
-  }
 }
 
 abstract class ListShortPatientsState {

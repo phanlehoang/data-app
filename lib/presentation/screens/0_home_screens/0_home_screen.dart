@@ -24,25 +24,32 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     //var trial = searchGroupId('groups', id)
     return Scaffold(
-      body: NiceScreen(
-        child: Center(
-          child: Column(
-            children: [
-              GroupDecoration(),
-              Row(
+      appBar: AppBar(
+        title: Text('Home'),
+      ),
+      body: NiceInternetScreen(
+        child: Column(
+          children: [
+            GroupDecoration(),
+            //want to fix a text widget on screen
+
+            Focus(
+              child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   SizedBox(
                       width: MediaQuery.of(context).size.width / 1.5,
                       child: FindGroup()),
                   SizedBox(width: 10),
-                  SizedBox(width: 100, child: ButtonToCreateGroup()),
+                  SizedBox(
+                      width: MediaQuery.of(context).size.width / 4.5,
+                      child: ButtonToCreateGroup()),
                 ],
               ),
-              ButtonToCreatePatient(),
-              NiceScreen(child: ListOfPatients()),
-            ],
-          ),
+            ),
+            ButtonToCreatePatient(),
+            Focus(child: NiceScreen(child: ListOfPatients())),
+          ],
         ),
       ),
       bottomNavigationBar: BottomNavigatorBar(),

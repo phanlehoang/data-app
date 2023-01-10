@@ -26,7 +26,6 @@ class PatientRead {
   static Future<ShortPatient?> getShortPatient(String room, String id) async {
     var db = FirebaseFirestore.instance;
     var ref = db.collection('groups').doc(room).collection('patients').doc(id);
-    print('read');
     try {
       var rawData = await ref.get();
       var profile = rawData['profile'];
@@ -36,9 +35,7 @@ class PatientRead {
         'medicalMethod': profile['medicalMethod'],
         'room': profile['room'],
       };
-      print(shorData);
       var shortModel = ShortPatient.fromMap(shorData);
-      print(shortModel);
       return shortModel;
     } catch (e) {
       print(e);

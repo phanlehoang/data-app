@@ -62,7 +62,7 @@ class LoadingDialog extends StatelessWidget {
     showDialog(
       context: context,
       useRootNavigator: false,
-      barrierDismissible: true,
+      barrierDismissible: false,
       builder: (_) => LoadingDialog(key: key),
     ).then((_) => FocusScope.of(context).requestFocus(FocusNode()));
   }
