@@ -77,8 +77,8 @@ class WizardFormBloc extends FormBloc<String, String> {
     return {
       'name': name.value,
       'id': id.value,
-      'height': height.value,
-      'weight': weight.value,
+      'height': num.parse(height.value),
+      'weight': num.parse(weight.value),
       'address': address.value,
       'phone': phone.value,
       'gender': gender.value,
@@ -87,7 +87,8 @@ class WizardFormBloc extends FormBloc<String, String> {
       'room': groupId,
     };
   }
-@override
+
+  @override
   void emit(dynamic state) {
     try {
       super.emit(state);
@@ -97,6 +98,7 @@ class WizardFormBloc extends FormBloc<String, String> {
       }
     }
   }
+
   @override
   Future<void> onSubmitting() async {
     //step

@@ -45,16 +45,13 @@ class PatientNavigatorBar extends StatelessWidget {
 void patientNavigator(int index, BuildContext context) {
   switch (index) {
     case 0:
-      Navigator.of(context, rootNavigator: true)
-          .pushReplacementNamed('/patient');
+      Navigator.of(context).pushReplacementNamed('/patient');
       break;
     case 1:
-      Navigator.of(context, rootNavigator: true)
-          .pushReplacementNamed('/patient/history');
+      Navigator.of(context).pushReplacementNamed('/patient/history');
       break;
     case 2:
-      Navigator.of(context, rootNavigator: true)
-          .pushReplacementNamed('/patient/profile');
+      Navigator.of(context).pushReplacementNamed('/patient/profile');
       break;
     default:
   }

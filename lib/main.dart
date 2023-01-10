@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'logic/current/current_patient/current_profile_cubit.dart';
 import 'logic/status_cubit/internet/internet_cubit.dart';
 import 'logic/status_cubit/navigator_bar_cubit.dart';
 
@@ -35,9 +36,21 @@ class MyApp extends StatelessWidget {
         BlocProvider<BottomNavigatorBarCubit>(
           create: (navigatorBarCubitContext) => BottomNavigatorBarCubit(),
         ),
+        //navigator patient cubit
+        BlocProvider<PatientNavigatorBarCubit>(
+          create: (navigatorBarCubitContext) => PatientNavigatorBarCubit(),
+        ),
+        //doctor navigator cubit
+        BlocProvider<DoctorNavigatorBarCubit>(
+          create: (navigatorBarCubitContext) => DoctorNavigatorBarCubit(),
+        ),
         //current group id cubit
         BlocProvider<CurrentGroupIdCubit>(
           create: (currentGroupIdCubitContext) => CurrentGroupIdCubit(),
+        ),
+        //current profile cubit
+        BlocProvider<CurrentProfileCubit>(
+          create: (currentProfileCubitContext) => CurrentProfileCubit(),
         ),
       ],
       child: MaterialApp(

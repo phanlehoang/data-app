@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+import '../models/profile.dart';
 import '../repositories/group_repo.dart';
 
 class PatientCreate {
@@ -37,6 +38,24 @@ class PatientRead {
       };
       var shortModel = ShortPatient.fromMap(shorData);
       return shortModel;
+    } catch (e) {
+      print(e);
+    }
+    return null;
+  }
+
+  //get patient profile
+  static Future<Profile?> getPatient(String room, String id) async {
+    var db = FirebaseFirestore.instance;
+    var ref = db.collection('groups').doc(room).collection('patients').doc(id);
+    try {
+      print('try');
+      var rawData = await ref.get();
+      var profile = rawData['profile'];
+      print('profile $profile');
+      var model = Profile.fromMap(profile);
+      print('model $model');
+      return model;
     } catch (e) {
       print(e);
     }

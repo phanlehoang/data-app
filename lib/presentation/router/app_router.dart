@@ -11,8 +11,6 @@ import '../screens/3_setting_screens/setting_screen.dart';
 import '../screens/export_screen.dart';
 
 class AppRouter {
-  final PatientNavigatorBarCubit patientNavigatorBarCubit =
-      PatientNavigatorBarCubit();
   final DoctorNavigatorBarCubit doctorNavigatorBarCubit =
       DoctorNavigatorBarCubit();
   MaterialPageRoute? onGeneratedRoute(RouteSettings routeSettings) {
@@ -27,28 +25,19 @@ class AppRouter {
       case '/patient':
         {
           return MaterialPageRoute(
-            builder: (_) => BlocProvider.value(
-              value: patientNavigatorBarCubit,
-              child: PatientMedicalScreen(),
-            ),
+            builder: (_) => PatientMedicalScreen(),
           );
         }
       case ('/patient/history'):
         {
           return MaterialPageRoute(
-            builder: (_) => BlocProvider.value(
-              value: patientNavigatorBarCubit,
-              child: PatientHistoryScreen(),
-            ),
+            builder: (_) => PatientHistoryScreen(),
           );
         }
       case ('/patient/profile'):
         {
           return MaterialPageRoute(
-            builder: (_) => BlocProvider.value(
-              value: patientNavigatorBarCubit,
-              child: PatientProfileScreen(),
-            ),
+            builder: (_) => PatientProfileScreen(),
           );
         }
       //doctor case

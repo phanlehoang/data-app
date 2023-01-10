@@ -1,3 +1,4 @@
+import 'package:data_app/logic/current/current_patient/current_profile_cubit.dart';
 import 'package:data_app/logic/status_cubit/navigator_bar_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -5,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../data/repositories/group_repo.dart';
 import '../../../logic/current/current_group/current_group_cubit.dart';
 import '../../widgets/nice_widgets/nice_export.dart';
+import '../export_screen.dart';
 
 class ListOfPatients extends StatelessWidget {
   const ListOfPatients({
@@ -61,8 +63,14 @@ class ListShortPatientsShow extends StatelessWidget {
           builder: (_context, shortPatients) {
             return Column(
               children: [
-                Text(
-                    'Nhóm ${cGroupCubit.state} có ${shortPatients.length} bệnh nhân'),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                        'Nhóm ${cGroupCubit.state} có ${shortPatients.length} bệnh nhân'),
+                    ButtonToCreatePatient(),
+                  ],
+                ),
                 for (var i = 0; i < shortPatients.length; i++)
                   NiceItem(
                     index: i,
@@ -70,10 +78,15 @@ class ListShortPatientsShow extends StatelessWidget {
                     subtitle: shortPatients[i].id,
                     trailing: Text(shortPatients[i].medicalMethod),
                     onTap: () {
+                      print('tapped ${shortPatients[i].name}');
                       //go to patient screen
+                      _context
+                          .read<CurrentProfileCubit>()
+                          .update(shortPatients[i]);
                       Navigator.of(_context).pushReplacementNamed('/patient');
                       //patient navigation bar
-                      // _context.read<BottomNavigatorBarCubit>().emit(1);
+                      _context.read<PatientNavigatorBarCubit>().update(0);
+                      _context.read<BottomNavigatorBarCubit>().update(1);
                     },
                   )
               ],

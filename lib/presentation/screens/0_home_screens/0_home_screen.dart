@@ -24,31 +24,25 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     //var trial = searchGroupId('groups', id)
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Home'),
-      ),
       body: NiceInternetScreen(
         child: Column(
           children: [
             GroupDecoration(),
-            //want to fix a text widget on screen
-
-            Focus(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  SizedBox(
-                      width: MediaQuery.of(context).size.width / 1.5,
-                      child: FindGroup()),
-                  SizedBox(width: 10),
-                  SizedBox(
-                      width: MediaQuery.of(context).size.width / 4.5,
-                      child: ButtonToCreateGroup()),
-                ],
-              ),
+            //want to fix a text widg
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SizedBox(
+                    width: MediaQuery.of(context).size.width / 1.5,
+                    child: FindGroup()),
+                SizedBox(width: 10),
+                SizedBox(
+                    width: MediaQuery.of(context).size.width / 4.5,
+                    child: ButtonToCreateGroup()),
+              ],
             ),
-            ButtonToCreatePatient(),
-            Focus(child: NiceScreen(child: ListOfPatients())),
+
+            NiceScreen(child: ListOfPatients()),
           ],
         ),
       ),
@@ -75,7 +69,7 @@ class ButtonToCreatePatient extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 SizedBox(
-                  width: 100,
+                  width: MediaQuery.of(context).size.width * 0.2,
                   child: NiceButtons(
                     child: AddPatientIcon(),
                     onTap: (finish) {

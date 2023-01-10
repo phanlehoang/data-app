@@ -56,19 +56,35 @@ class BottomNavigatorBar extends StatelessWidget {
 void bottomNavigator(int index, BuildContext context) {
   switch (index) {
     case 0:
-      Navigator.of(context, rootNavigator: true).pushReplacementNamed('/');
+      Navigator.of(context).pushReplacementNamed('/');
       break;
     case 1:
-      Navigator.of(context, rootNavigator: true)
-          .pushReplacementNamed('/patient');
+      switch (context.read<PatientNavigatorBarCubit>().state) {
+        case 0:
+          Navigator.of(context).pushReplacementNamed('/patient');
+          break;
+        case 1:
+          Navigator.of(context).pushReplacementNamed('/patient/history');
+          break;
+        case 2:
+          Navigator.of(context).pushReplacementNamed('/patient/profile');
+          break;
+        default:
+      }
       break;
     case 2:
-      Navigator.of(context, rootNavigator: true)
-          .pushReplacementNamed('/doctor');
+      switch (context.read<DoctorNavigatorBarCubit>().state) {
+        case 0:
+          Navigator.of(context).pushReplacementNamed('/doctor');
+          break;
+        case 1:
+          Navigator.of(context).pushReplacementNamed('/doctor/profile');
+          break;
+        default:
+      }
       break;
     case 3:
-      Navigator.of(context, rootNavigator: true)
-          .pushReplacementNamed('/settings');
+      Navigator.of(context).pushReplacementNamed('/settings');
       break;
     default:
   }
