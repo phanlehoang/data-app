@@ -1,10 +1,10 @@
 //profile cubit
 
-import 'package:data_app/data/repositories/group_repo.dart';
+import 'package:data_app/logic/0_home_blocs.dart/0.2.list_short_patients_cubit/group_repo.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../data/data_provider/patient_provider.dart';
-import '../../../data/models/profile.dart';
+import '../../data/data_provider/patient_provider.dart';
+import '../../data/models/profile.dart';
 
 class CurrentProfileCubit extends Cubit<Profile> {
   CurrentProfileCubit() : super(unknownProfile());

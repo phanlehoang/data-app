@@ -1,10 +1,10 @@
-import 'package:data_app/logic/current/current_patient/current_profile_cubit.dart';
+import 'package:data_app/logic/1_patient_blocs/current_profile_cubit.dart';
 import 'package:data_app/logic/status_cubit/navigator_bar_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../data/repositories/group_repo.dart';
-import '../../../logic/current/current_group/current_group_cubit.dart';
+import '../../../logic/0_home_blocs.dart/0.2.list_short_patients_cubit/group_repo.dart';
+import '../../../logic/global/current_group/current_group_cubit.dart';
 import '../../widgets/nice_widgets/nice_export.dart';
 import '../export_screen.dart';
 

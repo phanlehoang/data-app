@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../data_provider/group_provider.dart';
+import '../../../data/data_provider/group_provider.dart';
 
 class ListShortPatientsCubit extends Cubit<ListShortPatientsState> {
   @override

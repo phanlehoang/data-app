@@ -1,10 +1,10 @@
-import 'package:data_app/logic/current/current_group/current_group_cubit.dart';
+import 'package:data_app/logic/global/current_group/current_group_cubit.dart';
 import 'package:data_app/presentation/widgets/status/loading_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_bloc/flutter_form_bloc.dart';
 
-import '../../../logic/form_blocs/1_group_form.dart';
+import '../../../logic/0_home_blocs.dart/0.0.find_and_create_group_blocs/group_form.dart';
 
 class FindGroup extends StatelessWidget {
   const FindGroup({

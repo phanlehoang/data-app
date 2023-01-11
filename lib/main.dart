@@ -1,13 +1,13 @@
 //create a simple app
 import 'package:connectivity_plus/connectivity_plus.dart';
-import 'package:data_app/logic/current/current_export.dart';
+import 'package:data_app/logic/global/current_export.dart';
 import 'package:data_app/presentation/router/app_router.dart';
 import 'package:data_app/presentation/widgets/nice_widgets/nice_export.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'logic/current/current_patient/current_profile_cubit.dart';
+import 'logic/1_patient_blocs/current_profile_cubit.dart';
 import 'logic/status_cubit/internet/internet_cubit.dart';
 import 'logic/status_cubit/navigator_bar_cubit.dart';
 
@@ -56,7 +56,7 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         title: 'Flutter Demo',
         debugShowCheckedModeBanner: false,
-        theme: winterTheme(Brightness.dark),
+        theme: winterTheme(Brightness.light),
         onGenerateRoute: appRouter.onGeneratedRoute,
       ),
     );

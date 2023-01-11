@@ -1,4 +1,4 @@
-import 'package:data_app/logic/current/current_group/current_group_cubit.dart';
+import 'package:data_app/logic/global/current_group/current_group_cubit.dart';
 import 'package:data_app/presentation/widgets/nice_widgets/nice_export.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -7,7 +7,7 @@ import 'package:flutter_form_bloc/flutter_form_bloc.dart';
 
 import 'package:nice_buttons/nice_buttons.dart';
 
-import '../../../../logic/form_blocs/2_wizard_form_bloc.dart';
+import '../../../../logic/0_home_blocs.dart/0.1.create_patient_blocs/profile_wizard_form_bloc.dart';
 import '../../../widgets/status/loading_dialog.dart';
 import '3_1_step1_name_id.dart';
 import '3_2_step2.dart';

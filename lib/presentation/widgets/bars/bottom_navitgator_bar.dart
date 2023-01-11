@@ -74,10 +74,10 @@ void bottomNavigator(int index, BuildContext context) {
       break;
     case 2:
       switch (context.read<DoctorNavigatorBarCubit>().state) {
-        case 0:
+        case 1:
           Navigator.of(context).pushReplacementNamed('/doctor');
           break;
-        case 1:
+        case 0:
           Navigator.of(context).pushReplacementNamed('/doctor/profile');
           break;
         default:

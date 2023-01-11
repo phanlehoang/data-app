@@ -4,7 +4,7 @@ import 'package:flutter/cupertino.dart';
 
 import 'package:flutter_form_bloc/flutter_form_bloc.dart';
 
-import '../../../../logic/form_blocs/2_wizard_form_bloc.dart';
+import '../../../../logic/0_home_blocs.dart/0.1.create_patient_blocs/profile_wizard_form_bloc.dart';
 
 FormBlocStep contactAddressStep(WizardFormBloc thisFormBloc) {
   return FormBlocStep(

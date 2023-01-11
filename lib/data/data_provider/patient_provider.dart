@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../models/profile.dart';
-import '../repositories/group_repo.dart';
+import '../../logic/0_home_blocs.dart/0.2.list_short_patients_cubit/group_repo.dart';
 
 class PatientCreate {
   //create a group in firebase
@@ -60,5 +60,29 @@ class PatientRead {
       print(e);
     }
     return null;
+  }
+}
+
+class PatientUpdate {
+  //updaate patient profile
+  static Future<String?> updateProfileAttribute(
+    Profile profile,
+    String attribute,
+    dynamic value,
+  ) async {
+    var db = FirebaseFirestore.instance;
+    var ref = db
+        .collection('groups')
+        .doc(profile.room)
+        .collection('patients')
+        .doc(profile.id);
+    try {
+      var ans = ref.update({'profile.${attribute}': value});
+      return null;
+    } catch (e) {
+      print(e);
+    }
+
+    return 'Error updating patient';
   }
 }

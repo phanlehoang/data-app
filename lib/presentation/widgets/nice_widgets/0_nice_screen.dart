@@ -17,7 +17,6 @@ class NiceScreen extends StatelessWidget {
     return Container(
       padding: EdgeInsetsDirectional.fromSTEB(a, a, a, a),
       child: SingleChildScrollView(
-        physics: BouncingScrollPhysics(),
         scrollDirection: Axis.vertical,
         reverse: true,
         child: child,

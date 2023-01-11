@@ -20,11 +20,11 @@ class DoctorNavigatorBar extends StatelessWidget {
           },
           currentIndex: BlocProvider.of<DoctorNavigatorBarCubit>(context).state,
           items: [
-            SalomonBottomBarItem(
-                icon: Icon(Icons.people),
-                title: Text("Các bệnh nhân"),
-                selectedColor: Colors.orange,
-                unselectedColor: Colors.white),
+            // SalomonBottomBarItem(
+            //     icon: Icon(Icons.people),
+            //     title: Text("Các bệnh nhân"),
+            //     selectedColor: Colors.orange,
+            //     unselectedColor: Colors.white),
             SalomonBottomBarItem(
                 icon: Icon(Icons.person),
                 title: Text("Hồ sơ bác sĩ"),
@@ -39,10 +39,10 @@ class DoctorNavigatorBar extends StatelessWidget {
 
 void doctorNavigate(int index, BuildContext context) {
   switch (index) {
-    case 0:
+    case 1:
       Navigator.of(context).popAndPushNamed('/doctor');
       break;
-    case 1:
+    case 0:
       Navigator.of(context).popAndPushNamed('/doctor/profile');
       break;
     default:
