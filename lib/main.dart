@@ -56,7 +56,7 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         title: 'Flutter Demo',
         debugShowCheckedModeBanner: false,
-        theme: winterTheme(Brightness.light),
+        theme: winterTheme(Brightness.dark),
         onGenerateRoute: appRouter.onGeneratedRoute,
       ),
     );

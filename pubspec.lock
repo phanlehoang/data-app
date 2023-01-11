@@ -604,6 +604,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.1.3"
+  responsive_notebook_background:
+    dependency: "direct main"
+    description:
+      name: responsive_notebook_background
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.1.2"
   rxdart:
     dependency: transitive
     description:

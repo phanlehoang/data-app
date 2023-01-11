@@ -59,38 +59,54 @@ class ListShortPatientsShow extends StatelessWidget {
               .read<ListShortPatientsCubit>()
               .getPatientIdsFromGroupId(nstate);
         }
-        return BlocBuilder<ListShortPatientsCubit, List<ShortPatient>>(
-          builder: (_context, shortPatients) {
-            return Column(
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                        'Nhóm ${cGroupCubit.state} có ${shortPatients.length} bệnh nhân'),
-                    ButtonToCreatePatient(),
-                  ],
-                ),
-                for (var i = 0; i < shortPatients.length; i++)
-                  NiceItem(
-                    index: i,
-                    title: shortPatients[i].name,
-                    subtitle: shortPatients[i].id,
-                    trailing: Text(shortPatients[i].medicalMethod),
-                    onTap: () {
-                      print('tapped ${shortPatients[i].name}');
-                      //go to patient screen
-                      _context
-                          .read<CurrentProfileCubit>()
-                          .update(shortPatients[i]);
-                      Navigator.of(_context).pushReplacementNamed('/patient');
-                      //patient navigation bar
-                      _context.read<PatientNavigatorBarCubit>().update(0);
-                      _context.read<BottomNavigatorBarCubit>().update(1);
-                    },
-                  )
-              ],
-            );
+        return BlocBuilder<ListShortPatientsCubit, ListShortPatientsState>(
+          builder: (_context, shortPatientsState) {
+            switch (shortPatientsState.runtimeType) {
+              case ListShortPatientsInitial:
+                return Text('Chưa có nhóm nào được chọn');
+              case ListShortPatientsLoading:
+                return Center(child: CircularProgressIndicator());
+              case ListShortPatientsError:
+                return Text('Lỗi');
+              case ListShortPatientsLoaded:
+                {
+                  List<ShortPatient> shortPatients =
+                      shortPatientsState.shortPatients;
+                  return Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                              'Nhóm ${cGroupCubit.state} có ${shortPatients.length} bệnh nhân'),
+                          ButtonToCreatePatient(),
+                        ],
+                      ),
+                      for (var i = 0; i < shortPatients.length; i++)
+                        NiceItem(
+                          index: i,
+                          title: shortPatients[i].name,
+                          subtitle: shortPatients[i].id,
+                          trailing: Text(shortPatients[i].medicalMethod),
+                          onTap: () {
+                            print('tapped ${shortPatients[i].name}');
+                            //go to patient screen
+                            _context
+                                .read<CurrentProfileCubit>()
+                                .update(shortPatients[i]);
+                            Navigator.of(_context)
+                                .pushReplacementNamed('/patient');
+                            //patient navigation bar
+                            _context.read<PatientNavigatorBarCubit>().update(0);
+                            _context.read<BottomNavigatorBarCubit>().update(1);
+                          },
+                        )
+                    ],
+                  );
+                }
+              default:
+                return Text('Lỗi');
+            }
           },
         );
       },

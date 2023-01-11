@@ -60,7 +60,7 @@ class FindGroup extends StatelessWidget {
                     labelText: 'Group ID',
                     //hint text
                     hintText: currentGroupId.state,
-                    prefixIcon: Icon(Icons.group),
+                    prefixIcon: Icon(Icons.search),
                   ),
                 ),
                 Text('Mã nhóm hiện tại là: ' + currentGroupId.state),

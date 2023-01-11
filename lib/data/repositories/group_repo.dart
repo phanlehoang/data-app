@@ -5,7 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../data_provider/group_provider.dart';
 
-class ListShortPatientsCubit extends Cubit<List<ShortPatient>> {
+class ListShortPatientsCubit extends Cubit<ListShortPatientsState> {
   @override
   void emit(dynamic state) {
     try {
@@ -17,27 +17,26 @@ class ListShortPatientsCubit extends Cubit<List<ShortPatient>> {
     }
   }
 
-  ListShortPatientsCubit() : super([]) {}
+  ListShortPatientsCubit() : super(ListShortPatientsInitial());
 
   void clear() => emit([]);
 
   Future<void> getPatientIdsFromGroupId(String groupId) async {
-    //sau 2 giây sẽ kết thúc hàm
-    await Future.delayed(Duration(seconds: 2));
+    emit(ListShortPatientsLoading(shortPatients: state.shortPatients));
 
-    var patientIds;
+    var shortPatients;
 
     try {
-      patientIds = await GroupRead.shortPatients(groupId);
+      shortPatients = await GroupRead.shortPatients(groupId);
     } catch (e) {
       print(e);
+      emit(ListShortPatientsError(shortPatients: state.shortPatients));
     }
     //if success
-    if (patientIds != null) {
-      emit(patientIds);
+    if (shortPatients != null) {
+      emit(ListShortPatientsLoaded(shortPatients: shortPatients));
     }
   }
-
 }
 
 abstract class ListShortPatientsState {
@@ -46,8 +45,23 @@ abstract class ListShortPatientsState {
 }
 
 //init
-class ListPatientIdsInitial extends ListShortPatientsState {
-  ListPatientIdsInitial() : super(shortPatients: []);
+class ListShortPatientsInitial extends ListShortPatientsState {
+  ListShortPatientsInitial() : super(shortPatients: []);
+}
+
+class ListShortPatientsLoading extends ListShortPatientsState {
+  ListShortPatientsLoading({required List<ShortPatient> shortPatients})
+      : super(shortPatients: shortPatients);
+}
+
+class ListShortPatientsLoaded extends ListShortPatientsState {
+  ListShortPatientsLoaded({required List<ShortPatient> shortPatients})
+      : super(shortPatients: shortPatients);
+}
+
+class ListShortPatientsError extends ListShortPatientsState {
+  ListShortPatientsError({required List<ShortPatient> shortPatients})
+      : super(shortPatients: shortPatients);
 }
 
 class ShortPatient {

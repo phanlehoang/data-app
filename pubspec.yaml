@@ -53,6 +53,7 @@ dependencies:
   #form
   flutter_form_bloc: ^0.30.1
   google_fonts: ^3.0.1
+  responsive_notebook_background: ^0.1.2
 
 dev_dependencies:
   flutter_test:
