@@ -19,9 +19,47 @@ class SettingScreen extends StatelessWidget {
         title: Text('Cài đặt'),
       ),
       body: Container(
-        child: CancelFutureTrial(),
+        child: DataFromRefTrial(address: '/cars'),
       ),
       bottomNavigationBar: BottomNavigatorBar(),
+    );
+  }
+}
+
+class DataFromRefTrial extends StatelessWidget {
+  final String address;
+  const DataFromRefTrial({
+    Key? key,
+    required this.address,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    //reference
+    return StreamBuilder(
+      stream: FirebaseFirestore.instance.collection(address).snapshots(),
+      builder: (context, snapshot) {
+        if (!snapshot.hasData) {
+          return Center(
+            child: CircularProgressIndicator(
+              backgroundColor: Colors.lightBlueAccent,
+            ),
+          );
+        } else {
+          final groups = snapshot.data!.docs;
+
+          return Column(children: [
+            for (var group in groups)
+              Container(
+                child: Column(
+                  children: [
+                    Text('8' + group.data().toString()),
+                  ],
+                ),
+              ),
+          ]);
+        }
+      },
     );
   }
 }
@@ -34,7 +72,7 @@ class StreamBuilderTrial extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(
-      stream: FirebaseFirestore.instance.collection('groups').snapshots(),
+      stream: FirebaseFirestore.instance.collection('cars').snapshots(),
       // ignore: missing_return
       builder: (context, snapshot) {
         if (!snapshot.hasData) {
@@ -45,11 +83,58 @@ class StreamBuilderTrial extends StatelessWidget {
           );
         } else {
           final groups = snapshot.data!.docs;
+
           return Column(children: [
             for (var group in groups)
               Container(
-                child: Text(group.data().toString()),
+                child: Column(
+                  children: [
+                    Text(group.data().toString()),
+                    ChildrenCar(
+                      groupId: group.id,
+                    ),
+                  ],
+                ),
               ),
+          ]);
+        }
+      },
+    );
+  }
+}
+
+class ChildrenCar extends StatelessWidget {
+  final groupId;
+  const ChildrenCar({
+    Key? key,
+    this.groupId,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return StreamBuilder(
+      stream: FirebaseFirestore.instance
+          .collection('cars')
+          .doc(groupId)
+          .snapshots(),
+      builder: (context, snapshot) {
+        if (!snapshot.hasData) {
+          return Center(
+            child: CircularProgressIndicator(
+              backgroundColor: Colors.lightBlueAccent,
+            ),
+          );
+        } else {
+          final children_car = snapshot.data!;
+
+          return Column(children: [
+            Container(
+              child: Column(
+                children: [
+                  Text(children_car.data().toString()),
+                ],
+              ),
+            ),
           ]);
         }
       },

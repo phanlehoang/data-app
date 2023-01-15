@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../models/profile.dart';
-import '../../logic/0_home_blocs.dart/0.2.list_short_patients_cubit/group_repo.dart';
 
 class PatientCreate {
   //create a group in firebase
@@ -24,26 +23,6 @@ class PatientCreate {
 }
 
 class PatientRead {
-  static Future<ShortPatient?> getShortPatient(String room, String id) async {
-    var db = FirebaseFirestore.instance;
-    var ref = db.collection('groups').doc(room).collection('patients').doc(id);
-    try {
-      var rawData = await ref.get();
-      var profile = rawData['profile'];
-      var shorData = {
-        'id': profile['id'],
-        'name': profile['name'],
-        'medicalMethod': profile['medicalMethod'],
-        'room': profile['room'],
-      };
-      var shortModel = ShortPatient.fromMap(shorData);
-      return shortModel;
-    } catch (e) {
-      print(e);
-    }
-    return null;
-  }
-
   //get patient profile
   static Future<Profile?> getPatient(String room, String id) async {
     var db = FirebaseFirestore.instance;

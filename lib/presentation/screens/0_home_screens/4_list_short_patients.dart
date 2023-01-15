@@ -1,114 +1,60 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:data_app/logic/1_patient_blocs/current_profile_cubit.dart';
 import 'package:data_app/logic/status_cubit/navigator_bar_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../logic/0_home_blocs.dart/0.2.list_short_patients_cubit/group_repo.dart';
+import '../../../data/models/profile.dart';
 import '../../../logic/global/current_group/current_group_cubit.dart';
 import '../../widgets/nice_widgets/nice_export.dart';
 import '../export_screen.dart';
 
-class ListOfPatients extends StatelessWidget {
-  const ListOfPatients({
+class ListSyncPatients extends StatelessWidget {
+  const ListSyncPatients({
     Key? key,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<ListShortPatientsCubit>(
-      create: (context) => ListShortPatientsCubit(),
-      child: BlocBuilder<CurrentGroupIdCubit, String>(
-        builder: (context, _state) {
-          final cGroupCubit = context.read<CurrentGroupIdCubit>();
-          if (cGroupCubit.state == 'Unknown') {
-            return Text('Chưa có nhóm nào được chọn');
-          } else {
-            return ListShortPatientsShow(cGroupCubit: cGroupCubit);
-          }
-        },
-      ),
-    );
-  }
-}
-
-class ListShortPatientsShow extends StatelessWidget {
-  const ListShortPatientsShow({
-    Key? key,
-    required this.cGroupCubit,
-  }) : super(key: key);
-
-  final CurrentGroupIdCubit cGroupCubit;
-
-  @override
-  Widget build(BuildContext context) {
-    return BlocConsumer<CurrentGroupIdCubit, String>(
-      listener: (ncontext, nstate) {
-        // if (nstate == 'Unknown') {
-        //   ncontext.read<ListShortPatientsCubit>().clear();
-        // } else {
-        //   ncontext
-        //       .read<ListShortPatientsCubit>()
-        //       .getPatientIdsFromGroupId(nstate);
-        // }
-      },
-      builder: (ncontext, nstate) {
-        if (nstate == 'Unknown') {
-          ncontext.read<ListShortPatientsCubit>().clear();
-        } else {
-          ncontext
-              .read<ListShortPatientsCubit>()
-              .getPatientIdsFromGroupId(nstate);
+    final groupId = context.read<CurrentGroupIdCubit>().state;
+    if (groupId == 'Unknown' || groupId == null) {
+      return NiceScreen(child: Text('Chưa có nhóm nào được chọn'));
+    }
+    return StreamBuilder(
+      stream: FirebaseFirestore.instance
+          .collection('groups')
+          .doc(groupId)
+          .collection('patients')
+          .snapshots(),
+      builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+        if (snapshot.hasError) {
+          return Text('Something went wrong');
         }
-        return BlocBuilder<ListShortPatientsCubit, ListShortPatientsState>(
-          builder: (_context, shortPatientsState) {
-            switch (shortPatientsState.runtimeType) {
-              case ListShortPatientsInitial:
-                return Text('Chưa có nhóm nào được chọn');
-              case ListShortPatientsLoading:
-                return Center(child: CircularProgressIndicator());
-              case ListShortPatientsError:
-                return Text('Lỗi');
-              case ListShortPatientsLoaded:
-                {
-                  List<ShortPatient> shortPatients =
-                      shortPatientsState.shortPatients;
-                  return Column(
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                              'Nhóm ${cGroupCubit.state} có ${shortPatients.length} bệnh nhân'),
-                          ButtonToCreatePatient(),
-                        ],
-                      ),
-                      for (var i = 0; i < shortPatients.length; i++)
-                        NiceItem(
-                          index: i,
-                          title: shortPatients[i].name,
-                          subtitle: shortPatients[i].id,
-                          trailing: Text(shortPatients[i].medicalMethod),
-                          onTap: () {
-                            print('tapped ${shortPatients[i].name}');
-                            //go to patient screen
-                            _context
-                                .read<CurrentProfileCubit>()
-                                .update(shortPatients[i]);
-                            Navigator.of(_context)
-                                .pushReplacementNamed('/patient');
-                            //patient navigation bar
-                            _context.read<PatientNavigatorBarCubit>().update(0);
-                            _context.read<BottomNavigatorBarCubit>().update(1);
-                          },
-                        )
-                    ],
-                  );
-                }
-              default:
-                return Text('Lỗi');
-            }
-          },
-        );
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return Text("Loading");
+        } else {
+          final patients = snapshot.data!.docs;
+          return Column(
+            children: [
+              for (var i = 0; i < patients.length; i++)
+                NiceItem(
+                  index: i,
+                  title: patients[i]['profile']['name'],
+                  subtitle: patients[i]['profile']['id'],
+                  trailing: Text(patients[i]['profile']['medicalMethod']),
+                  onTap: () {
+                    //go to patient screen
+                    context.read<CurrentProfileCubit>().getProfile(
+                          Profile.fromMap(patients[i]['profile']),
+                        );
+                    Navigator.of(context).pushReplacementNamed('/patient');
+                    context.read<PatientNavigatorBarCubit>().update(0);
+                    context.read<BottomNavigatorBarCubit>().update(1);
+                  },
+                )
+            ],
+          );
+        }
       },
     );
   }
