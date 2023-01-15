@@ -1,19 +1,26 @@
 import 'dart:async';
 
+import 'package:data_app/data/models/enums.dart';
+import 'package:data_app/logic/1_patient_blocs/medical_blocs/current_medical_method_cubit.dart';
+import 'package:data_app/presentation/widgets/vietnamese/validations_vietnamese.dart';
 import 'package:flutter_form_bloc/flutter_form_bloc.dart';
 
 import '../../../data/data_provider/patient_provider.dart';
 import '../../../data/models/models_export.dart';
 
-class ChooseMedicalMethodBloc extends FormBloc {
+class ChooseMedicalMethodBloc extends FormBloc<String, String> {
   Profile profile;
+  final CurrentMedicalMethodCubit currentMedicalMethodCubit;
   final medicalMethod = SelectFieldBloc(
-    validators: [FieldBlocValidators.required],
+    items: ['TPN', 'Sonde'],
+    validators: [VietnameseFieldBlocValidators.required],
   );
+
   //add fields
   ChooseMedicalMethodBloc({
     required this.profile,
-  }) : super(isLoading: true) {
+    required this.currentMedicalMethodCubit,
+  }) {
     addFieldBlocs(
       fieldBlocs: [
         medicalMethod,
@@ -23,12 +30,9 @@ class ChooseMedicalMethodBloc extends FormBloc {
 
   @override
   FutureOr<void> onSubmitting() async {
-    var ans = await PatientUpdate.updateProfileAttribute(
-        profile, 'medicalMethod', medicalMethod.value);
-    if (ans == null) {
-      emitFailure(failureResponse: 'Error');
-    } else {
-      emitSuccess();
-    }
+    currentMedicalMethodCubit.update(
+      medicalMethod.value == 'TPN' ? MedicalMethod.TPN : MedicalMethod.Sonde,
+    );
+    emitSuccess();
   }
 }

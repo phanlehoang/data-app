@@ -13,6 +13,10 @@ class PatientCreate {
         .doc(map['id']);
     try {
       var ans = ref.set({'profile': map});
+      ref
+          .collection('medicalMethods')
+          .doc('Sonde')
+          .set({'sondeStatus': 'firstAsk'});
       return null;
     } catch (e) {
       print(e);

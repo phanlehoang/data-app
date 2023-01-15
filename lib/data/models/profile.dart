@@ -1,50 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 
-enum MedicalMethod {
-  TPN,
-  Sonde,
-}
-
-enum Gender {
-  Male,
-  Female,
-}
-
-class EnumToString {
-  static String enumToString(Object o) => o.toString().split('.').last;
-  static String genderToString(Gender gender) {
-    switch (gender) {
-      case Gender.Male:
-        return 'Nam';
-      default:
-        return 'Nữ';
-    }
-  }
-}
-
-class StringToEnum {
-  //gender
-  static Gender stringToGender(String g) {
-    switch (g) {
-      case 'Nam':
-        return Gender.Male;
-      default:
-        return Gender.Female;
-    }
-  }
-
-  //medicalMethod
-  static MedicalMethod stringToMedicalMethod(String m) {
-    switch (m) {
-      case 'TPN':
-        return MedicalMethod.TPN;
-      case 'Sonde':
-        return MedicalMethod.Sonde;
-      default:
-        return MedicalMethod.TPN;
-    }
-  }
-}
+import 'enums.dart';
 
 class Profile {
   String id = '';

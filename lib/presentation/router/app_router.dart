@@ -1,3 +1,4 @@
+import 'package:data_app/logic/status_cubit/time_check/time_check_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -11,6 +12,8 @@ import '../screens/3_setting_screens/setting_screen.dart';
 import '../screens/export_screen.dart';
 
 class AppRouter {
+  //time check cubit
+
   final DoctorNavigatorBarCubit doctorNavigatorBarCubit =
       DoctorNavigatorBarCubit();
   MaterialPageRoute? onGeneratedRoute(RouteSettings routeSettings) {

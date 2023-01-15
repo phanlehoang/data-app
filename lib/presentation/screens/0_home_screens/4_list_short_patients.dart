@@ -16,46 +16,77 @@ class ListSyncPatients extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final groupId = context.read<CurrentGroupIdCubit>().state;
-    if (groupId == 'Unknown' || groupId == null) {
-      return NiceScreen(child: Text('Chưa có nhóm nào được chọn'));
-    }
-    return StreamBuilder(
-      stream: FirebaseFirestore.instance
-          .collection('groups')
-          .doc(groupId)
-          .collection('patients')
-          .snapshots(),
-      builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
-        if (snapshot.hasError) {
-          return Text('Something went wrong');
-        }
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return Text("Loading");
-        } else {
-          final patients = snapshot.data!.docs;
-          return Column(
-            children: [
-              for (var i = 0; i < patients.length; i++)
-                NiceItem(
-                  index: i,
-                  title: patients[i]['profile']['name'],
-                  subtitle: patients[i]['profile']['id'],
-                  trailing: Text(patients[i]['profile']['medicalMethod']),
-                  onTap: () {
-                    //go to patient screen
-                    context.read<CurrentProfileCubit>().getProfile(
-                          Profile.fromMap(patients[i]['profile']),
-                        );
-                    Navigator.of(context).pushReplacementNamed('/patient');
-                    context.read<PatientNavigatorBarCubit>().update(0);
-                    context.read<BottomNavigatorBarCubit>().update(1);
-                  },
-                )
-            ],
+    return BlocBuilder<CurrentGroupIdCubit, String>(
+      builder: (context, groupId) {
+        if (groupId == 'Unknown') {
+          return NiceScreen(
+            child: Center(
+              child: Text('Chưa có phòng nào được chọn'),
+            ),
           );
-        }
+        } else
+          return ListPatients(
+            groupId: groupId,
+          );
       },
+    );
+  }
+}
+
+class ListPatients extends StatelessWidget {
+  final groupId;
+  const ListPatients({
+    Key? key,
+    this.groupId,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return NiceScreen(
+      child: StreamBuilder(
+        stream: FirebaseFirestore.instance
+            .collection('groups')
+            .doc(groupId)
+            .collection('patients')
+            .snapshots(),
+        builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+          if (snapshot.hasError) {
+            return Text('Something went wrong');
+          }
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Text("Loading");
+          } else {
+            final patients = snapshot.data!.docs;
+            return Column(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Text('Phòng ${groupId} có ${patients.length} bệnh nhân'),
+                    ButtonToCreatePatient(),
+                  ],
+                ),
+                for (var i = 0; i < patients.length; i++)
+                  NiceItem(
+                    index: i,
+                    title: patients[i]['profile']['name'],
+                    subtitle: patients[i]['profile']['id'],
+                    trailing: Text(patients[i]['profile']['medicalMethod']),
+                    onTap: () {
+                      //go to patient screen
+                      context.read<CurrentProfileCubit>().getProfile(
+                            Profile.fromMap(patients[i]['profile']),
+                          );
+                      Navigator.of(context).pushReplacementNamed('/patient');
+                      context.read<PatientNavigatorBarCubit>().update(0);
+                      context.read<BottomNavigatorBarCubit>().update(1);
+                    },
+                  )
+              ],
+            );
+          }
+        },
+      ),
     );
   }
 }

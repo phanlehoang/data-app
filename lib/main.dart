@@ -1,6 +1,7 @@
 //create a simple app
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:data_app/logic/global/current_export.dart';
+import 'package:data_app/logic/status_cubit/time_check/time_check_cubit.dart';
 import 'package:data_app/presentation/router/app_router.dart';
 import 'package:data_app/presentation/widgets/nice_widgets/nice_export.dart';
 import 'package:flutter/material.dart';
@@ -8,6 +9,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'logic/1_patient_blocs/current_profile_cubit.dart';
+import 'logic/1_patient_blocs/medical_blocs/current_medical_method_cubit.dart';
 import 'logic/status_cubit/internet/internet_cubit.dart';
 import 'logic/status_cubit/navigator_bar_cubit.dart';
 
@@ -21,6 +23,7 @@ void main() async {
 
 class MyApp extends StatelessWidget {
   final AppRouter appRouter;
+
   const MyApp({Key? key, required this.appRouter}) : super(key: key);
 
   @override
@@ -51,6 +54,10 @@ class MyApp extends StatelessWidget {
         //current profile cubit
         BlocProvider<CurrentProfileCubit>(
           create: (currentProfileCubitContext) => CurrentProfileCubit(),
+        ),
+        //current method cubit
+        BlocProvider<CurrentMedicalMethodCubit>(
+          create: (currentMethodCubitContext) => CurrentMedicalMethodCubit(),
         ),
       ],
       child: MaterialApp(
