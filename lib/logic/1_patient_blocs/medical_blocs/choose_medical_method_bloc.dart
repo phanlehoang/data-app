@@ -15,6 +15,18 @@ class ChooseMedicalMethodBloc extends FormBloc<String, String> {
     items: ['TPN', 'Sonde'],
     validators: [VietnameseFieldBlocValidators.required],
   );
+  //emit
+
+  @override
+  void emit(dynamic state) {
+    try {
+      super.emit(state);
+    } catch (e) {
+      if (e == StateError('Cannot emit new states after calling close')) {
+        return;
+      }
+    }
+  }
 
   //add fields
   ChooseMedicalMethodBloc({

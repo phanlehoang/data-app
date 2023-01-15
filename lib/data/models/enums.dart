@@ -52,15 +52,15 @@ class StringToEnum {
   //sondeStatus
   static SondeStatus stringToSondeStatus(String s) {
     switch (s) {
-      case 'firstAsk':
+      case 'SondeStatus.firstAsk':
         return SondeStatus.firstAsk;
-      case 'noInsulin':
+      case 'SondeStatus.noInsulin':
         return SondeStatus.noInsulin;
-      case 'yesInsulin':
+      case 'SondeStatus.yesInsulin':
         return SondeStatus.yesInsulin;
-      case 'highInsulin':
+      case 'SondeStatus.highInsulin':
         return SondeStatus.highInsulin;
-      case 'finish':
+      case 'SondeStatus.finish':
         return SondeStatus.finish;
       default:
         return SondeStatus.firstAsk;

@@ -8,6 +8,7 @@ import '../../../data/models/profile.dart';
 import '../../../logic/global/current_group/current_group_cubit.dart';
 import '../../widgets/bars/bottom_navitgator_bar.dart';
 import '../../widgets/bars/patient_navigator_bar.dart';
+import 'medical_screen.dart';
 
 // Tạo form để hiển thị thông tin của bệnh nhân
 class PatientProfileScreen extends StatelessWidget {
@@ -48,6 +49,7 @@ class PatientProfileScreen extends StatelessWidget {
                       //thụt vào bên trái
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                        ChooseMedicalMethod(),
                         Text(
                           'Tên: ${profileState.name} ',
                           style: TextStyle(fontSize: 20),

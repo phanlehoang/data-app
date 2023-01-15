@@ -2,7 +2,7 @@ import 'package:data_app/data/models/enums.dart';
 import 'package:data_app/logic/1_patient_blocs/medical_blocs/choose_medical_method_bloc.dart';
 import 'package:data_app/logic/1_patient_blocs/medical_blocs/current_medical_method_cubit.dart';
 import 'package:data_app/logic/status_cubit/time_check/time_check_cubit.dart';
-import 'package:data_app/presentation/screens/1_patient_screens/sonde_screens/sonde_screen.dart';
+import 'package:data_app/presentation/screens/1_patient_screens/sonde_screens/0_sonde_screen.dart';
 import 'package:data_app/presentation/widgets/nice_widgets/0_nice_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -25,14 +25,13 @@ class PatientMedicalScreen extends StatelessWidget {
       body: NiceInternetScreen(
         child: Column(
           children: [
-            ChooseMedicalMethod(),
             BlocBuilder<CurrentMedicalMethodCubit, MedicalMethod>(
                 builder: (context, state) {
               if (state == MedicalMethod.TPN) {
                 return Text('TPN');
               }
               if (state == MedicalMethod.Sonde) {
-                return Text('Sonde');
+                return SondeScreen();
               }
               return Text('No method selected');
             }),
@@ -101,11 +100,6 @@ class ChooseMedicalMethod extends StatelessWidget {
                   onPressed: () {
                     chooseMedicalMethodBloc.submit();
                     //navigate to sondeScreen
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (context) => SondeScreen(),
-                      ),
-                    );
                   },
                   child: Text('Chọn'),
                 ),

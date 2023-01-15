@@ -1,11 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:data_app/logic/1_patient_blocs/current_profile_cubit.dart';
 import 'package:data_app/logic/status_cubit/time_check/time_check_cubit.dart';
+import 'package:data_app/presentation/screens/1_patient_screens/sonde_screens/1_sonde_status.dart';
 import 'package:data_app/presentation/widgets/images/doctor_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../data/models/time_controller.dart/sonde_range.dart';
+import '../../../widgets/nice_widgets/nice_export.dart';
 
 class InSondeRange extends Cubit<bool> {
   InSondeRange(bool state) : super(state);
@@ -16,12 +18,11 @@ class SondeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(),
-      body: BlocProvider<InSondeRange>(
-        create: (context) => InSondeRange(
-          false,
-        ),
+    return BlocProvider<InSondeRange>(
+      create: (context) => InSondeRange(
+        SondeRange.inSondeRangeToday(DateTime.now()),
+      ),
+      child: NiceScreen(
         child: Column(
           children: [
             DoctorImage(),
@@ -41,10 +42,10 @@ class SondeScreen extends StatelessWidget {
             ),
             BlocBuilder<InSondeRange, bool>(
               builder: (context, state) {
-                if (state) {
-                  return Text('In sonde range');
-                } else {
+                if (!state) {
                   return Text(SondeRange.waitingMessage(DateTime.now()));
+                } else {
+                  return SondeStatusWidget();
                 }
               },
             ),
