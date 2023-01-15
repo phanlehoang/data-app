@@ -1,5 +1,6 @@
 import 'package:async/async.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:data_app/presentation/screens/3_setting_screens/my_home_page.dart';
 import 'package:data_app/presentation/widgets/nice_widgets/0_nice_screen.dart';
 import 'package:data_app/presentation/widgets/status/loading_dialog.dart';
 import 'package:flutter/material.dart';
@@ -15,11 +16,10 @@ class SettingScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Cài đặt'),
-      ),
-      body: Container(
-        child: DataFromRefTrial(address: '/cars'),
+      body: MyHomePage(
+        keyCodeLocal: '',
+        keyLocalLogin: '',
+        title: '',
       ),
       bottomNavigationBar: BottomNavigatorBar(),
     );
