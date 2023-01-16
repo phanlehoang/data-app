@@ -71,7 +71,7 @@ class NoInsulinCubit extends Cubit<NoInsulinState> {
     } else if (highBadGlucose(glucose)) {
       newState.bonusInsulin += 4;
       newState.notice =
-          'Bổ sung 4 UI insulin Actrapid \n Tiêm ${newState.currentInsulin + newState.bonusInsulin} UI Actrapid';
+          'Bổ sung 4 UI insuclin Actrapid \n Tiêm ${newState.currentInsulin + newState.bonusInsulin} UI Actrapid';
     }
     newState.guide.insulinUI = newState.currentInsulin + newState.bonusInsulin;
     newState.medicalStatus = MedicalStatus.guidingInsulin;

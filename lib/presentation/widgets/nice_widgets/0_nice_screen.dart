@@ -12,7 +12,7 @@ class NiceScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double a = MediaQuery.of(context).size.width * 0.01;
+    double a = 2;
 
     return Container(
       padding: EdgeInsetsDirectional.fromSTEB(a, a, a, a),

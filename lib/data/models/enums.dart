@@ -17,7 +17,7 @@ enum SondeStatus {
 }
 
 class EnumToString {
-  static String enumToString(Object o) => o.toString().split('.').last;
+  static String enumToString(dynamic o) => o.toString().split('.').last;
   static String genderToString(Gender gender) {
     switch (gender) {
       case Gender.Male:
@@ -52,15 +52,15 @@ class StringToEnum {
   //sondeStatus
   static SondeStatus stringToSondeStatus(String s) {
     switch (s) {
-      case 'SondeStatus.firstAsk':
+      case 'firstAsk':
         return SondeStatus.firstAsk;
-      case 'SondeStatus.noInsulin':
+      case 'noInsulin':
         return SondeStatus.noInsulin;
-      case 'SondeStatus.yesInsulin':
+      case 'yesInsulin':
         return SondeStatus.yesInsulin;
-      case 'SondeStatus.highInsulin':
+      case 'highInsulin':
         return SondeStatus.highInsulin;
-      case 'SondeStatus.finish':
+      case 'finish':
         return SondeStatus.finish;
       default:
         return SondeStatus.firstAsk;

@@ -42,6 +42,16 @@ class ChooseMedicalMethodBloc extends FormBloc<String, String> {
 
   @override
   FutureOr<void> onSubmitting() async {
+    try {
+      var update = await PatientUpdate.updateProfileAttribute(
+        profile: profile,
+        attribute: 'medicalMethod',
+        value: medicalMethod.value,
+      );
+    } catch (e) {
+      emitFailure(failureResponse: e.toString());
+      return;
+    }
     currentMedicalMethodCubit.update(
       medicalMethod.value == 'TPN' ? MedicalMethod.TPN : MedicalMethod.Sonde,
     );

@@ -1,4 +1,4 @@
-import 'package:data_app/data/data_provider/sonde_provider/sonde_status_provider.dart';
+import 'package:data_app/data/data_provider/sonde_provider/sonde_state_provider.dart';
 import 'package:data_app/data/models/enums.dart';
 import 'package:data_app/data/models/sonde/export_sonde_models.dart';
 import 'package:data_app/presentation/widgets/nice_widgets/0_nice_screen.dart';
@@ -11,7 +11,7 @@ import '../../../../data/models/profile.dart';
 import '../../../../logic/1_patient_blocs/current_profile_cubit.dart';
 
 class FirstAskWidget extends StatelessWidget {
-  final CurrentSondeStatusCubit sondeStatusCubit;
+  final SondeCubit sondeStatusCubit;
   const FirstAskWidget({
     Key? key,
     required this.sondeStatusCubit,
@@ -68,7 +68,7 @@ class FirstAskWidget extends StatelessWidget {
                           ),
                           ElevatedButton(
                             onPressed: formBloc.submit,
-                            child: Text('Submit'),
+                            child: Text('Tiếp tục'),
                           ),
                         ],
                       ),
@@ -83,7 +83,7 @@ class FirstAskWidget extends StatelessWidget {
 }
 
 class FirstAskBloc extends FormBloc<String, String> {
-  final CurrentSondeStatusCubit sondeStatusCubit;
+  final SondeCubit sondeStatusCubit;
   final Profile profile;
   final yesOrNoInsulin = SelectFieldBloc(
     items: ['Yes', 'No'],
@@ -111,7 +111,6 @@ class FirstAskBloc extends FormBloc<String, String> {
       sondeStatus: sondeStatus,
     );
     if (updateStatus == null) {
-      sondeStatusCubit.emit(sondeStatus);
       emitSuccess();
     } else {
       emitFailure(failureResponse: updateStatus);

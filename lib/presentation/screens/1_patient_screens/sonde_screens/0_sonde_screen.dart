@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:data_app/logic/1_patient_blocs/current_profile_cubit.dart';
 import 'package:data_app/logic/status_cubit/time_check/time_check_cubit.dart';
@@ -29,15 +31,13 @@ class SondeScreen extends StatelessWidget {
             StreamBuilder(
               stream: secondStream(),
               builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  DateTime t = DateTime.now();
-                  if (SondeRange.inSondeRangeToday(t)) {
-                    context.read<InSondeRange>().emit(true);
-                  } else {
-                    context.read<InSondeRange>().emit(false);
-                  }
+                DateTime t = DateTime.now();
+                if (SondeRange.inSondeRangeToday(t)) {
+                  context.read<InSondeRange>().emit(true);
+                } else {
+                  context.read<InSondeRange>().emit(false);
                 }
-                return Text(DateTime.now().toString());
+                return Text(t.toString());
               },
             ),
             BlocBuilder<InSondeRange, bool>(

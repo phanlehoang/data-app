@@ -7,11 +7,6 @@ class MedicalAction {
   MedicalAction({
     required this.time,
   });
-
-  // @override
-  // // TODO: implement props
-  // List<Object?> get props => [this.time];
-
   @override
   String toString() {
     return 'MedicalAction [time : ${this.time}]';

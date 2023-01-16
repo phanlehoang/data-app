@@ -6,13 +6,11 @@ import 'export_sonde_models.dart';
 List<dynamic> dylist = [];
 
 class Regimen {
-  double? currentInsulin = 5;
   List<dynamic> medicalActions;
   List<MedicalCheckGlucose> medicalCheckGlucoses;
   List<MedicalTakeInsulin> medicalTakeInsulins;
 
   Regimen({
-    this.currentInsulin = 5,
     required this.medicalActions,
     required this.medicalCheckGlucoses,
     required this.medicalTakeInsulins,
@@ -57,7 +55,6 @@ class Regimen {
       medicalTakeInsulins: [
         for (MedicalTakeInsulin x in medicalTakeInsulins) x.clone()
       ],
-      currentInsulin: currentInsulin,
     );
   }
 }

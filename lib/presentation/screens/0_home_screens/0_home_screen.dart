@@ -27,7 +27,6 @@ class HomeScreen extends StatelessWidget {
         child: Column(
           children: [
             GroupDecoration(),
-            //want to fix a text widg
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -40,7 +39,6 @@ class HomeScreen extends StatelessWidget {
                     child: ButtonToCreateGroup()),
               ],
             ),
-
             NiceScreen(child: ListSyncPatients()),
           ],
         ),

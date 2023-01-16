@@ -48,11 +48,11 @@ class PatientRead {
 
 class PatientUpdate {
   //updaate patient profile
-  static Future<String?> updateProfileAttribute(
-    Profile profile,
-    String attribute,
+  static Future<String?> updateProfileAttribute({
+    required Profile profile,
+    required String attribute,
     dynamic value,
-  ) async {
+  }) async {
     var db = FirebaseFirestore.instance;
     var ref = db
         .collection('groups')

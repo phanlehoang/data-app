@@ -9,7 +9,7 @@ enum InsulinType {
 
 class MedicalTakeInsulin extends MedicalAction {
   InsulinType insulinType;
-  int insulinUI;
+  num insulinUI;
   MedicalTakeInsulin({
     required this.insulinType,
     required super.time,
