@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:data_app/data/models/models_export.dart';
+import 'package:data_app/logic/1_patient_blocs/current_profile_cubit.dart';
 import 'package:data_app/presentation/widgets/nice_widgets/0_nice_screen.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -19,10 +20,8 @@ CollectionReference<Map<String, dynamic>> noInsulinAddress(Profile profile) {
 }
 
 class NoInsulinWidget extends StatelessWidget {
-  final Profile profile;
   final SondeCubit sondeStatusCubit;
   const NoInsulinWidget({
-    required this.profile,
     Key? key,
     required this.sondeStatusCubit,
   }) : super(key: key);
@@ -40,7 +39,9 @@ class NoInsulinWidget extends StatelessWidget {
             },
           ),
           StreamBuilder(
-              stream: noInsulinAddress(profile).snapshots(),
+              stream:
+                  noInsulinAddress(context.read<CurrentProfileCubit>().state)
+                      .snapshots(),
               builder: (context,
                   AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
                 if (snapshot.hasError) {

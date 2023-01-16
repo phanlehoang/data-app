@@ -11,10 +11,10 @@ import '../../../../data/models/profile.dart';
 import '../../../../logic/1_patient_blocs/current_profile_cubit.dart';
 
 class FirstAskWidget extends StatelessWidget {
-  final SondeCubit sondeStatusCubit;
+  final SondeCubit sondeCubit;
   const FirstAskWidget({
     Key? key,
-    required this.sondeStatusCubit,
+    required this.sondeCubit,
   }) : super(key: key);
 
   @override
@@ -24,7 +24,7 @@ class FirstAskWidget extends StatelessWidget {
         children: [
           Text('FirstAskWidget'),
           BlocBuilder(
-            bloc: sondeStatusCubit,
+            bloc: sondeCubit,
             builder: (context, state) {
               return Text(state.toString());
             },
@@ -33,7 +33,7 @@ class FirstAskWidget extends StatelessWidget {
           BlocProvider<FirstAskBloc>(
               create: (context) => FirstAskBloc(
                     profile: context.read<CurrentProfileCubit>().state,
-                    sondeStatusCubit: sondeStatusCubit,
+                    sondeStatusCubit: sondeCubit,
                   ),
               child: Builder(
                 builder: (context) {

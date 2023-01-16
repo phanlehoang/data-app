@@ -42,7 +42,19 @@ class SondeState {
   }
 
   //from Map
-
+  factory SondeState.fromMap(Map<String, dynamic> map) {
+    try {
+      return SondeState(
+        status: StringToEnum.stringToSondeStatus(map['status']),
+        cho: map['cho'],
+        bonusInsulin: map['bonusInsulin'],
+        weight: map['weight'],
+      );
+    } catch (e) {
+      var a = initSondeState();
+      return a;
+    }
+  }
 }
 
 SondeState initSondeState() {

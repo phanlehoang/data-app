@@ -26,30 +26,32 @@ class SondeStatusWidget extends StatelessWidget {
       child: Column(
         children: [
           StreamBuilder(
-            stream: sondeReference(profile).snapshots(),
-            builder: (context, AsyncSnapshot<DocumentSnapshot> snapshot) {
-              if (snapshot.hasError) {
-                return Text('Something went wrong');
-              }
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return Text("Loading");
-              } else {
-                if (snapshot.data!.exists) {
-                  final Map<String, dynamic> sondeMap =
-                      snapshot.data!.data() as Map<String, dynamic>;
-                  final SondeState sondeState = SondeState.fromMap(sondeMap);
-                  final SondeCubit sondeCubit = SondeCubit(sondeState);
-                  switch (sondeState.status) {
-                    case SondeStatus.firstAsk:
-                      return FirstAskWidget();
-
-                      break;
-                    default:
+              stream: sondeReference(profile).snapshots(),
+              builder: (context, AsyncSnapshot<DocumentSnapshot> snapshot) {
+                if (snapshot.hasError) {
+                  return Text('Something went wrong');
+                }
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return Text("Loading");
+                } else {
+                  if (snapshot.data!.exists) {
+                    final Map<String, dynamic> sondeMap =
+                        snapshot.data!.data() as Map<String, dynamic>;
+                    final SondeState sondeState = SondeState.fromMap(sondeMap);
+                    final SondeCubit sondeCubit = SondeCubit(sondeState);
+                    switch (sondeState.status) {
+                      case SondeStatus.firstAsk:
+                        return FirstAskWidget(
+                          sondeCubit: sondeCubit,
+                        );
+                      case SondeStatus.noInsulin:
+                      default:
+                        return Text('default');
+                    }
                   }
                 }
-              }
-            },
-          ),
+                return Text('no data');
+              }),
         ],
       ),
     );
