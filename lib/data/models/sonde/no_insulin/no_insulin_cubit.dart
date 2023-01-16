@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:bloc/bloc.dart';
 
 import '../../../../../data/models/sonde/export_sonde_models.dart';
+import '../../enums.dart';
 
 part 'no_insulin_state.dart';
 

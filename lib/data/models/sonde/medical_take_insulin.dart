@@ -1,11 +1,8 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'medical_action.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:data_app/data/models/enums.dart';
 
-enum InsulinType {
-  Glargine,
-  Actrapid,
-  NPH,
-}
+import 'medical_action.dart';
 
 class MedicalTakeInsulin extends MedicalAction {
   InsulinType insulinType;
@@ -25,8 +22,29 @@ class MedicalTakeInsulin extends MedicalAction {
     );
   }
 
+  //toMap
+  Map<String, dynamic> toMap() {
+    return {
+      'name': 'MedicalTakeInsulin',
+      'time': time,
+      'insulinType': EnumToString.enumToString(insulinType),
+      'insulinUI': insulinUI,
+    };
+  }
+
+  //fromMap
+  factory MedicalTakeInsulin.fromMap(Map<String, dynamic> map) {
+    return MedicalTakeInsulin(
+      insulinType: StringToEnum.stringToInsulinType(map['insulinType']),
+      time: map['time'].toDate(),
+      insulinUI: map['insulinUI'],
+    );
+  }
+
   @override
   String toString() {
     return '(${this.insulinUI} ${this.insulinType})';
   }
 }
+
+Timestamp a = Timestamp.now();

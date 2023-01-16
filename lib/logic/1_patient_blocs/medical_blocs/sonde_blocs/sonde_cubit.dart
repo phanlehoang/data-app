@@ -31,6 +31,12 @@ class SondeState {
     );
   }
 
+  //to String
+  @override
+  String toString() {
+    return 'SondeState(status: $status, cho: $cho, bonusInsulin: $bonusInsulin, weight: $weight)';
+  }
+
   //to Map
   Map<String, dynamic> toMap() {
     return {

@@ -33,6 +33,7 @@ class SondeStateCreate {
     required Profile profile,
     required SondeState sondeState,
   }) async {
+    print('create');
     try {
       var docRef = sondeReference(profile);
       docRef.set(sondeState.toMap());

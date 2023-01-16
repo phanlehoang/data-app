@@ -33,7 +33,7 @@ class FirstAskWidget extends StatelessWidget {
           BlocProvider<FirstAskBloc>(
               create: (context) => FirstAskBloc(
                     profile: context.read<CurrentProfileCubit>().state,
-                    sondeStatusCubit: sondeCubit,
+                    sondeCubit: sondeCubit,
                   ),
               child: Builder(
                 builder: (context) {
@@ -66,6 +66,11 @@ class FirstAskWidget extends StatelessWidget {
                             itemBuilder: (context, value) =>
                                 FieldItem(child: Text(value)),
                           ),
+                          Text('Nhập số lượng CHO'),
+                          TextFieldBlocBuilder(
+                            textFieldBloc: formBloc.getCHO,
+                            keyboardType: TextInputType.number,
+                          ),
                           ElevatedButton(
                             onPressed: formBloc.submit,
                             child: Text('Tiếp tục'),
@@ -83,33 +88,43 @@ class FirstAskWidget extends StatelessWidget {
 }
 
 class FirstAskBloc extends FormBloc<String, String> {
-  final SondeCubit sondeStatusCubit;
+  final SondeCubit sondeCubit;
   final Profile profile;
   final yesOrNoInsulin = SelectFieldBloc(
     items: ['Yes', 'No'],
     validators: [VietnameseFieldBlocValidators.required],
   );
+  final getCHO = TextFieldBloc(
+    validators: [VietnameseFieldBlocValidators.required],
+  );
 
   FirstAskBloc({
     required this.profile,
-    required this.sondeStatusCubit,
+    required this.sondeCubit,
   }) {
     addFieldBlocs(
       fieldBlocs: [
         yesOrNoInsulin,
+        getCHO,
       ],
     );
   }
 
   @override
   void onSubmitting() async {
+    print('onSubmitting');
     SondeStatus sondeStatus = yesOrNoInsulin.value == 'Yes'
         ? SondeStatus.yesInsulin
         : SondeStatus.noInsulin;
-    var updateStatus = await SondeStatusUpdate.updateSondeStatus(
+    var updateStatus = await SondeStateCreate.createSondeState(
       profile: profile,
-      sondeStatus: sondeStatus,
+      sondeState: SondeState(
+        status: sondeStatus,
+        cho: num.parse(getCHO.value),
+        weight: profile.weight,
+      ),
     );
+
     if (updateStatus == null) {
       emitSuccess();
     } else {

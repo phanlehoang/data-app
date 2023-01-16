@@ -16,6 +16,20 @@ enum SondeStatus {
   finish,
 }
 
+enum NoInsulinSondeStatus {
+  gettingCHO,
+  checkingGlucose,
+  checkedGlucose,
+  givingInsulin,
+  givenInsulin,
+}
+
+enum InsulinType {
+  Glargine,
+  Actrapid,
+  NPH,
+}
+
 class EnumToString {
   static String enumToString(dynamic o) => o.toString().split('.').last;
   static String genderToString(Gender gender) {
@@ -64,6 +78,38 @@ class StringToEnum {
         return SondeStatus.finish;
       default:
         return SondeStatus.firstAsk;
+    }
+  }
+
+  //insulinType
+  static InsulinType stringToInsulinType(String i) {
+    switch (i) {
+      case 'Glargine':
+        return InsulinType.Glargine;
+      case 'Actrapid':
+        return InsulinType.Actrapid;
+      case 'NPH':
+        return InsulinType.NPH;
+      default:
+        return InsulinType.Actrapid;
+    }
+  }
+
+  //noInsulinSondeStatus
+  static NoInsulinSondeStatus stringToNoInsulinSondeStatus(String s) {
+    switch (s) {
+      case 'gettingCHO':
+        return NoInsulinSondeStatus.gettingCHO;
+      case 'checkingGlucose':
+        return NoInsulinSondeStatus.checkingGlucose;
+      case 'checkedGlucose':
+        return NoInsulinSondeStatus.checkedGlucose;
+      case 'givingInsulin':
+        return NoInsulinSondeStatus.givingInsulin;
+      case 'givenInsulin':
+        return NoInsulinSondeStatus.givenInsulin;
+      default:
+        return NoInsulinSondeStatus.gettingCHO;
     }
   }
 }

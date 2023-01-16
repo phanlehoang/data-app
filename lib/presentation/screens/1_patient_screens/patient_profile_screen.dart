@@ -36,6 +36,10 @@ class PatientProfileScreen extends StatelessWidget {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return Text("Loading");
               }
+              //
+              if (snapshot.data!.data() == null) {
+                return Text('No data');
+              }
               // Lấy thông tin của bệnh nhân
               final profile = snapshot.data!['profile'];
               context

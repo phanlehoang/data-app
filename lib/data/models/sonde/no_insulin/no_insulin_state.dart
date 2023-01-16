@@ -10,14 +10,14 @@ enum MedicalStatus {
 }
 
 class NoInsulinState {
-  Regimen regimen;
-  MedicalTakeInsulin guide;
-  int currentInsulin = 0;
-  int bonusInsulin = 0;
-  String notice = '';
+  Regimen regimen; //giữ
+  MedicalTakeInsulin guide; //xóa
+  int currentInsulin = 0; //xóa
+  int bonusInsulin = 0; //xóa
+  String notice = ''; //xóa
   MedicalStatus medicalStatus = MedicalStatus.gettingCHO;
-  int badGlucose = 0;
-  bool goToNextRegimen = false;
+  int badGlucose = 0; //xóa
+  bool goToNextRegimen = false; //xóa
   NoInsulinState({
     required this.regimen,
     required this.guide,
