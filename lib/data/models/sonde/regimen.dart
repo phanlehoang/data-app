@@ -64,10 +64,17 @@ class Regimen {
     return medicalCheckGlucoses.last.glucoseUI;
   }
 
-  bool isFinish() {
+// Kiểm tra xem medicalaction cuối ở rangetime trước
+  bool isFinishCurrentTask() {
     if (medicalTakeInsulins.length == 0) return false;
     DateTime t = medicalTakeInsulins.last.time;
-    return SondeRange.inSondeRangeToday(t);
+    return SondeRange.inSondeRange(t);
+  }
+
+  bool isInCurrentTask() {
+    if (medicalActions.length == 0) return false;
+    DateTime t = medicalTakeInsulins.last.time;
+    return SondeRange.inSondeRange(t);
   }
 
   bool isFull() {

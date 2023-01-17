@@ -45,8 +45,12 @@ class SondeStatusWidget extends StatelessWidget {
                           sondeCubit: _sondeCubit,
                         );
                       case SondeStatus.noInsulin:
-                        return NoInsulinWidget(
-                          sondeCubit: _sondeCubit,
+                        return Column(
+                          children: [
+                            NoInsulinWidget(
+                              sondeCubit: _sondeCubit,
+                            ),
+                          ],
                         );
                       case SondeStatus.yesInsulin:
                         return Text('yes insulin');
