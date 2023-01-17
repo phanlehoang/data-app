@@ -51,10 +51,10 @@ class SimpleScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double a = MediaQuery.of(context).size.width * 0.01;
+    double a = 2;
 
     return Container(
-      padding: EdgeInsetsDirectional.fromSTEB(a * 2, a * 2, a * 2, a * 2),
+      padding: EdgeInsetsDirectional.fromSTEB(a, a, a, a),
       child: child,
     );
   }
