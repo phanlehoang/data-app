@@ -98,9 +98,16 @@ class NoInsulinSondeSolve extends StatelessWidget {
         bloc: noInsulinSondeCubit,
         builder: (context, state) {
           final NoInsulinSondeState noInsulinState = noInsulinSondeCubit.state;
-          if (!noInsulinState.regimen.isFinish() &&
-              noInsulinState.noInsulinSondeStatus ==
-                  NoInsulinSondeStatus.givenInsulin) {
+
+          if (noInsulinState.regimen.isFinish() &&
+              noInsulinState.regimen.isFull()) {
+            sondeCubit.switchStatusOnline(
+              context.read<CurrentProfileCubit>().state,
+              SondeStatus.yesInsulin,
+            );
+          }
+
+          if (!noInsulinState.regimen.isFinish()) {
             noInsulinSondeCubit.switchToCheckingGlucose(
               context.read<CurrentProfileCubit>().state,
             );
@@ -130,12 +137,6 @@ class NoInsulinSondeSolve extends StatelessWidget {
               );
             case NoInsulinSondeStatus.givenInsulin:
               {
-                if (noInsulinState.regimen.isFull()) {
-                  sondeCubit.switchStatusOnline(
-                    context.read<CurrentProfileCubit>().state,
-                    SondeStatus.yesInsulin,
-                  );
-                }
                 return Text('Bạn đã hoàn thành điều trị.');
               }
 
