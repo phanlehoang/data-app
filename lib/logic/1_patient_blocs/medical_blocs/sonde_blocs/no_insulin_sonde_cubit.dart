@@ -1,4 +1,5 @@
 import 'package:data_app/data/data_provider/sonde_provider/no_insulin_provider.dart';
+import 'package:data_app/data/data_provider/sonde_provider/sonde_state_provider.dart';
 import 'package:data_app/data/models/enums.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -17,6 +18,16 @@ class NoInsulinSondeCubit extends Cubit<NoInsulinSondeState> {
 
   void update(NoInsulinSondeState newState) {
     emit(newState);
+  }
+
+  void switchToCheckingGlucose(Profile profile) {
+    var newState = state.hotClone();
+    //update state
+    NoInsulinSondeStateProvider.updateNoInsulinStateStatus(
+        profile: profile,
+        noInsulinSondeStatus: NoInsulinSondeStatus.checkingGlucose);
+    // newState.noInsulinSondeStatus = NoInsulinSondeStatus.checkingGlucose;
+    // emit(newState);
   }
 }
 
@@ -41,6 +52,23 @@ class NoInsulinSondeState {
       'status': EnumToString.enumToString(noInsulinSondeStatus),
     };
   }
+
+  //to String
+  @override
+  String toString() {
+    return '''
+      NoInsulinSondeState\(regimen: $regimen,
+      noInsulinSondeStatus: $noInsulinSondeStatus)
+ ''';
+  }
+}
+
+//loading
+NoInsulinSondeState loadingNoInsulinSondeState() {
+  return NoInsulinSondeState(
+    regimen: initialRegimen(),
+    noInsulinSondeStatus: NoInsulinSondeStatus.loading,
+  );
 }
 
 //init

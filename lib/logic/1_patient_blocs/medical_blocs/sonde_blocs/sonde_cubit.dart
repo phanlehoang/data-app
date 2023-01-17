@@ -1,12 +1,20 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:bloc/bloc.dart';
+import 'package:data_app/data/data_provider/sonde_provider/sonde_state_provider.dart';
 
 import '../../../../data/models/enums.dart';
+import '../../../../data/models/profile.dart';
 
 class SondeCubit extends Cubit<SondeState> {
   SondeCubit(SondeState initialState) : super(initialState);
   void update(SondeState newState) {
     emit(newState);
+  }
+
+  Future<void> switchStatusOnline(
+      Profile profile, SondeStatus newStatus) async {
+    var switchNewStatus = SondeStatusUpdate.updateSondeStatus(
+        profile: profile, sondeStatus: newStatus);
   }
 }
 

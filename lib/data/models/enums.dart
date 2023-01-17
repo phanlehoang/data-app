@@ -17,7 +17,7 @@ enum SondeStatus {
 }
 
 enum NoInsulinSondeStatus {
-  gettingCHO,
+  loading,
   checkingGlucose,
   checkedGlucose,
   givingInsulin,
@@ -98,8 +98,8 @@ class StringToEnum {
   //noInsulinSondeStatus
   static NoInsulinSondeStatus stringToNoInsulinSondeStatus(String s) {
     switch (s) {
-      case 'gettingCHO':
-        return NoInsulinSondeStatus.gettingCHO;
+      case 'loading':
+        return NoInsulinSondeStatus.loading;
       case 'checkingGlucose':
         return NoInsulinSondeStatus.checkingGlucose;
       case 'checkedGlucose':
@@ -109,7 +109,7 @@ class StringToEnum {
       case 'givenInsulin':
         return NoInsulinSondeStatus.givenInsulin;
       default:
-        return NoInsulinSondeStatus.gettingCHO;
+        return NoInsulinSondeStatus.loading;
     }
   }
 }

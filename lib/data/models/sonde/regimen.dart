@@ -1,6 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:equatable/equatable.dart';
 
+import '../time_controller.dart/sonde_range.dart';
 import 'export_sonde_models.dart';
 
 List<dynamic> dylist = [];
@@ -56,6 +57,25 @@ class Regimen {
         for (MedicalTakeInsulin x in medicalTakeInsulins) x.clone()
       ],
     );
+  }
+
+  num lastGlu() {
+    if (medicalCheckGlucoses.length == 0) return 0;
+    return medicalCheckGlucoses.last.glucoseUI;
+  }
+
+  bool isFinish() {
+    if (medicalTakeInsulins.length == 0) return false;
+    DateTime t = medicalTakeInsulins.last.time;
+    return SondeRange.inSondeRangeToday(t);
+  }
+
+  bool isFull() {
+    int counter = 0;
+    for (var x in medicalCheckGlucoses) {
+      if (x.glucoseUI > 8.3) counter++;
+    }
+    return counter >= 5;
   }
 }
 

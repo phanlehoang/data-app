@@ -18,7 +18,7 @@ class SondeStatusUpdate {
         .collection('medicalMethods')
         .doc('Sonde');
     await sonde.update({
-      'sondeStatus': EnumToString.enumToString(sondeStatus),
+      'status': EnumToString.enumToString(sondeStatus),
     }).catchError((error) {
       return error.toString();
     });

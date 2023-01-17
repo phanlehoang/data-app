@@ -86,6 +86,7 @@ class ChooseMedicalMethod extends StatelessWidget {
                   width: 300,
                   child: DropdownFieldBlocBuilder<String>(
                     selectFieldBloc: chooseMedicalMethodBloc.medicalMethod,
+                    showEmptyItem: false,
                     itemBuilder: (context, value) => FieldItem(
                       child: Text(value),
                     ),

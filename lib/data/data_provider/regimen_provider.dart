@@ -6,6 +6,17 @@ import '../models/sonde/export_sonde_models.dart';
 import '../models/sonde/medical_take_insulin.dart';
 import '../models/sonde/regimen.dart';
 
+//viết hàm chèn thêm số 0 vào để có đúng 3 chữ số
+String addZero(int number) {
+  if (number < 10) {
+    return '00$number';
+  } else if (number < 100) {
+    return '0$number';
+  } else {
+    return '$number';
+  }
+}
+
 class SondeNoInsulinRegimenProvider {
   static DocumentReference regimenAddress(Profile profile) {
     return FirebaseFirestore.instance
@@ -134,7 +145,7 @@ class SondeNoInsulinRegimenProvider {
       int m = (await ref.collection('medicalTakeInsulins').get()).docs.length;
       int n = medicalTakeInsulins.length;
       for (int i = m; i < m + n; i++) {
-        await ref.collection('medicalTakeInsulins').doc('$i').set(
+        await ref.collection('medicalTakeInsulins').doc(addZero(i)).set(
               medicalTakeInsulins[i - m].toMap(),
             );
       }
@@ -154,7 +165,7 @@ class SondeNoInsulinRegimenProvider {
       int m = (await ref.collection('medicalCheckGlucoses').get()).docs.length;
       int n = medicalCheckGlucoses.length;
       for (int i = m; i < m + n; i++) {
-        await ref.collection('medicalCheckGlucoses').doc('$i').set(
+        await ref.collection('medicalCheckGlucoses').doc(addZero(i)).set(
               medicalCheckGlucoses[i - m].toMap(),
             );
       }
@@ -176,12 +187,12 @@ class SondeNoInsulinRegimenProvider {
       for (int i = m; i < m + n; i++) {
         switch (medicalActions[i - m].runtimeType) {
           case MedicalTakeInsulin:
-            await ref.collection('medicalActions').doc('$i').set(
+            await ref.collection('medicalActions').doc(addZero(i)).set(
                   medicalActions[i - m].toMap(),
                 );
             break;
           case MedicalCheckGlucose:
-            await ref.collection('medicalActions').doc('$i').set(
+            await ref.collection('medicalActions').doc(addZero(i)).set(
                   medicalActions[i - m].toMap(),
                 );
             break;

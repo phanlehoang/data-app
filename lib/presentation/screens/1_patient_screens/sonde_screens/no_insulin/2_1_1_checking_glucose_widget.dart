@@ -68,52 +68,6 @@ class CheckGlucoseWidget extends StatelessWidget {
   }
 }
 
-enum GlucoseEvaluation {
-  normal,
-  high,
-  low,
-  veryhigh,
-}
-
-class GlucoseSolve {
-  static GlucoseEvaluation eval(num glucose) {
-    if (glucose < 3.9) {
-      return GlucoseEvaluation.low;
-    }
-    if (glucose <= 8.3) {
-      return GlucoseEvaluation.normal;
-    }
-    if (glucose <= 11.1) {
-      return GlucoseEvaluation.high;
-    }
-    return GlucoseEvaluation.veryhigh;
-  }
-
-  static String plusInsulinNotice(num glucose) {
-    final GlucoseEvaluation evaluation = eval(glucose);
-    switch (eval(glucose)) {
-      case GlucoseEvaluation.high:
-        return 'Bổ sung 2 UI insulin Actrapid';
-      case GlucoseEvaluation.veryhigh:
-        return 'Bổ sung 4 UI insulin Actrapid';
-      default:
-        return '';
-    }
-  }
-
-  static num plusInsulinAmount(num glucose) {
-    final GlucoseEvaluation evaluation = eval(glucose);
-    switch (evaluation) {
-      case GlucoseEvaluation.high:
-        return 2;
-      case GlucoseEvaluation.veryhigh:
-        return 4;
-      default:
-        return 0;
-    }
-  }
-}
-
 class CheckGlucoseForm extends FormBloc<String, String> {
   @override
   void emit(dynamic state) {

@@ -14,7 +14,8 @@ import 'package:data_app/presentation/widgets/nice_widgets/0_nice_screen.dart';
 
 import '../../../../../data/models/enums.dart';
 import '../../../../../logic/1_patient_blocs/medical_blocs/sonde_blocs/sonde_cubit.dart';
-import '2_1_1_check_glucose_widget.dart';
+import '2_1_1_checking_glucose_widget.dart';
+import '2_1_2_checked_glucose_widget.dart';
 
 CollectionReference<Map<String, dynamic>> noInsulinAddress(Profile profile) {
   return FirebaseFirestore.instance
@@ -90,14 +91,28 @@ class NoInsulinSondeSolve extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final NoInsulinSondeCubit noInsulinSondeCubit =
-        NoInsulinSondeCubit(initNoInsulinSondeState());
+        NoInsulinSondeCubit(loadingNoInsulinSondeState());
     noInsulinSondeCubit.getFromFb(context.read<CurrentProfileCubit>().state);
 
     return BlocBuilder<NoInsulinSondeCubit, NoInsulinSondeState>(
         bloc: noInsulinSondeCubit,
         builder: (context, state) {
           final NoInsulinSondeState noInsulinState = noInsulinSondeCubit.state;
+          if (!noInsulinState.regimen.isFinish() &&
+              noInsulinState.noInsulinSondeStatus ==
+                  NoInsulinSondeStatus.givenInsulin) {
+            noInsulinSondeCubit.switchToCheckingGlucose(
+              context.read<CurrentProfileCubit>().state,
+            );
+          }
           switch (noInsulinState.noInsulinSondeStatus) {
+            case NoInsulinSondeStatus.loading:
+              return Column(
+                children: [
+                  Text(noInsulinSondeCubit.state.toString()),
+                  Text('loading'),
+                ],
+              );
             case NoInsulinSondeStatus.checkingGlucose:
               return Column(
                 children: [
@@ -109,7 +124,20 @@ class NoInsulinSondeSolve extends StatelessWidget {
                 ],
               );
             case NoInsulinSondeStatus.checkedGlucose:
-              return Text('checkedGlucose');
+              return CheckedGlucoseWidget(
+                sondeCubit: sondeCubit,
+                noInsulinSondeCubit: noInsulinSondeCubit,
+              );
+            case NoInsulinSondeStatus.givenInsulin:
+              {
+                if (noInsulinState.regimen.isFinish()) {
+                  sondeCubit.switchStatusOnline(
+                    context.read<CurrentProfileCubit>().state,
+                    SondeStatus.yesInsulin,
+                  );
+                }
+                return Text('Bạn đã hoàn thành điều trị.');
+              }
 
             default:
               return Text('default');

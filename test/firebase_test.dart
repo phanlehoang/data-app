@@ -12,12 +12,12 @@ void main() {
     var value2 = await Future.delayed(Duration(seconds: 3));
     print(value2);
   });
-  test('stream', () async {
-    var hello =  Stream.periodic(
+  test('stcream', () async {
+    var hello = Stream.periodic(
         Duration(seconds: 1), (computationCount) => computationCount);
     hello.listen((event) {
       print(event);
     });
     await Future.delayed(Duration(seconds: 5));
-  });
+  }); //sau 5 giây mới in ra 0,1,2,3,4
 }

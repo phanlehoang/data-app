@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:data_app/data/data_provider/regimen_provider.dart';
 import 'package:data_app/data/models/enums.dart';
+import 'package:data_app/data/models/sonde/export_sonde_models.dart';
 
 import '../../../logic/1_patient_blocs/medical_blocs/sonde_blocs/no_insulin_sonde_cubit.dart';
 import '../../models/profile.dart';
@@ -40,14 +41,12 @@ class NoInsulinSondeStateProvider {
   static Future<NoInsulinSondeState> readNoInsulinState({
     required Profile profile,
   }) async {
-    print('heeloo');
     var ref = noInsulinAddress(profile);
     try {
       var data = await ref.doc('data').get();
       var regimen = await SondeNoInsulinRegimenProvider.readRegimen(
         ref: ref.doc('regimen'),
       );
-      print('hihi');
       if (regimen == null) {
         regimen = initialRegimen();
       }
@@ -70,8 +69,32 @@ class NoInsulinSondeStateProvider {
     var ref = noInsulinAddress(profile);
     try {
       await ref.doc('data').set({
-        'status': 'checkedGlucose',
+        'status': EnumToString.enumToString(noInsulinSondeStatus),
       });
+    } catch (e) {
+      return 'error';
+    }
+    return null;
+  }
+
+  //add insulin
+  static Future<String?> addInsulin({
+    required Profile profile,
+    required num insulin,
+  }) async {
+    var ref = noInsulinAddress(profile);
+    MedicalTakeInsulin medicalTakeInsulin = MedicalTakeInsulin(
+      time: DateTime.now(),
+      insulinUI: insulin,
+      insulinType: InsulinType.Actrapid,
+    );
+    Regimen reg = initialRegimen();
+    reg.addMedicalAction(medicalTakeInsulin);
+    try {
+      await ref.doc('data').set({
+        'status': 'givenInsulin',
+      });
+      await SondeNoInsulinRegimenProvider.addRegimen(profile, reg);
     } catch (e) {
       return 'error';
     }
