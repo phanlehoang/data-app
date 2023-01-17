@@ -28,11 +28,9 @@ class DoctorProfileScreen extends StatelessWidget {
               onPressed: () async {
                 trial =
                     await SondeNoInsulinRegimenProvider.readMedicalTakeInsulins(
-                  ref: FirebaseFirestore.instance
-                      .collection('list_adds')
-                      .doc('1')
-                      .collection('medicalTakeInsulins'),
-                );
+                        ref: FirebaseFirestore.instance
+                            .collection('list_adds')
+                            .doc('1'));
                 //  print(trial);
               },
               child: Text('${trial}'))

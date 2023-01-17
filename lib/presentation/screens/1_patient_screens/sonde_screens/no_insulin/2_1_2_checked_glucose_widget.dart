@@ -13,6 +13,7 @@ import 'package:data_app/presentation/screens/1_patient_screens/sonde_screens/no
 import 'package:data_app/presentation/widgets/nice_widgets/0_nice_screen.dart';
 import 'package:data_app/presentation/widgets/nice_widgets/2_nice_button.dart';
 
+import '../../../../../data/data_provider/regimen_provider.dart';
 import '../../../../../data/models/enums.dart';
 import '../../../../../data/models/models_export.dart';
 import '../../../../../logic/1_patient_blocs/medical_blocs/sonde_blocs/no_insulin_sonde_cubit.dart';
@@ -60,6 +61,7 @@ class CheckedGlucoseWidget extends StatelessWidget {
                       Text(guide),
                       BlocProvider<CheckedSubmit>(
                           create: (context) => CheckedSubmit(
+                                noInsulinSondeCubit: noInsulinSondeCubit,
                                 profile:
                                     context.read<CurrentProfileCubit>().state,
                                 insulin: insulin,
@@ -113,21 +115,33 @@ Future<void> addInsulin(
 class CheckedSubmit extends FormBloc<String, String> {
   final Profile profile;
   final num insulin;
+  final NoInsulinSondeCubit noInsulinSondeCubit;
   CheckedSubmit({
+    required this.noInsulinSondeCubit,
     required this.profile,
     required this.insulin,
   });
   @override
   FutureOr<void> onSubmitting() async {
+    MedicalTakeInsulin medicalTakeInsulin = MedicalTakeInsulin(
+      insulinUI: insulin,
+      time: DateTime.now(),
+      insulinType: InsulinType.Actrapid,
+    );
+    Regimen addRegimen = initialRegimen();
+    addRegimen.addMedicalAction(medicalTakeInsulin);
     try {
-      var trial = await NoInsulinSondeStateProvider.addInsulin(
-        profile: profile,
-        insulin: insulin,
-      );
+      var add =
+          await SondeNoInsulinRegimenProvider.addRegimen(profile, addRegimen);
+      //update checked
+      var checkedUpdate =
+          await NoInsulinSondeStateProvider.updateNoInsulinStateStatus(
+              profile: profile,
+              noInsulinSondeStatus: NoInsulinSondeStatus.checkingGlucose);
     } catch (e) {
-      print(e);
-      emitFailure();
+      emitFailure(failureResponse: e.toString());
     }
+    noInsulinSondeCubit.emit(loadingNoInsulinSondeState());
     emitSuccess();
   }
 }

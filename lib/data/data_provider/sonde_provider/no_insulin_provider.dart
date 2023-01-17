@@ -91,10 +91,11 @@ class NoInsulinSondeStateProvider {
     Regimen reg = initialRegimen();
     reg.addMedicalAction(medicalTakeInsulin);
     try {
-      await ref.doc('data').set({
+      var b1 = await SondeNoInsulinRegimenProvider.addRegimen(profile, reg);
+
+      var b2 = await ref.doc('data').set({
         'status': 'checkingGlucose',
       });
-      await SondeNoInsulinRegimenProvider.addRegimen(profile, reg);
     } catch (e) {
       return 'error';
     }
