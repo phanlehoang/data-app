@@ -64,6 +64,7 @@ class SondeNoInsulinRegimenProvider {
       var medicalTakeInsulins = await readMedicalTakeInsulins(ref: ref);
       var medicalCheckGlucoses = await readMedicalCheckGlucoses(ref: ref);
       var medicalActions = await readMedicalActions(ref: ref);
+      //delay 1s
       return Regimen(
         medicalTakeInsulins: medicalTakeInsulins,
         medicalCheckGlucoses: medicalCheckGlucoses,

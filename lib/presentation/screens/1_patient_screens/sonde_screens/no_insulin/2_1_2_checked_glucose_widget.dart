@@ -73,6 +73,8 @@ class CheckedGlucoseWidget extends StatelessWidget {
                                     content: Text('Success'),
                                   ),
                                 );
+                                noInsulinSondeCubit
+                                    .emit(loadingNoInsulinSondeState());
                               },
                               onFailure: (cc, state) {
                                 ScaffoldMessenger.of(cc).showSnackBar(

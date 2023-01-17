@@ -101,7 +101,7 @@ class NoInsulinSondeSolve extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final NoInsulinSondeCubit noInsulinSondeCubit =
-        NoInsulinSondeCubit(initNoInsulinSondeState());
+        NoInsulinSondeCubit(loadingNoInsulinSondeState());
     noInsulinSondeCubit.getFromFb(context.read<CurrentProfileCubit>().state);
 
     return Column(
@@ -152,9 +152,6 @@ class Solve extends StatelessWidget {
                     if (noInsulinState.regimen.isFinishCurrentTask())
                       return Column(
                         children: [
-                          Text(noInsulinSondeCubit.state.regimen
-                              .lastTime()
-                              .toString()),
                           Text('reg: \n' +
                               noInsulinSondeCubit.state.regimen.toString()),
                           Text('ins : \n ' +
@@ -168,9 +165,6 @@ class Solve extends StatelessWidget {
                     if (!noInsulinState.regimen.isFinishCurrentTask())
                       return Column(
                         children: [
-                          Text(noInsulinSondeCubit.state.regimen
-                              .lastTime()
-                              .toString()),
                           Text('reg: \n' +
                               noInsulinSondeCubit.state.regimen.toString()),
                           Text('ins : \n ' +
@@ -188,9 +182,6 @@ class Solve extends StatelessWidget {
                 case NoInsulinSondeStatus.checkedGlucose:
                   return Column(
                     children: [
-                      Text(noInsulinSondeCubit.state.regimen
-                          .lastTime()
-                          .toString()),
                       Text('reg: \n' +
                           noInsulinSondeCubit.state.regimen.toString()),
                       Text('ins : \n ' +
