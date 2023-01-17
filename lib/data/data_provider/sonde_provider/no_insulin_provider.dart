@@ -92,7 +92,7 @@ class NoInsulinSondeStateProvider {
     reg.addMedicalAction(medicalTakeInsulin);
     try {
       await ref.doc('data').set({
-        'status': 'givenInsulin',
+        'status': 'checkingGlucose',
       });
       await SondeNoInsulinRegimenProvider.addRegimen(profile, reg);
     } catch (e) {

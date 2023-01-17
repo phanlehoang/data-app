@@ -1,5 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
 
 import '../time_controller.dart/sonde_range.dart';
 import 'export_sonde_models.dart';
@@ -66,9 +67,14 @@ class Regimen {
 
 // Kiểm tra xem medicalaction cuối ở rangetime trước
   bool isFinishCurrentTask() {
-    if (medicalTakeInsulins.length == 0) return false;
+    if (medicalActions.length == 0) return false;
     DateTime t = medicalTakeInsulins.last.time;
-    return SondeRange.inSondeRange(t);
+    if (SondeRange.inSondeRangeToday(t) &&
+        SondeRange.rangeContain(t) == SondeRange.rangeContain(DateTime.now())) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   bool isInCurrentTask() {

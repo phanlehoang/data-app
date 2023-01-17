@@ -112,10 +112,9 @@ class NoInsulinSondeSolve extends StatelessWidget {
 
 // lấy regimen hiện tại ra
                 final Regimen regimen = noInsulinState.regimen;
-                // if (!regimen.isInCurrentTask()) {
-                //   noInsulinSondeCubit.switchToCheckingGlucose(
-                //       context.read<CurrentProfileCubit>().state);
-                // }
+                if (regimen.isFinishCurrentTask()) {
+                  return Text('Bạn đã hoàn thành điều trị');
+                }
                 switch (noInsulinState.noInsulinSondeStatus) {
                   case NoInsulinSondeStatus.loading:
                     return Column(
