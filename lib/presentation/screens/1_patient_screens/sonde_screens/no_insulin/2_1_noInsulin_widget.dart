@@ -130,7 +130,7 @@ class NoInsulinSondeSolve extends StatelessWidget {
               );
             case NoInsulinSondeStatus.givenInsulin:
               {
-                if (noInsulinState.regimen.isFinish()) {
+                if (noInsulinState.regimen.isFull()) {
                   sondeCubit.switchStatusOnline(
                     context.read<CurrentProfileCubit>().state,
                     SondeStatus.yesInsulin,
