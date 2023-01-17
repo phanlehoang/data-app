@@ -61,8 +61,7 @@ class SondeNoInsulinRegimenProvider {
     required DocumentReference ref,
   }) async {
     try {
-      var medicalTakeInsulins = await readMedicalTakeInsulins(
-          ref: ref.collection('medicalTakeInsulins'));
+      var medicalTakeInsulins = await readMedicalTakeInsulins(ref: ref);
       var medicalCheckGlucoses = await readMedicalCheckGlucoses(ref: ref);
       var medicalActions = await readMedicalActions(ref: ref);
       return Regimen(
@@ -83,8 +82,7 @@ class SondeNoInsulinRegimenProvider {
       var docs = await ref.collection('medicalCheckGlucoses').get();
       var medicalCheckGlucoses = <MedicalCheckGlucose>[];
       for (var doc in docs.docs) {
-        medicalCheckGlucoses.add(
-            MedicalCheckGlucose.fromMap(doc.data() as Map<String, dynamic>));
+        medicalCheckGlucoses.add(MedicalCheckGlucose.fromMap(doc.data()));
       }
       return medicalCheckGlucoses;
     } catch (e) {
@@ -102,12 +100,10 @@ class SondeNoInsulinRegimenProvider {
       for (var doc in docs.docs) {
         switch (doc.data()['name']) {
           case 'MedicalTakeInsulin':
-            medicalActions.add(
-                MedicalTakeInsulin.fromMap(doc.data() as Map<String, dynamic>));
+            medicalActions.add(MedicalTakeInsulin.fromMap(doc.data()));
             break;
           case 'MedicalCheckGlucose':
-            medicalActions.add(MedicalCheckGlucose.fromMap(
-                doc.data() as Map<String, dynamic>));
+            medicalActions.add(MedicalCheckGlucose.fromMap(doc.data()));
             break;
           default:
             break;
@@ -120,16 +116,14 @@ class SondeNoInsulinRegimenProvider {
   }
 
   static Future<List<MedicalTakeInsulin>> readMedicalTakeInsulins({
-    required CollectionReference ref,
+    required DocumentReference ref,
   }) async {
     try {
-      var docs = await ref.get();
+      var docs = await ref.collection('medicalTakeInsulins').get();
       var medicalTakeInsulins = <MedicalTakeInsulin>[];
       for (var doc in docs.docs) {
-        medicalTakeInsulins.add(
-            MedicalTakeInsulin.fromMap(doc.data() as Map<String, dynamic>));
+        medicalTakeInsulins.add(MedicalTakeInsulin.fromMap(doc.data()));
       }
-      print('hihi' + medicalTakeInsulins.toString());
       return medicalTakeInsulins;
     } catch (e) {
       return [];

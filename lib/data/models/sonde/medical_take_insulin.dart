@@ -43,7 +43,7 @@ class MedicalTakeInsulin extends MedicalAction {
 
   @override
   String toString() {
-    return '(${this.insulinUI} ${this.insulinType})';
+    return '(${this.insulinUI} ${this.insulinType} lúc ${this.time})';
   }
 }
 

@@ -31,6 +31,6 @@ class MedicalCheckGlucose extends MedicalAction {
 
   @override
   String toString() {
-    return '($glucoseUI glucose)';
+    return '($glucoseUI glucose at $time)';
   }
 }

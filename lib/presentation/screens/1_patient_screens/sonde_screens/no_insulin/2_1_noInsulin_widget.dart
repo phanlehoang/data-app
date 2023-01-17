@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:data_app/data/data_provider/sonde_provider/no_insulin_provider.dart';
 import 'package:data_app/data/models/sonde/no_insulin/no_insulin_cubit.dart';
 import 'package:data_app/logic/1_patient_blocs/medical_blocs/sonde_blocs/no_insulin_sonde_cubit.dart';
+import 'package:data_app/logic/status_cubit/time_check/time_check_cubit.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -82,9 +83,17 @@ class NoInsulinWidget extends StatelessWidget {
   }
 }
 
+class FinishTask extends Cubit<int> {
+  FinishTask() : super(0);
+  void update(bool value) {
+    print('hình như ko xh');
+    emit(value ? 1 : -1);
+  }
+}
+
 class NoInsulinSondeSolve extends StatelessWidget {
   final SondeCubit sondeCubit;
-  const NoInsulinSondeSolve({
+  NoInsulinSondeSolve({
     Key? key,
     required this.sondeCubit,
   }) : super(key: key);
@@ -92,63 +101,113 @@ class NoInsulinSondeSolve extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final NoInsulinSondeCubit noInsulinSondeCubit =
-        NoInsulinSondeCubit(loadingNoInsulinSondeState());
+        NoInsulinSondeCubit(initNoInsulinSondeState());
     noInsulinSondeCubit.getFromFb(context.read<CurrentProfileCubit>().state);
 
     return Column(
       children: [
-        BlocBuilder(
-          bloc: noInsulinSondeCubit,
-          builder: (context, state) {
-            return Text(state.toString());
-          },
-        ),
-        Center(
-          child: BlocBuilder<NoInsulinSondeCubit, NoInsulinSondeState>(
-              bloc: noInsulinSondeCubit,
-              builder: (context, state) {
-                final NoInsulinSondeState noInsulinState =
-                    noInsulinSondeCubit.state;
-
-// lấy regimen hiện tại ra
-                final Regimen regimen = noInsulinState.regimen;
-                if (regimen.isFinishCurrentTask()) {
-                  return Text('Bạn đã hoàn thành điều trị');
-                }
-                switch (noInsulinState.noInsulinSondeStatus) {
-                  case NoInsulinSondeStatus.loading:
-                    return Column(
-                      children: [
-                        Text(noInsulinSondeCubit.state.toString()),
-                        Text('loading'),
-                      ],
-                    );
-                  case NoInsulinSondeStatus.checkingGlucose:
-                    return Column(
-                      children: [
-                        Text(noInsulinSondeCubit.state.noInsulinSondeStatus
-                            .toString()),
-                        CheckGlucoseWidget(
-                          noInsulinSondeCubit: noInsulinSondeCubit,
-                        ),
-                      ],
-                    );
-                  case NoInsulinSondeStatus.checkedGlucose:
-                    return CheckedGlucoseWidget(
-                      sondeCubit: sondeCubit,
-                      noInsulinSondeCubit: noInsulinSondeCubit,
-                    );
-                  case NoInsulinSondeStatus.givenInsulin:
-                    {
-                      return Text('Bạn đã hoàn thành điều trị.');
-                    }
-
-                  default:
-                    return Text('default');
-                }
-              }),
-        ),
+        Solve(noInsulinSondeCubit: noInsulinSondeCubit, sondeCubit: sondeCubit),
       ],
+    );
+  }
+}
+
+class Solve extends StatelessWidget {
+  const Solve({
+    super.key,
+    required this.noInsulinSondeCubit,
+    required this.sondeCubit,
+  });
+
+  final NoInsulinSondeCubit noInsulinSondeCubit;
+  final SondeCubit sondeCubit;
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<TimeCheckCubit, int>(
+      builder: (context, state) {
+        return BlocBuilder(
+            bloc: noInsulinSondeCubit,
+            builder: (context, state) {
+              final NoInsulinSondeState noInsulinState =
+                  noInsulinSondeCubit.state;
+
+              // lấy regimen hiện tại ra
+              // final Regimen regimen = noInsulinState.regimen;
+              // if (regimen.isFinishCurrentTask()) {
+              //   return Text('Bạn đã hoàn thành điều trị');
+              // }
+              switch (noInsulinState.noInsulinSondeStatus) {
+                case NoInsulinSondeStatus.loading:
+                  {
+                    return Column(
+                      children: [
+                        // Text(noInsulinSondeCubit.state.toString()),
+                        Text('no ins loading'),
+                      ],
+                    );
+                  }
+                case NoInsulinSondeStatus.checkingGlucose:
+                  {
+                    if (noInsulinState.regimen.isFinishCurrentTask())
+                      return Column(
+                        children: [
+                          Text(noInsulinSondeCubit.state.regimen
+                              .lastTime()
+                              .toString()),
+                          Text('reg: \n' +
+                              noInsulinSondeCubit.state.regimen.toString()),
+                          Text('ins : \n ' +
+                              noInsulinSondeCubit
+                                  .state.regimen.medicalTakeInsulins
+                                  .toString()),
+                          Text('Bạn đã hoàn thành điều trị'),
+                        ],
+                      );
+
+                    if (!noInsulinState.regimen.isFinishCurrentTask())
+                      return Column(
+                        children: [
+                          Text(noInsulinSondeCubit.state.regimen
+                              .lastTime()
+                              .toString()),
+                          Text('reg: \n' +
+                              noInsulinSondeCubit.state.regimen.toString()),
+                          Text('ins : \n ' +
+                              noInsulinSondeCubit
+                                  .state.regimen.medicalTakeInsulins
+                                  .toString()),
+                          CheckGlucoseWidget(
+                            noInsulinSondeCubit: noInsulinSondeCubit,
+                          ),
+                        ],
+                      );
+                    return Text('đang kiểm tra');
+                  }
+
+                case NoInsulinSondeStatus.checkedGlucose:
+                  return Column(
+                    children: [
+                      Text(noInsulinSondeCubit.state.regimen
+                          .lastTime()
+                          .toString()),
+                      Text('reg: \n' +
+                          noInsulinSondeCubit.state.regimen.toString()),
+                      Text('ins : \n ' +
+                          noInsulinSondeCubit.state.regimen.medicalTakeInsulins
+                              .toString()),
+                      CheckedGlucoseWidget(
+                        sondeCubit: sondeCubit,
+                        noInsulinSondeCubit: noInsulinSondeCubit,
+                      ),
+                    ],
+                  );
+
+                default:
+                  return Text('default');
+              }
+            });
+      },
     );
   }
 }

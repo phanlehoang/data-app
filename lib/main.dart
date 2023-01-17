@@ -59,6 +59,12 @@ class MyApp extends StatelessWidget {
         BlocProvider<CurrentMedicalMethodCubit>(
           create: (currentMethodCubitContext) => CurrentMedicalMethodCubit(),
         ),
+        //time check cubit
+        BlocProvider<TimeCheckCubit>(
+          create: (timeCheckCubitContext) => TimeCheckCubit(
+            ticker: secondStream(),
+          ),
+        ),
       ],
       child: MaterialApp(
         title: 'Flutter Demo',

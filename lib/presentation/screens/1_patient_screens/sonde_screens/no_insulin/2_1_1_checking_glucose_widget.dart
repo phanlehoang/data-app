@@ -1,5 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:data_app/data/data_provider/sonde_provider/no_insulin_provider.dart';
+import 'package:data_app/logic/status_cubit/time_check/time_check_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_bloc/flutter_form_bloc.dart';
 
@@ -13,17 +14,16 @@ import '../../../../../data/models/models_export.dart';
 import '../../../../../logic/1_patient_blocs/current_profile_cubit.dart';
 
 class CheckGlucoseWidget extends StatelessWidget {
-  //add noInsulinSondeCubit
-  final NoInsulinSondeCubit noInsulinSondeCubit;
   const CheckGlucoseWidget({
-    Key? key,
+    super.key,
     required this.noInsulinSondeCubit,
-  }) : super(key: key);
+  });
+
+  final NoInsulinSondeCubit noInsulinSondeCubit;
 
   @override
   Widget build(BuildContext context) {
-    return NiceScreen(
-        child: Column(
+    return Column(
       children: [
         Text('Nhập glucose:'),
         BlocProvider<CheckGlucoseForm>(
@@ -64,7 +64,7 @@ class CheckGlucoseWidget extends StatelessWidget {
           ),
         )
       ],
-    ));
+    );
   }
 }
 
@@ -116,7 +116,7 @@ class CheckGlucoseForm extends FormBloc<String, String> {
     } catch (e) {
       emitFailure(failureResponse: e.toString());
     }
+    noInsulinSondeCubit.emit(loadingNoInsulinSondeState());
     emitSuccess();
-    noInsulinSondeCubit.getFromFb(profile);
   }
 }

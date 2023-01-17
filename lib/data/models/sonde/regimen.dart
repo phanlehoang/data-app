@@ -67,7 +67,7 @@ class Regimen {
 
 // Kiểm tra xem medicalaction cuối ở rangetime trước
   bool isFinishCurrentTask() {
-    if (medicalActions.length == 0) return false;
+    if (medicalTakeInsulins.length == 0) return false;
     DateTime t = medicalTakeInsulins.last.time;
     if (SondeRange.inSondeRangeToday(t) &&
         SondeRange.rangeContain(t) == SondeRange.rangeContain(DateTime.now())) {
@@ -90,6 +90,11 @@ class Regimen {
     }
     return counter >= 5;
   }
+
+  DateTime lastTime() {
+    if (medicalTakeInsulins.length == 0) return DateTime(1999);
+    return medicalTakeInsulins.last.time;
+  }
 }
 
 Regimen initialRegimen() {
@@ -98,4 +103,15 @@ Regimen initialRegimen() {
     medicalCheckGlucoses: [],
     medicalTakeInsulins: [],
   );
+}
+
+bool isFinishRegimen(Regimen regimen) {
+  if (regimen.medicalActions.length == 0) return false;
+  DateTime t = regimen.medicalTakeInsulins.last.time;
+  if (SondeRange.inSondeRangeToday(t) &&
+      SondeRange.rangeContain(t) == SondeRange.rangeContain(DateTime.now())) {
+    return true;
+  } else {
+    return false;
+  }
 }
