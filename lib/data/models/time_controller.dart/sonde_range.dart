@@ -45,4 +45,5 @@ class SondeRange {
     int m = sondeRange[indexNextRange].start.minute;
     return 'Bạn phải đợi đến $h: $m cho lần đo tiếp theo.';
   }
+  static bool isHot(DateTime t)
 }
