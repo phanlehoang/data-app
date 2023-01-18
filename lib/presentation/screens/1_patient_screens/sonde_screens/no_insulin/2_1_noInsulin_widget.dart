@@ -83,14 +83,6 @@ class NoInsulinWidget extends StatelessWidget {
   }
 }
 
-class FinishTask extends Cubit<int> {
-  FinishTask() : super(0);
-  void update(bool value) {
-    print('hình như ko xh');
-    emit(value ? 1 : -1);
-  }
-}
-
 class NoInsulinSondeSolve extends StatelessWidget {
   final SondeCubit sondeCubit;
   NoInsulinSondeSolve({
@@ -149,7 +141,12 @@ class Solve extends StatelessWidget {
                   }
                 case NoInsulinSondeStatus.checkingGlucose:
                   {
-                    if (noInsulinState.regimen.isFinishCurrentTask())
+                    if (noInsulinState.regimen.isFinishCurrentTask()) {
+                      if (noInsulinState.regimen.isFull50()) {
+                        sondeCubit.switchStatusOnline(
+                            context.read<CurrentProfileCubit>().state,
+                            SondeStatus.yesInsulin);
+                      }
                       return Column(
                         children: [
                           Text('reg: \n' +
@@ -161,6 +158,7 @@ class Solve extends StatelessWidget {
                           Text('Bạn đã hoàn thành điều trị'),
                         ],
                       );
+                    }
 
                     if (!noInsulinState.regimen.isFinishCurrentTask())
                       return Column(

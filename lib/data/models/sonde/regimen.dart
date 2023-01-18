@@ -40,7 +40,40 @@ class Regimen {
     dynamic medicalActions_str = medicalActions.toString();
     return 'Regimen ${medicalActions_str}';
   }
+  //toMap
 
+  Map<String, dynamic> toMap() {
+    return {
+      'medicalActions': [for (dynamic x in medicalActions) x.toMap()],
+      'medicalCheckGlucoses': [
+        for (MedicalCheckGlucose x in medicalCheckGlucoses) x.toMap()
+      ],
+      'medicalTakeInsulins': [
+        for (MedicalTakeInsulin x in medicalTakeInsulins) x.toMap()
+      ],
+    };
+  }
+
+  //fromMap
+  factory Regimen.fromMap(Map<String, dynamic> map) {
+    return Regimen(
+      medicalActions: [
+        for (dynamic x in map['medicalActions'])
+          if (x['name'] == 'MedicalCheckGlucose')
+            MedicalCheckGlucose.fromMap(x)
+          else if (x['name'] == 'MedicalTakeInsulin')
+            MedicalTakeInsulin.fromMap(x),
+      ],
+      medicalCheckGlucoses: [
+        for (dynamic x in map['medicalCheckGlucoses'])
+          MedicalCheckGlucose.fromMap(x)
+      ],
+      medicalTakeInsulins: [
+        for (dynamic x in map['medicalTakeInsulins'])
+          MedicalTakeInsulin.fromMap(x)
+      ],
+    );
+  }
   // @override
   // List<Object?> get props => [
   //       this.medicalActions,
@@ -83,7 +116,7 @@ class Regimen {
     return SondeRange.inSondeRange(t);
   }
 
-  bool isFull() {
+  bool isFull50() {
     int counter = 0;
     for (var x in medicalCheckGlucoses) {
       if (x.glucoseUI > 8.3) counter++;

@@ -31,7 +31,27 @@ class DoctorProfileScreen extends StatelessWidget {
                         ref: FirebaseFirestore.instance
                             .collection('list_adds')
                             .doc('1'));
-                //  print(trial);
+                //a medicalTakeInsulin to test
+                MedicalTakeInsulin m = MedicalTakeInsulin(
+                  time: DateTime(1999),
+                  insulinType: InsulinType.Actrapid,
+                  insulinUI: 100,
+                );
+                // Map<String, dynamic> mMap = m.toMap();
+                // var trial2 = await FirebaseFirestore.instance
+                //     .collection('list_adds')
+                //     .doc('1')
+                //     .set({
+                //   'medical_take_insulins': [mMap, mMap]
+                // });
+                // thêm 1 medicalTakeInsulin vào list
+                DocumentReference ref =
+                    FirebaseFirestore.instance.collection('list_adds').doc('1');
+                var trial3 = await ref.set(testReg().toMap());
+                // var trial2 = await ref.update({
+                //   'medical_take_insulins': FieldValue.arrayUnion([m.toMap()])
+                // });
+                // xóa 1 medicalTakeInsulin khỏi list
               },
               child: Text('${trial}'))
         ],
@@ -39,4 +59,23 @@ class DoctorProfileScreen extends StatelessWidget {
       bottomNavigationBar: BottomNavigatorBar(),
     );
   }
+}
+
+Regimen testReg() {
+  MedicalTakeInsulin m = MedicalTakeInsulin(
+    time: DateTime(1999),
+    insulinType: InsulinType.Actrapid,
+    insulinUI: 100,
+  );
+  //Medical check glu
+  MedicalCheckGlucose m2 = MedicalCheckGlucose(
+    time: DateTime(1999),
+    glucoseUI: 100,
+  );
+  Regimen r = Regimen(
+    medicalActions: [m, m2],
+    medicalTakeInsulins: [m],
+    medicalCheckGlucoses: [m2],
+  );
+  return r;
 }
