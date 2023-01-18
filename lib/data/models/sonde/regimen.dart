@@ -128,6 +128,14 @@ class Regimen {
     if (medicalTakeInsulins.length == 0) return DateTime(1999);
     return medicalTakeInsulins.last.time;
   }
+
+  bool checkGoToYesInsAgain() {
+    return isFull50() && !isInCurrentTask();
+  }
+
+  bool isHot() {
+    return isFull50() && isFinishCurrentTask();
+  }
 }
 
 Regimen initialRegimen() {
@@ -136,15 +144,4 @@ Regimen initialRegimen() {
     medicalCheckGlucoses: [],
     medicalTakeInsulins: [],
   );
-}
-
-bool isFinishRegimen(Regimen regimen) {
-  if (regimen.medicalActions.length == 0) return false;
-  DateTime t = regimen.medicalTakeInsulins.last.time;
-  if (SondeRange.inSondeRangeToday(t) &&
-      SondeRange.rangeContain(t) == SondeRange.rangeContain(DateTime.now())) {
-    return true;
-  } else {
-    return false;
-  }
 }

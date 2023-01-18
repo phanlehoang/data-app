@@ -123,6 +123,11 @@ class Solve extends StatelessWidget {
             builder: (context, state) {
               final NoInsulinSondeState noInsulinState =
                   noInsulinSondeCubit.state;
+              if (noInsulinState.regimen.checkGoToYesInsAgain()) {
+                sondeCubit.switchStatusOnline(
+                    context.read<CurrentProfileCubit>().state,
+                    SondeStatus.yesInsulin);
+              }
 
               // lấy regimen hiện tại ra
               // final Regimen regimen = noInsulinState.regimen;
@@ -142,7 +147,7 @@ class Solve extends StatelessWidget {
                 case NoInsulinSondeStatus.checkingGlucose:
                   {
                     if (noInsulinState.regimen.isFinishCurrentTask()) {
-                      if (noInsulinState.regimen.isFull50()) {
+                      if (noInsulinState.regimen.isHot()) {
                         sondeCubit.switchStatusOnline(
                             context.read<CurrentProfileCubit>().state,
                             SondeStatus.yesInsulin);
