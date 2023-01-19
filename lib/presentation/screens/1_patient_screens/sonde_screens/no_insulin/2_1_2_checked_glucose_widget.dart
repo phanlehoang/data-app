@@ -1,6 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:async';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_bloc/flutter_form_bloc.dart';
@@ -48,6 +49,7 @@ class CheckedGlucoseWidget extends StatelessWidget {
                     noInsulinSondeState: value,
                     sondeState: sondeCubit.state,
                   );
+                  num plus = GlucoseSolve.plusInsulinAmount(glu);
                   num insulin = GlucoseSolve.insulinGuide(
                     noInsulinSondeState: value,
                     sondeState: sondeCubit.state,
@@ -65,6 +67,7 @@ class CheckedGlucoseWidget extends StatelessWidget {
                                 profile:
                                     context.read<CurrentProfileCubit>().state,
                                 insulin: insulin,
+                                plus: plus,
                               ),
                           child: Builder(builder: (_) {
                             return FormBlocListener<CheckedSubmit, String,
@@ -115,11 +118,13 @@ Future<void> addInsulin(
 class CheckedSubmit extends FormBloc<String, String> {
   final Profile profile;
   final num insulin;
+  final num plus;
   final NoInsulinSondeCubit noInsulinSondeCubit;
   CheckedSubmit({
     required this.noInsulinSondeCubit,
     required this.profile,
     required this.insulin,
+    required this.plus,
   });
   @override
   FutureOr<void> onSubmitting() async {
@@ -138,10 +143,19 @@ class CheckedSubmit extends FormBloc<String, String> {
           await NoInsulinSondeStateProvider.updateNoInsulinStateStatus(
               profile: profile,
               noInsulinSondeStatus: NoInsulinSondeStatus.checkingGlucose);
+      //update bonus insulin
+      var updateBonus = await FirebaseFirestore.instance
+          .collection('groups')
+          .doc(profile.room)
+          .collection('patients')
+          .doc(profile.id)
+          .collection('medicalMethods')
+          .doc('Sonde')
+          .update({'bonusInsulin': FieldValue.increment(plus)});
     } catch (e) {
       emitFailure(failureResponse: e.toString());
     }
-    noInsulinSondeCubit.emit(loadingNoInsulinSondeState());
+    //   noInsulinSondeCubit.emit(loadingNoInsulinSondeState());
     emitSuccess();
   }
 }

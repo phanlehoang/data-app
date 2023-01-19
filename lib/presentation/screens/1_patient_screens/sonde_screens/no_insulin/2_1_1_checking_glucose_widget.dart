@@ -116,7 +116,7 @@ class CheckGlucoseForm extends FormBloc<String, String> {
     } catch (e) {
       emitFailure(failureResponse: e.toString());
     }
-    noInsulinSondeCubit.emit(loadingNoInsulinSondeState());
+    //noInsulinSondeCubit.emit(loadingNoInsulinSondeState());
     emitSuccess();
   }
 }
