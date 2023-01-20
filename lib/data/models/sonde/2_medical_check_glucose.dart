@@ -1,4 +1,4 @@
-import 'medical_action.dart';
+import '1_medical_action.dart';
 
 class MedicalCheckGlucose extends MedicalAction {
   num glucoseUI = 0;
@@ -20,9 +20,8 @@ class MedicalCheckGlucose extends MedicalAction {
       'glucoseUI': glucoseUI,
     };
   }
-
   //fromMap
-  factory MedicalCheckGlucose.fromMap(Map<String, dynamic> map) {
+  factory MedicalCheckGlucose.fromMap(Map<String, dynamic> map) { 
     return MedicalCheckGlucose(
       time: map['time'].toDate(),
       glucoseUI: map['glucoseUI'],

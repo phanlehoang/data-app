@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:data_app/data/models/enums.dart';
-import 'package:data_app/data/models/sonde/export_sonde_models.dart';
+import 'package:data_app/data/models/sonde/sonde_lib.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -26,32 +26,7 @@ class DoctorProfileScreen extends StatelessWidget {
         children: [
           TextButton(
               onPressed: () async {
-                trial =
-                    await SondeNoInsulinRegimenProvider.readMedicalTakeInsulins(
-                        ref: FirebaseFirestore.instance
-                            .collection('list_adds')
-                            .doc('1'));
-                //a medicalTakeInsulin to test
-                MedicalTakeInsulin m = MedicalTakeInsulin(
-                  time: DateTime(1999),
-                  insulinType: InsulinType.Actrapid,
-                  insulinUI: 100,
-                );
-                // Map<String, dynamic> mMap = m.toMap();
-                // var trial2 = await FirebaseFirestore.instance
-                //     .collection('list_adds')
-                //     .doc('1')
-                //     .set({
-                //   'medical_take_insulins': [mMap, mMap]
-                // });
-                // thêm 1 medicalTakeInsulin vào list
-                DocumentReference ref =
-                    FirebaseFirestore.instance.collection('list_adds').doc('1');
-                var trial3 = await ref.set(testReg().toMap());
-                // var trial2 = await ref.update({
-                //   'medical_take_insulins': FieldValue.arrayUnion([m.toMap()])
-                // });
-                // xóa 1 medicalTakeInsulin khỏi list
+               var trial = await FirebaseFirestore.instance.collection('list_adds').doc('add').delete();
               },
               child: Text('${trial}'))
         ],

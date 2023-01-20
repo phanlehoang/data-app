@@ -2,9 +2,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
 import '../models/profile.dart';
-import '../models/sonde/export_sonde_models.dart';
-import '../models/sonde/medical_take_insulin.dart';
-import '../models/sonde/regimen.dart';
+import '../models/sonde/sonde_lib.dart';
+import '../models/sonde/3_medical_take_insulin.dart';
+import '../models/sonde/4_regimen.dart';
 
 //viết hàm chèn thêm số 0 vào để có đúng 3 chữ số
 String addZero(int number) {

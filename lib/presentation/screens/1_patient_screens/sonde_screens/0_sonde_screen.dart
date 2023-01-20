@@ -8,7 +8,7 @@ import 'package:data_app/presentation/widgets/images/doctor_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../data/models/time_controller.dart/sonde_range.dart';
+import '../../../../data/models/time_controller/sonde_range.dart';
 import '../../../widgets/nice_widgets/nice_export.dart';
 
 class InSondeRange extends Cubit<bool> {

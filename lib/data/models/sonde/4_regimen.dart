@@ -1,11 +1,11 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'package:equatable/equatable.dart';
-import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:data_app/data/models/enums.dart';
+import 'package:data_app/data/models/sonde/2.5_list_medical_from_list_map.dart';
 
-import '../time_controller.dart/sonde_range.dart';
-import 'export_sonde_models.dart';
+import '../time_controller/sonde_range.dart';
+import 'sonde_lib.dart';
 
-List<dynamic> dylist = [];
 
 class Regimen {
   List<dynamic> medicalActions;
@@ -56,31 +56,19 @@ class Regimen {
 
   //fromMap
   factory Regimen.fromMap(Map<String, dynamic> map) {
+
     return Regimen(
-      medicalActions: [
-        for (dynamic x in map['medicalActions'])
-          if (x['name'] == 'MedicalCheckGlucose')
-            MedicalCheckGlucose.fromMap(x)
-          else if (x['name'] == 'MedicalTakeInsulin')
-            MedicalTakeInsulin.fromMap(x),
-      ],
-      medicalCheckGlucoses: [
-        for (dynamic x in map['medicalCheckGlucoses'])
-          MedicalCheckGlucose.fromMap(x)
-      ],
-      medicalTakeInsulins: [
-        for (dynamic x in map['medicalTakeInsulins'])
-          MedicalTakeInsulin.fromMap(x)
-      ],
+      medicalActions: ListMedicalFromListMap.medicalActions(map['medicalActions']),
+      medicalCheckGlucoses: ListMedicalFromListMap.medicalCheckGlucoses(map['medicalCheckGlucoses']),
+      medicalTakeInsulins: ListMedicalFromListMap.medicalTakeInsulins(map['medicalTakeInsulins']),
     );
+   
   }
-  // @override
-  // List<Object?> get props => [
-  //       this.medicalActions,
-  //       this.medicalCheckGlucoses,
-  //       this.medicalTakeInsulins,
-  //       this.currentInsulin,
-  //     ];
+  //from snapshot
+   factory Regimen.fromSnapshot(DocumentSnapshot snapshot) {
+     Map<String, dynamic> map = snapshot.data() as Map<String, dynamic>;
+     return Regimen.fromMap(map);
+  }
   Regimen clone() {
     return Regimen(
       medicalActions: [for (dynamic x in medicalActions) x.clone()],
@@ -111,7 +99,7 @@ class Regimen {
   }
 
   bool isInCurrentTask() {
-    if (medicalActions.length == 0) return false;
+    if (medicalTakeInsulins.length == 0) return false;
     DateTime t = medicalTakeInsulins.last.time;
     return SondeRange.inSondeRange(t);
   }
@@ -121,7 +109,7 @@ class Regimen {
     for (var x in medicalCheckGlucoses) {
       if (x.glucoseUI > 8.3) counter++;
     }
-    return counter >= 5;
+    return counter >= 1;
   }
 
   DateTime lastTime() {

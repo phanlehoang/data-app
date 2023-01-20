@@ -1,12 +1,13 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'package:data_app/data/data_provider/sonde_provider/no_insulin_provider.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:data_app/data/data_provider/sonde_provider/sonde_fast_insulin_provider.dart';
 import 'package:data_app/logic/status_cubit/time_check/time_check_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_bloc/flutter_form_bloc.dart';
 
 import 'package:data_app/data/data_provider/regimen_provider.dart';
-import 'package:data_app/data/models/sonde/export_sonde_models.dart';
-import 'package:data_app/logic/1_patient_blocs/medical_blocs/sonde_blocs/no_insulin_sonde_cubit.dart';
+import 'package:data_app/data/models/sonde/sonde_lib.dart';
+import 'package:data_app/logic/1_patient_blocs/medical_blocs/sonde_blocs/sonde_fast_insulin_cubit.dart';
 import 'package:data_app/presentation/widgets/nice_widgets/nice_export.dart';
 
 import '../../../../../data/models/enums.dart';
@@ -16,10 +17,12 @@ import '../../../../../logic/1_patient_blocs/current_profile_cubit.dart';
 class CheckGlucoseWidget extends StatelessWidget {
   const CheckGlucoseWidget({
     super.key,
-    required this.noInsulinSondeCubit,
+    required this.sondeFastInsulinCubit,
   });
-
-  final NoInsulinSondeCubit noInsulinSondeCubit;
+  //query reference for state
+  // doc Sonde -> col RegimenFastInsulin -> doc RegimenState
+ 
+  final SondeFastInsulinCubit sondeFastInsulinCubit;
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +31,7 @@ class CheckGlucoseWidget extends StatelessWidget {
         Text('Nhập glucose:'),
         BlocProvider<CheckGlucoseForm>(
           create: (_) => CheckGlucoseForm(
-            noInsulinSondeCubit: noInsulinSondeCubit,
+            sondeFastInsulinCubit: sondeFastInsulinCubit,
             profile: context.read<CurrentProfileCubit>().state,
           ),
           child: Builder(
@@ -45,12 +48,12 @@ class CheckGlucoseWidget extends StatelessWidget {
                 },
                 child: Column(
                   children: [
-                    TextFieldBlocBuilder(
-                      textFieldBloc: formBloc.glucose,
-                      keyboardType: TextInputType.number,
-                      decoration: InputDecoration(
-                        labelText: 'Glucose',
-                        prefixIcon: Icon(Icons.medical_services),
+                    SizedBox(
+                      width: 100,
+                      child: TextFieldBlocBuilder(
+                        textFieldBloc: formBloc.glucose,
+                        keyboardType: TextInputType.number,
+                        
                       ),
                     ),
                     ElevatedButton(
@@ -80,7 +83,7 @@ class CheckGlucoseForm extends FormBloc<String, String> {
     }
   }
 
-  final NoInsulinSondeCubit noInsulinSondeCubit;
+  final SondeFastInsulinCubit sondeFastInsulinCubit;
   final Profile profile;
   final glucose = TextFieldBloc(
     validators: [
@@ -88,7 +91,7 @@ class CheckGlucoseForm extends FormBloc<String, String> {
     ],
   );
   CheckGlucoseForm({
-    required this.noInsulinSondeCubit,
+    required this.sondeFastInsulinCubit,
     required this.profile,
   }) {
     addFieldBlocs(
@@ -103,20 +106,46 @@ class CheckGlucoseForm extends FormBloc<String, String> {
       time: DateTime.now(),
       glucoseUI: num.parse(glucose.value),
     );
-    Regimen addRegimen = initialRegimen();
-    addRegimen.addMedicalAction(medicalCheckGlucose);
+    
     try {
-      var add =
-          await SondeNoInsulinRegimenProvider.addRegimen(profile, addRegimen);
-      //update checked
-      var checkedUpdate =
-          await NoInsulinSondeStateProvider.updateNoInsulinStateStatus(
-              profile: profile,
-              noInsulinSondeStatus: NoInsulinSondeStatus.checkedGlucose);
+      //dia chi no insulin sonde state
+      var fastInsulinStateRef = RefProvider.fastInsulinStateRef(profile);
+      var updateRegimen = await fastInsulinStateRef.update({
+        'regimen.medicalCheckGlucoses': FieldValue.arrayUnion(
+          [medicalCheckGlucose.toMap()]),
+        'regimen.medicalActions': FieldValue.arrayUnion(
+          [medicalCheckGlucose.toMap()]),
+
+      });
+      
+      //update checking glucose status -> giving insulin
+      var updateRegimenStatus =
+          await fastInsulinStateRef.update({
+            'status': 'givingInsulin'
+          });
     } catch (e) {
       emitFailure(failureResponse: e.toString());
     }
     //noInsulinSondeCubit.emit(loadingNoInsulinSondeState());
     emitSuccess();
   }
+}
+class RefProvider {
+  static
+DocumentReference fastInsulinStateRef(Profile profile){
+  return FirebaseFirestore.instance
+          .collection('groups').doc(profile.room)
+          .collection('patients').doc(profile.id)
+          .collection('medicalMethods').doc('Sonde')
+          .collection('FastInsulin').doc('regimenState');
+  
+}
+// ref to history old fast
+static CollectionReference fastInsulinHistoryRef(Profile profile){
+  return FirebaseFirestore.instance
+          .collection('groups').doc(profile.room)
+          .collection('patients').doc(profile.id)
+          .collection('medicalMethods').doc('Sonde')
+          .collection('HistoryOldFast');
+}
 }

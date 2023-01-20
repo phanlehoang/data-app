@@ -1,76 +1,75 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:bloc/bloc.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:data_app/data/data_provider/sonde_provider/sonde_state_provider.dart';
+import 'package:data_app/presentation/screens/1_patient_screens/sonde_screens/sonde_fast_insulin/2_1_1_checking_glucose_widget.dart';
 
 import '../../../../data/models/enums.dart';
 import '../../../../data/models/profile.dart';
+import '../../../../data/models/sonde/6_sonde_state.dart';
+import '../../../../data/models/sonde/sonde_lib.dart';
 
 class SondeCubit extends Cubit<SondeState> {
   SondeCubit(SondeState initialState) : super(initialState);
-  void update(SondeState newState) {
-    emit(newState);
-  }
-
-  Future<void> switchStatusOnline(
-      Profile profile, SondeStatus newStatus) async {
-    var switchNewStatus = SondeStatusUpdate.updateSondeStatus(
-        profile: profile, sondeStatus: newStatus);
-  }
-}
-
-class SondeState {
-  final SondeStatus status;
-  num cho;
-  num bonusInsulin;
-  num weight;
-  SondeState({
-    required this.status,
-    this.cho = 0,
-    this.bonusInsulin = 0,
-    this.weight = 0,
-  });
-  //clone
-  SondeState clone() {
-    return SondeState(
-      status: status,
-      cho: cho,
-      bonusInsulin: bonusInsulin,
-      weight: weight,
-    );
-  }
-
-  //to String
-  @override
-  String toString() {
-    return 'SondeState(status: $status, cho: $cho, bonusInsulin: $bonusInsulin, weight: $weight)';
-  }
-
-  //to Map
-  Map<String, dynamic> toMap() {
-    return {
-      'status': EnumToString.enumToString(status),
-      'cho': cho,
-      'bonusInsulin': bonusInsulin,
-      'weight': weight,
-    };
-  }
-
-  //from Map
-  factory SondeState.fromMap(Map<String, dynamic> map) {
+ 
+    //catch state error 
+    @override
+  void emit(dynamic state) {
     try {
-      return SondeState(
-        status: StringToEnum.stringToSondeStatus(map['status']),
-        cho: map['cho'],
-        bonusInsulin: map['bonusInsulin'],
-        weight: map['weight'],
-      );
+      super.emit(state);
     } catch (e) {
-      var a = initSondeState();
-      return a;
+      if (e == StateError('Cannot emit new states after calling close')) {
+        return;
+      }
     }
   }
+  
+  Future<void> goToNextStatus(Regimen regimen,
+      Profile profile, SondeStatus oldStatus) async{
+        emit(SondeState(status: SondeStatus.transfer,
+        cho: state.cho,
+        bonusInsulin: state.bonusInsulin ,
+        weight: state.weight,
+        ));
+        transferData(regimen, profile);
+        switch (oldStatus) {
+          case SondeStatus.noInsulin:
+           await switchStatusOnline(regimen, profile, SondeStatus.yesInsulin);
+            return;
+          case SondeStatus.yesInsulin:
+           await switchStatusOnline(regimen, profile, SondeStatus.highInsulin);
+            return;
+          case SondeStatus.highInsulin:
+            await switchStatusOnline(regimen, profile, SondeStatus.finish);
+            return;
+          default:
+          return;
+        }
+  }
+  Future<void> transferData(Regimen regimen,
+      Profile profile) async{
+        var ref =  RefProvider.fastInsulinStateRef(profile);
+         var oldRegimen =await RefProvider.fastInsulinHistoryRef (profile)
+        .add(regimen.toMap());
+      }
+
+  Future<void> switchStatusOnline(
+    Regimen regimen,
+      Profile profile, SondeStatus newStatus) async {
+    var ref =  RefProvider.fastInsulinStateRef(profile);
+  
+     
+
+    var switchNewStatus =await FirebaseFirestore.instance 
+    .collection('groups').doc(profile.room)
+    .collection('patients').doc(profile.id)
+    .collection('medicalMethods').doc('Sonde')
+    .update({
+      'status': EnumToString.enumToString(newStatus),
+    });
+   
+}
 }
 
-SondeState initSondeState() {
-  return SondeState(status: SondeStatus.firstAsk);
-}
+
+

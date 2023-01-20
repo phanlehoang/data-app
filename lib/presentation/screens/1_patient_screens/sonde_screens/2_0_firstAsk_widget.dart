@@ -1,6 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:data_app/data/data_provider/sonde_provider/sonde_fast_insulin_provider.dart';
 import 'package:data_app/data/data_provider/sonde_provider/sonde_state_provider.dart';
 import 'package:data_app/data/models/enums.dart';
-import 'package:data_app/data/models/sonde/export_sonde_models.dart';
+import 'package:data_app/data/models/sonde/sonde_lib.dart';
+import 'package:data_app/logic/1_patient_blocs/medical_blocs/sonde_blocs/sonde_fast_insulin_cubit.dart';
 import 'package:data_app/presentation/widgets/nice_widgets/0_nice_screen.dart';
 import 'package:data_app/presentation/widgets/vietnamese/validations_vietnamese.dart';
 import 'package:flutter/material.dart';
@@ -9,6 +12,7 @@ import 'package:flutter_form_bloc/flutter_form_bloc.dart';
 
 import '../../../../data/models/profile.dart';
 import '../../../../logic/1_patient_blocs/current_profile_cubit.dart';
+import '../../../../logic/1_patient_blocs/medical_blocs/sonde_blocs/sonde_cubit.dart';
 
 class FirstAskWidget extends StatelessWidget {
   final SondeCubit sondeCubit;
@@ -22,7 +26,7 @@ class FirstAskWidget extends StatelessWidget {
     return NiceScreen(
       child: Column(
         children: [
-          Text('FirstAskWidget'),
+      
           BlocBuilder(
             bloc: sondeCubit,
             builder: (context, state) {
@@ -124,6 +128,14 @@ class FirstAskBloc extends FormBloc<String, String> {
         weight: profile.weight,
       ),
     );
+    // update no insulin sonde state 
+    if (sondeStatus == SondeStatus.noInsulin) {
+      var updateNoIns = await FirebaseFirestore.instance
+      .collection('groups').doc(profile.room)
+      .collection('patients').doc(profile.id)
+      .collection('medicalMethods').doc('Sonde')
+      .collection('FastInsulin').doc('regimenState').
+      set(initialRegimenState().toMap());
 
     if (updateStatus == null) {
       emitSuccess();
@@ -131,4 +143,5 @@ class FirstAskBloc extends FormBloc<String, String> {
       emitFailure(failureResponse: updateStatus);
     }
   }
+}
 }

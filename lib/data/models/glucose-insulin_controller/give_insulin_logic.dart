@@ -1,11 +1,13 @@
-import 'package:data_app/logic/1_patient_blocs/medical_blocs/sonde_blocs/no_insulin_sonde_cubit.dart';
+import 'package:data_app/logic/1_patient_blocs/medical_blocs/sonde_blocs/sonde_fast_insulin_cubit.dart';
 import 'package:data_app/logic/1_patient_blocs/medical_blocs/sonde_blocs/sonde_cubit.dart';
+
+import '../sonde/sonde_lib.dart';
 
 enum GlucoseEvaluation {
   normal,
   high,
   low,
-  veryhigh,
+  superHigh,
 }
 
 class GlucoseSolve {
@@ -19,58 +21,58 @@ class GlucoseSolve {
     if (glucose <= 11.1) {
       return GlucoseEvaluation.high;
     }
-    return GlucoseEvaluation.veryhigh;
+    return GlucoseEvaluation.superHigh;
   }
-
-  static String plusInsulinNotice(num glucose) {
-    final GlucoseEvaluation evaluation = eval(glucose);
-    switch (eval(glucose)) {
-      case GlucoseEvaluation.high:
-        return 'Bổ sung 2 UI insulin Actrapid';
-      case GlucoseEvaluation.veryhigh:
-        return 'Bổ sung 4 UI insulin Actrapid';
-      default:
-        return '';
-    }
-  }
-
-  static num plusInsulinAmount(num glucose) {
+   static num plusInsulinAmount(num glucose) {
     final GlucoseEvaluation evaluation = eval(glucose);
     switch (evaluation) {
       case GlucoseEvaluation.high:
         return 2;
-      case GlucoseEvaluation.veryhigh:
+      case GlucoseEvaluation.superHigh:
         return 4;
       default:
         return 0;
     }
   }
 
+  static String plusInsulinGuide(num glucose) {
+    final GlucoseEvaluation evaluation = eval(glucose);
+    switch (eval(glucose)) {
+      case GlucoseEvaluation.high:
+        return '';
+      case GlucoseEvaluation.superHigh:
+        return '';
+      default:
+        return 'Duy trì lượng insulin như cũ';
+    }
+  }
+
+ 
+
   static String insulinGuideString({
-    required NoInsulinSondeState noInsulinSondeState,
+    required Regimen regimen,
     required SondeState sondeState,
   }) {
     num insulin = insulinGuide(
-      noInsulinSondeState: noInsulinSondeState,
+      regimen: regimen,
       sondeState: sondeState,
     );
-
     return 'Tiêm ${insulin} UI Insulin Actrapid';
   }
 
   static num insulinGuide({
-    required NoInsulinSondeState noInsulinSondeState,
+    required Regimen regimen,
     required SondeState sondeState,
   }) {
-    final num glu = noInsulinSondeState.regimen.lastGlu();
+    final num glu = regimen.lastGlu();
     final num cho = sondeState.cho;
     final num bonus = sondeState.bonusInsulin;
-    final num plusInsu = plusInsulinAmount(glu);
+    final num plus = plusInsulinAmount(glu);
     return insulinGuideCalculation(
       glu: glu,
       cho: cho,
       bonus: bonus,
-      plusInsu: plusInsu,
+      plus: plus,
     );
   }
 
@@ -78,8 +80,8 @@ class GlucoseSolve {
     required num glu,
     required num cho,
     required num bonus,
-    required num plusInsu,
+    required num plus,
   }) {
-    return bonus + plusInsu + (cho / 15).round();
+    return bonus + plus + (cho / 15).round();
   }
 }

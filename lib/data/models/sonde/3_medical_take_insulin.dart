@@ -2,7 +2,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:data_app/data/models/enums.dart';
 
-import 'medical_action.dart';
+import '1_medical_action.dart';
 
 class MedicalTakeInsulin extends MedicalAction {
   InsulinType insulinType;

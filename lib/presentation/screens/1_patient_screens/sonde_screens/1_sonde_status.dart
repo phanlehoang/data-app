@@ -3,9 +3,9 @@ import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:data_app/data/data_provider/sonde_provider/sonde_state_provider.dart';
 import 'package:data_app/data/models/enums.dart';
-import 'package:data_app/data/models/sonde/export_sonde_models.dart';
+import 'package:data_app/data/models/sonde/sonde_lib.dart';
 import 'package:data_app/presentation/screens/1_patient_screens/sonde_screens/2_0_firstAsk_widget.dart';
-import 'package:data_app/presentation/screens/1_patient_screens/sonde_screens/no_insulin/2_1_noInsulin_widget.dart';
+import 'package:data_app/presentation/screens/1_patient_screens/sonde_screens/sonde_fast_insulin/fast_insulin_widget.dart';
 import 'package:data_app/presentation/widgets/nice_widgets/0_nice_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
@@ -14,6 +14,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../data/models/models_export.dart';
 import '../../../../logic/1_patient_blocs/current_profile_cubit.dart';
+import '../../../../logic/1_patient_blocs/medical_blocs/sonde_blocs/sonde_cubit.dart';
 
 class SondeStatusWidget extends StatelessWidget {
   const SondeStatusWidget({super.key});
@@ -41,19 +42,48 @@ class SondeStatusWidget extends StatelessWidget {
                     final SondeCubit _sondeCubit = SondeCubit(sondeState);
                     switch (sondeState.status) {
                       case SondeStatus.firstAsk:
-                        return FirstAskWidget(
-                          sondeCubit: _sondeCubit,
+                        return Column(
+                          children: [
+                            Text(sondeState.toString()),
+                            FirstAskWidget(
+                              sondeCubit: _sondeCubit,
+                            ),
+                          ],
                         );
                       case SondeStatus.noInsulin:
                         return Column(
                           children: [
-                            NoInsulinWidget(
+                            Text('noInsulin'),
+                            FastInsulinWidget(
                               sondeCubit: _sondeCubit,
                             ),
                           ],
                         );
                       case SondeStatus.yesInsulin:
-                        return Text('yes insulin');
+                        return Column(
+                          children: [
+                            Text('yesInsulin'),
+                            FastInsulinWidget(
+                              sondeCubit: _sondeCubit,
+                            ),
+                          ],
+                        );
+                      case SondeStatus.highInsulin:
+                        return Column(
+                          children: [
+                            Text('highInsulin'),
+                            FastInsulinWidget(
+                              sondeCubit: _sondeCubit,
+                            ),
+                          ],
+                        );
+                      case SondeStatus.transfer:
+                        return Column(
+                          children: [
+                            Text('transfer'),
+                            
+                          ],
+                        );  
                       default:
                         return Text('default');
                     }
@@ -66,3 +96,5 @@ class SondeStatusWidget extends StatelessWidget {
     );
   }
 }
+
+
