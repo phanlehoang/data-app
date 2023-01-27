@@ -104,7 +104,7 @@ class StringToEnum {
   }
 
   //regimenStatus
-  static RegimenStatus stringToRegimenStatus(String r) {
+  static RegimenStatus stringToRegimenStatus(String? r) {
     switch (r) {
       case 'checkingGlucose':
         return RegimenStatus.checkingGlucose;
