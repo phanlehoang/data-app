@@ -5,6 +5,7 @@ import 'package:data_app/data/data_provider/sonde_provider/sonde_state_provider.
 import 'package:data_app/data/models/enums.dart';
 import 'package:data_app/data/models/sonde/sonde_lib.dart';
 import 'package:data_app/presentation/screens/1_patient_screens/sonde_screens/2_0_firstAsk_widget.dart';
+import 'package:data_app/presentation/screens/1_patient_screens/sonde_screens/sonde_fast_insulin/2_1_3_transfer_widget.dart';
 import 'package:data_app/presentation/screens/1_patient_screens/sonde_screens/sonde_fast_insulin/fast_insulin_widget.dart';
 import 'package:data_app/presentation/widgets/nice_widgets/0_nice_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -77,13 +78,36 @@ class SondeStatusWidget extends StatelessWidget {
                             ),
                           ],
                         );
-                      case SondeStatus.transfer:
+                      case SondeStatus.transferToYes:
                         return Column(
                           children: [
-                            Text('transfer'),
-                            
+                            Text('transfer to yes'),
+                            TransferWidget(
+                              sondeCubit: _sondeCubit,
+                              nextStatus: SondeStatus.yesInsulin,
+                            ),
                           ],
-                        );  
+                        );
+                      case SondeStatus.transferToHigh:
+                        return Column(
+                          children: [
+                            Text('transfer to high'),
+                            // TransferWidget(
+                            //   sondeCubit: _sondeCubit,
+                            //   nextStatus: SondeStatus.highInsulin,
+                            // ),
+                          ],
+                        );
+                      case SondeStatus.transferToFinish:
+                        return Column(
+                          children: [
+                            Text('transfer to finish'),
+                            // TransferWidget(
+                            //   sondeCubit: _sondeCubit,
+                            //   nextStatus: SondeStatus.finish,
+                            // ),
+                          ],
+                        );
                       default:
                         return Text('default');
                     }
@@ -96,5 +120,3 @@ class SondeStatusWidget extends StatelessWidget {
     );
   }
 }
-
-

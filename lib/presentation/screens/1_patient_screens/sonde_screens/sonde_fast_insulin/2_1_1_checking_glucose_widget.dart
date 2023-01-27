@@ -21,7 +21,7 @@ class CheckGlucoseWidget extends StatelessWidget {
   });
   //query reference for state
   // doc Sonde -> col RegimenFastInsulin -> doc RegimenState
- 
+
   final SondeFastInsulinCubit sondeFastInsulinCubit;
 
   @override
@@ -53,7 +53,6 @@ class CheckGlucoseWidget extends StatelessWidget {
                       child: TextFieldBlocBuilder(
                         textFieldBloc: formBloc.glucose,
                         keyboardType: TextInputType.number,
-                        
                       ),
                     ),
                     ElevatedButton(
@@ -106,46 +105,24 @@ class CheckGlucoseForm extends FormBloc<String, String> {
       time: DateTime.now(),
       glucoseUI: num.parse(glucose.value),
     );
-    
+
     try {
       //dia chi no insulin sonde state
       var fastInsulinStateRef = RefProvider.fastInsulinStateRef(profile);
       var updateRegimen = await fastInsulinStateRef.update({
-        'regimen.medicalCheckGlucoses': FieldValue.arrayUnion(
-          [medicalCheckGlucose.toMap()]),
-        'regimen.medicalActions': FieldValue.arrayUnion(
-          [medicalCheckGlucose.toMap()]),
-
+        'regimen.medicalCheckGlucoses':
+            FieldValue.arrayUnion([medicalCheckGlucose.toMap()]),
+        'regimen.medicalActions':
+            FieldValue.arrayUnion([medicalCheckGlucose.toMap()]),
       });
-      
+
       //update checking glucose status -> giving insulin
       var updateRegimenStatus =
-          await fastInsulinStateRef.update({
-            'status': 'givingInsulin'
-          });
+          await fastInsulinStateRef.update({'status': 'givingInsulin'});
     } catch (e) {
       emitFailure(failureResponse: e.toString());
     }
     //noInsulinSondeCubit.emit(loadingNoInsulinSondeState());
     emitSuccess();
   }
-}
-class RefProvider {
-  static
-DocumentReference fastInsulinStateRef(Profile profile){
-  return FirebaseFirestore.instance
-          .collection('groups').doc(profile.room)
-          .collection('patients').doc(profile.id)
-          .collection('medicalMethods').doc('Sonde')
-          .collection('FastInsulin').doc('regimenState');
-  
-}
-// ref to history old fast
-static CollectionReference fastInsulinHistoryRef(Profile profile){
-  return FirebaseFirestore.instance
-          .collection('groups').doc(profile.room)
-          .collection('patients').doc(profile.id)
-          .collection('medicalMethods').doc('Sonde')
-          .collection('HistoryOldFast');
-}
 }

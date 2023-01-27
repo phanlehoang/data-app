@@ -22,8 +22,6 @@ import '../../../../../logic/1_patient_blocs/medical_blocs/sonde_blocs/sonde_cub
 import '2_1_1_checking_glucose_widget.dart';
 import '2_1_2_giving_insulin_widget.dart';
 
-
-
 class FastInsulinWidget extends StatelessWidget {
   final SondeCubit sondeCubit;
   const FastInsulinWidget({
@@ -45,11 +43,8 @@ class FastInsulinWidget extends StatelessWidget {
             },
           ),
           StreamBuilder(
-              stream:
-                RefProvider.fastInsulinStateRef(profile)
-                 .snapshots(),
-              builder: (context,
-                 snapshot) {
+              stream: RefProvider.fastInsulinStateRef(profile).snapshots(),
+              builder: (context, snapshot) {
                 if (snapshot.hasError) {
                   return Text('Something went wrong');
                 }
@@ -59,19 +54,18 @@ class FastInsulinWidget extends StatelessWidget {
                   if (!snapshot.hasData) {
                     return Text('No data');
                   }
-                final map = snapshot.data
-                !.data() as Map<String, dynamic>;
-             RegimenState regimenState = RegimenState.fromMap(map);
+                  final map = snapshot.data!.data() as Map<String, dynamic>;
+                  RegimenState regimenState = RegimenState.fromMap(map);
 
-                return Column(
-                  children: [
-                 
-                    Text(regimenState.toString()),
-                    FastInsulinSolve(
-                      sondeFastInsulinCubit: SondeFastInsulinCubit(regimenState),
-                       sondeCubit: sondeCubit),
-                  ],
-                );
+                  return Column(
+                    children: [
+                      Text(regimenState.toString()),
+                      FastInsulinSolve(
+                          sondeFastInsulinCubit:
+                              SondeFastInsulinCubit(regimenState),
+                          sondeCubit: sondeCubit),
+                    ],
+                  );
                 }
               }),
         ],
@@ -79,9 +73,6 @@ class FastInsulinWidget extends StatelessWidget {
     );
   }
 }
-
-
-
 
 class FastInsulinSolve extends StatelessWidget {
   const FastInsulinSolve({
@@ -97,69 +88,62 @@ class FastInsulinSolve extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        
-             BlocBuilder(
-                bloc: sondeFastInsulinCubit,
-                builder: (context, state) {
-                  final RegimenState regimenState =sondeFastInsulinCubit.state;
-                  // if (regimenState.regimen.checkGoToYesInsAgain()) {
-                  //   sondeCubit.goToNextStatus(
-                  //     sondeFastInsulinCubit.state.regimen,
-                  //       context.read<CurrentProfileCubit>().state,
-                  //     );
-                  // }
-                  switch (regimenState.status) {
-                    case RegimenStatus.error:
-                      {
-                        return Text('error');
-                      }
-                     
-                    case RegimenStatus.checkingGlucose:
-                      {
-                        if (regimenState.regimen.isFinishCurrentTask()) {
-                          if (regimenState.regimen.isHot()) {
-                            sondeCubit.goToNextStatus(
-                              sondeFastInsulinCubit.state.regimen,
-                                context.read<CurrentProfileCubit>().state,
-                                sondeCubit.state.status,
-                                );
-                          }
-                          return Column(
-                            children: [
-                             Text(regimenState.regimen.isHot().toString()),
-                              Text('Bạn đã hoàn thành điều trị'),
-                            ],
-                          );
-                        }
+        BlocBuilder(
+            bloc: sondeFastInsulinCubit,
+            builder: (context, state) {
+              final RegimenState regimenState = sondeFastInsulinCubit.state;
+              // if (regimenState.regimen.checkGoToYesInsAgain()) {
+              //   sondeCubit.goToNextStatus(
+              //     sondeFastInsulinCubit.state.regimen,
+              //       context.read<CurrentProfileCubit>().state,
+              //     );
+              // }
+              switch (regimenState.status) {
+                case RegimenStatus.error:
+                  {
+                    return Text('error');
+                  }
 
-                        if (!regimenState.regimen.isFinishCurrentTask())
-                          return Column(
-                            children: [
-                              CheckGlucoseWidget(
-                                sondeFastInsulinCubit: sondeFastInsulinCubit,
-                              ),
-                            ],
-                          );
-                        return Text('đang kiểm tra');
+                case RegimenStatus.checkingGlucose:
+                  {
+                    if (regimenState.regimen.isFinishCurrentTask()) {
+                      if (regimenState.regimen.isHot()) {
+                        sondeCubit.transfer(
+                            context.read<CurrentProfileCubit>().state);
                       }
-
-                    case RegimenStatus.givingInsulin:
                       return Column(
                         children: [
-                         
-                          GivingInsulinWidget(
+                          Text(regimenState.regimen.isHot().toString()),
+                          Text('Bạn đã hoàn thành điều trị'),
+                        ],
+                      );
+                    }
+
+                    if (!regimenState.regimen.isFinishCurrentTask())
+                      return Column(
+                        children: [
+                          CheckGlucoseWidget(
                             sondeFastInsulinCubit: sondeFastInsulinCubit,
-                            sondeCubit: sondeCubit,
                           ),
                         ],
                       );
-
-                    default:
-                      return Text('default');
+                    return Text('đang kiểm tra');
                   }
-                }),
-          
-    
+
+                case RegimenStatus.givingInsulin:
+                  return Column(
+                    children: [
+                      GivingInsulinWidget(
+                        sondeFastInsulinCubit: sondeFastInsulinCubit,
+                        sondeCubit: sondeCubit,
+                      ),
+                    ],
+                  );
+
+                default:
+                  return Text('default');
+              }
+            }),
         Text('FastInsulinSolve'),
       ],
     );

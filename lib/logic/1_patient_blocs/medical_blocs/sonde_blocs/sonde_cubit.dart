@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:data_app/data/data_provider/sonde_provider/sonde_state_provider.dart';
 import 'package:data_app/presentation/screens/1_patient_screens/sonde_screens/sonde_fast_insulin/2_1_1_checking_glucose_widget.dart';
 
+import '../../../../data/data_provider/sonde_provider/sonde_fast_insulin_provider.dart';
 import '../../../../data/models/enums.dart';
 import '../../../../data/models/profile.dart';
 import '../../../../data/models/sonde/6_sonde_state.dart';
@@ -11,9 +12,9 @@ import '../../../../data/models/sonde/sonde_lib.dart';
 
 class SondeCubit extends Cubit<SondeState> {
   SondeCubit(SondeState initialState) : super(initialState);
- 
-    //catch state error 
-    @override
+
+  //catch state error
+  @override
   void emit(dynamic state) {
     try {
       super.emit(state);
@@ -23,53 +24,85 @@ class SondeCubit extends Cubit<SondeState> {
       }
     }
   }
-  
-  Future<void> goToNextStatus(Regimen regimen,
-      Profile profile, SondeStatus oldStatus) async{
-        emit(SondeState(status: SondeStatus.transfer,
-        cho: state.cho,
-        bonusInsulin: state.bonusInsulin ,
-        weight: state.weight,
-        ));
-        transferData(regimen, profile);
-        switch (oldStatus) {
-          case SondeStatus.noInsulin:
-           await switchStatusOnline(regimen, profile, SondeStatus.yesInsulin);
-            return;
-          case SondeStatus.yesInsulin:
-           await switchStatusOnline(regimen, profile, SondeStatus.highInsulin);
-            return;
-          case SondeStatus.highInsulin:
-            await switchStatusOnline(regimen, profile, SondeStatus.finish);
-            return;
-          default:
-          return;
-        }
-  }
-  Future<void> transferData(Regimen regimen,
-      Profile profile) async{
-        var ref =  RefProvider.fastInsulinStateRef(profile);
-         var oldRegimen =await RefProvider.fastInsulinHistoryRef (profile)
-        .add(regimen.toMap());
-      }
 
-  Future<void> switchStatusOnline(
-    Regimen regimen,
-      Profile profile, SondeStatus newStatus) async {
-    var ref =  RefProvider.fastInsulinStateRef(profile);
-  
-     
+  Future<void> transfer(Profile profile) async {
+    var ref = RefProvider.fastInsulinStateRef(profile);
+    dynamic newStatus = SondeStatus.transferToYes;
+    switch (state.status) {
+      case SondeStatus.noInsulin:
+        newStatus = SondeStatus.transferToYes;
+        break;
+      case SondeStatus.yesInsulin:
+        newStatus = SondeStatus.transferToHigh;
+        break;
+      case SondeStatus.highInsulin:
+        newStatus = SondeStatus.transferToFinish;
+        break;
+      default:
+    }
 
-    var switchNewStatus =await FirebaseFirestore.instance 
-    .collection('groups').doc(profile.room)
-    .collection('patients').doc(profile.id)
-    .collection('medicalMethods').doc('Sonde')
-    .update({
+    var _transfer = await FirebaseFirestore.instance
+        .collection('groups')
+        .doc(profile.room)
+        .collection('patients')
+        .doc(profile.id)
+        .collection('medicalMethods')
+        .doc('Sonde')
+        .update({
       'status': EnumToString.enumToString(newStatus),
     });
-   
+  }
+
+  Future<String?> transferData(Profile profile) async {
+    var ref = RefProvider.fastInsulinStateRef(profile);
+    var regimen = await RefProvider.getRegimenFastInsulinState(profile);
+
+    var oldRegimen =
+        await RefProvider.fastInsulinHistoryRef(profile).add(regimen.toMap());
+    var clearData = await ref.set(
+      {initialRegimenState().toMap()},
+    );
+    dynamic newState = SondeStatus.yesInsulin;
+    switch (state.status) {
+      case SondeStatus.transferToYes:
+        newState = SondeStatus.yesInsulin;
+        break;
+      case SondeStatus.transferToHigh:
+        newState = SondeStatus.highInsulin;
+
+        break;
+      case SondeStatus.transferToFinish:
+        newState = SondeStatus.finish;
+        break;
+      default:
+    }
+    print('debug');
+    var updateStatus = await FirebaseFirestore.instance
+        .collection('groups')
+        .doc(profile.room)
+        .collection('patients')
+        .doc(profile.id)
+        .collection('medicalMethods')
+        .doc('Sonde')
+        .update({
+      'status': EnumToString.enumToString(newState),
+    });
+    return null;
+  }
+
+  Future<void> switchStatusOnline(
+      Regimen regimen, Profile profile, SondeStatus newStatus) async {
+    var ref = RefProvider.fastInsulinStateRef(profile);
+
+    var switchNewStatus = await FirebaseFirestore.instance
+        .collection('groups')
+        .doc(profile.room)
+        .collection('patients')
+        .doc(profile.id)
+        .collection('medicalMethods')
+        .doc('Sonde')
+        .update({
+      'status': EnumToString.enumToString(newStatus),
+    });
+  }
 }
-}
-
-
-

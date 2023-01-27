@@ -1,8 +1,8 @@
-
 enum Gender {
   Male,
   Female,
 }
+
 enum MedicalMethod {
   TPN,
   Sonde,
@@ -11,13 +11,15 @@ enum MedicalMethod {
 enum SondeStatus {
   firstAsk,
   noInsulin,
+  transferToYes,
   yesInsulin,
+  transferToHigh,
   highInsulin,
+  transferToFinish,
   finish,
-  transfer,
 }
 
-enum RegimenStatus{
+enum RegimenStatus {
   error,
   checkingGlucose,
   givingInsulin,
@@ -69,14 +71,19 @@ class StringToEnum {
         return SondeStatus.firstAsk;
       case 'noInsulin':
         return SondeStatus.noInsulin;
+      case 'transferToYes':
+        return SondeStatus.transferToYes;
       case 'yesInsulin':
         return SondeStatus.yesInsulin;
+      case 'transferToHigh':
+        return SondeStatus.transferToHigh;
       case 'highInsulin':
         return SondeStatus.highInsulin;
+      case 'transferToFinish':
+        return SondeStatus.transferToFinish;
       case 'finish':
         return SondeStatus.finish;
-      case 'transfer':
-        return SondeStatus.transfer;
+
       default:
         return SondeStatus.firstAsk;
     }
