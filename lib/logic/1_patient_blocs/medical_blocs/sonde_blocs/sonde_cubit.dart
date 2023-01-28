@@ -67,7 +67,8 @@ class SondeCubit extends Cubit<SondeState> {
     }
     var addHistory =
         await SondeCollectionsProvider.fastInsulinHistoryRef(profile)
-            .add(regimenSondeFast.toMap());
+            .doc(regimenSondeFast.lastTime().toString())
+            .set(regimenSondeFast.toMap());
     var clearData = await ref.set(
       initialRegimenState().toMap(),
     );
