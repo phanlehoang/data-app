@@ -146,7 +146,8 @@ class DeleteButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return IconButton(
-      //smaller
+      //làm sao để ấn vào chính giữa icon
+      padding: EdgeInsets.only(bottom: 30),
       icon: Icon(
         Icons.delete,
         size: 30,
