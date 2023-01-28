@@ -12,7 +12,7 @@ import firebase_auth
 import firebase_core
 import firebase_database
 import firebase_storage
-import path_provider_foundation
+import path_provider_macos
 import shared_preferences_foundation
 import smart_auth
 
