@@ -59,73 +59,95 @@ class ListPatients extends StatelessWidget {
             return Text("Loading");
           } else {
             final patients = snapshot.data!.docs;
-            return Column(
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Text('Phòng ${groupId} có ${patients.length} bệnh nhân'),
-                    ButtonToCreatePatient(),
-                  ],
-                ),
-                for (var i = 0; i < patients.length; i++)
-                  NiceItem(
-                    index: i,
-                    title: patients[i]['profile']['name'],
-                    subtitle: patients[i]['profile']['id'],
-                    trailing: SingleChildScrollView(
-                      child: Column(
-                        //size
-                        //top
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          //icon rubbish
-                          ElevatedButton(
-                            //smaller
-                            child: Text('xóa'),
-                            onPressed: () async {
-                              await FirebaseFirestore.instance
-                                  .collection('groups')
-                                  .doc(groupId)
-                                  .collection('patients')
-                                  .doc(patients[i].id)
-                                  .collection('medicalMethods')
-                                  //xóa tất cả các medicalMethod
-                                  .get()
-                                  .then(
-                                      (value) => value.docs.forEach((element) {
-                                            element.reference.delete();
-                                          }));
+            return SingleChildScrollView(
+              child: Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Text('Phòng ${groupId} có ${patients.length} bệnh nhân'),
+                      ButtonToCreatePatient(),
+                    ],
+                  ),
+                  for (var i = 0; i < patients.length; i++)
+                    NiceItem(
+                      index: i,
+                      title: patients[i]['profile']['name'],
+                      subtitle: patients[i]['profile']['id'],
+                      trailing: SingleChildScrollView(
+                        child: Column(
+                          //size
+                          //top
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            //icon rubbish
+                            SingleChildScrollView(
+                              child: Column(
+                                children: [
+                                  SizedBox(
+                                    height: 23,
+                                    child: IconButton(
+                                      //smaller
+                                      icon: Icon(
+                                        Icons.delete,
+                                        size: 25,
+                                        color: Colors.red,
+                                      ),
+                                      onPressed: () async {
+                                        await FirebaseFirestore.instance
+                                            .collection('groups')
+                                            .doc(groupId)
+                                            .collection('patients')
+                                            .doc(patients[i].id)
+                                            .collection('medicalMethods')
+                                            //xóa tất cả các medicalMethod
+                                            .get()
+                                            .then((value) =>
+                                                value.docs.forEach((element) {
+                                                  element.reference.delete();
+                                                }));
 
-                              await FirebaseFirestore.instance
-                                  .collection('groups')
-                                  .doc(groupId)
-                                  .collection('patients')
-                                  .doc(patients[i].id)
-                                  .delete();
-                            },
-                          ),
-                          Text(patients[i]['profile']['medicalMethod']),
-                        ],
+                                        await FirebaseFirestore.instance
+                                            .collection('groups')
+                                            .doc(groupId)
+                                            .collection('patients')
+                                            .doc(patients[i].id)
+                                            .delete();
+                                      },
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            //edit Text
+                            SizedBox(
+                              height: 15,
+                            ),
+                            Text(
+                              patients[i]['profile']['medicalMethod'],
+                              style: TextStyle(fontSize: 15),
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
-                    onTap: () {
-                      //go to patient screen
-                      context.read<CurrentProfileCubit>().getProfile(
-                            Profile.fromMap(patients[i]['profile']),
-                          );
-                      context.read<CurrentMedicalMethodCubit>().update(
-                            context
-                                .read<CurrentProfileCubit>()
-                                .state
-                                .medicalMethod,
-                          );
-                      Navigator.of(context).pushReplacementNamed('/patient');
-                      context.read<PatientNavigatorBarCubit>().update(0);
-                      context.read<BottomNavigatorBarCubit>().update(1);
-                    },
-                  )
-              ],
+                      onTap: () {
+                        //go to patient screen
+                        context.read<CurrentProfileCubit>().getProfile(
+                              Profile.fromMap(patients[i]['profile']),
+                            );
+                        context.read<CurrentMedicalMethodCubit>().update(
+                              context
+                                  .read<CurrentProfileCubit>()
+                                  .state
+                                  .medicalMethod,
+                            );
+                        Navigator.of(context).pushReplacementNamed('/patient');
+                        context.read<PatientNavigatorBarCubit>().update(0);
+                        context.read<BottomNavigatorBarCubit>().update(1);
+                      },
+                    )
+                ],
+              ),
             );
           }
         },
