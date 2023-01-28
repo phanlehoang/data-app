@@ -39,7 +39,8 @@ class PatientHistoryScreen extends StatelessWidget {
                   return Column(children: [
                     for (var doc in docs)
                       Text(
-                        Regimen.fromMap(doc.data() as Map<String, dynamic>)
+                        RegimenAndCho.fromMap(
+                                doc.data() as Map<String, dynamic>)
                             .toString(),
                       )
                   ]);
