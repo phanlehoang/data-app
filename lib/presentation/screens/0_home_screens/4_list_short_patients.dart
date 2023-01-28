@@ -149,7 +149,7 @@ class DeleteButton extends StatelessWidget {
       //smaller
       icon: Icon(
         Icons.delete,
-        size: 20,
+        size: 30,
         color: Colors.red,
       ),
       onPressed: () async {
