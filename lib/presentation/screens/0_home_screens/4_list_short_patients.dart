@@ -82,7 +82,7 @@ class ListPatients extends StatelessWidget {
                             child: Column(
                               children: [
                                 SizedBox(
-                                  height: 30,
+                                  height: 40,
                                   child: DeleteButton(
                                       groupId: groupId,
                                       patients: patients,
@@ -145,7 +145,7 @@ class DeleteButton extends StatelessWidget {
       //làm sao để ấn vào chính giữa icon
       //increase size of button
       style: ElevatedButton.styleFrom(
-        primary: Colors.white,
+        primary: Colors.grey,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10),
         ),
@@ -153,7 +153,7 @@ class DeleteButton extends StatelessWidget {
       child: Icon(
         //biểu tượng thùng rác
         Icons.delete,
-        color: Colors.grey.shade700,
+        color: Colors.red,
         size: 30,
       ),
       onPressed: () async {
