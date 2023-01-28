@@ -129,9 +129,9 @@ Regimen initialRegimen() {
   );
 }
 
-class RegimenAndCho extends Regimen {
+class RegimenSondeFast extends Regimen {
   num cho;
-  RegimenAndCho({
+  RegimenSondeFast({
     required this.cho,
     required List<dynamic> medicalActions,
     required List<MedicalCheckGlucose> medicalCheckGlucoses,
@@ -163,8 +163,8 @@ class RegimenAndCho extends Regimen {
   }
 
   //fromMap
-  factory RegimenAndCho.fromMap(Map<String, dynamic> map) {
-    return RegimenAndCho(
+  factory RegimenSondeFast.fromMap(Map<String, dynamic> map) {
+    return RegimenSondeFast(
       cho: map['cho'],
       medicalActions:
           ListMedicalFromListMap.medicalActions(map['medicalActions']),
@@ -175,8 +175,8 @@ class RegimenAndCho extends Regimen {
     );
   }
   //from Regimen and cho
-  factory RegimenAndCho.fromRegimenAndCho(Regimen regimen, num cho) {
-    return RegimenAndCho(
+  factory RegimenSondeFast.fromRegimenAndCho(Regimen regimen, num cho) {
+    return RegimenSondeFast(
       cho: cho,
       medicalActions: regimen.medicalActions,
       medicalCheckGlucoses: regimen.medicalCheckGlucoses,

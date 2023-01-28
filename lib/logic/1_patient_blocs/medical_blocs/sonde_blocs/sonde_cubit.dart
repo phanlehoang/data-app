@@ -56,7 +56,7 @@ class SondeCubit extends Cubit<SondeState> {
   Future<String?> transferData(Profile profile) async {
     var ref = RefProvider.fastInsulinStateRef(profile);
     var regimen = await RefProvider.getRegimenFastInsulinState(profile);
-    var regimenAndCho = RegimenAndCho.fromRegimenAndCho(regimen, state.cho);
+    var regimenAndCho = RegimenSondeFast.fromRegimenAndCho(regimen, state.cho);
 
     var addHistory = await RefProvider.fastInsulinHistoryRef(profile)
         .add(regimenAndCho.toMap());

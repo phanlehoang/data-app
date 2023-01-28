@@ -44,11 +44,13 @@ class NiceItem extends StatelessWidget {
                       ),
                     ),
                   ),
-                  trailing: Column(
-                    children: [
-                      trailing,
-                      // const Icon(Icons.arrow_forward_ios),
-                    ],
+                  trailing: SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        trailing,
+                        // const Icon(Icons.arrow_forward_ios),
+                      ],
+                    ),
                   ),
                   onTap: onTap,
                 ),

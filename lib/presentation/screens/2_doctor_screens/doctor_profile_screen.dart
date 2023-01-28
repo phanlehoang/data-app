@@ -26,7 +26,10 @@ class DoctorProfileScreen extends StatelessWidget {
         children: [
           TextButton(
               onPressed: () async {
-               var trial = await FirebaseFirestore.instance.collection('list_adds').doc('add').delete();
+                var trial = await FirebaseFirestore.instance
+                    .collection('list_adds')
+                    .doc('add')
+                    .delete();
               },
               child: Text('${trial}'))
         ],

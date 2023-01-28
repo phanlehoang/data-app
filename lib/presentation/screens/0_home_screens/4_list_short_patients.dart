@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:data_app/logic/1_patient_blocs/current_profile_cubit.dart';
 import 'package:data_app/logic/1_patient_blocs/medical_blocs/current_medical_method_cubit.dart';
 import 'package:data_app/logic/status_cubit/navigator_bar_cubit.dart';
+import 'package:expand_tap_area/expand_tap_area.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nice_buttons/nice_buttons.dart';
@@ -74,36 +75,31 @@ class ListPatients extends StatelessWidget {
                       index: i,
                       title: patients[i]['profile']['name'],
                       subtitle: patients[i]['profile']['id'],
-                      trailing: SingleChildScrollView(
-                        child: Column(
-                          //size
-                          //top
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            //icon rubbish
-                            SingleChildScrollView(
-                              child: Column(
-                                children: [
-                                  SizedBox(
-                                    height: 20,
-                                    child: DeleteButton(
-                                        groupId: groupId,
-                                        patients: patients,
-                                        i: i),
-                                  ),
-                                ],
-                              ),
+                      trailing: Column(
+                        children: [
+                          //icon rubbish
+                          SingleChildScrollView(
+                            child: Column(
+                              children: [
+                                SizedBox(
+                                  height: 30,
+                                  child: DeleteButton(
+                                      groupId: groupId,
+                                      patients: patients,
+                                      i: i),
+                                ),
+                              ],
                             ),
-                            //edit Text
-                            SizedBox(
-                              height: 15,
-                            ),
-                            Text(
-                              patients[i]['profile']['medicalMethod'],
-                              style: TextStyle(fontSize: 15),
-                            ),
-                          ],
-                        ),
+                          ),
+                          //edit Text
+                          // SizedBox(
+                          //   height: 15,
+                          // ),
+                          Text(
+                            patients[i]['profile']['medicalMethod'],
+                            style: TextStyle(fontSize: 15),
+                          ),
+                        ],
                       ),
                       onTap: () {
                         //go to patient screen
@@ -145,13 +141,20 @@ class DeleteButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return IconButton(
+    return ElevatedButton(
       //làm sao để ấn vào chính giữa icon
-      padding: EdgeInsets.only(bottom: 30),
-      icon: Icon(
+      //increase size of button
+      style: ElevatedButton.styleFrom(
+        primary: Colors.white,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10),
+        ),
+      ),
+      child: Icon(
+        //biểu tượng thùng rác
         Icons.delete,
+        color: Colors.grey.shade700,
         size: 30,
-        color: Colors.red,
       ),
       onPressed: () async {
         //hiển thị make sure dialog
@@ -170,24 +173,8 @@ class DeleteButton extends StatelessWidget {
                 ),
                 TextButton(
                   onPressed: () async {
-                    await FirebaseFirestore.instance
-                        .collection('groups')
-                        .doc(groupId)
-                        .collection('patients')
-                        .doc(patients[i].id)
-                        .collection('medicalMethods')
-                        //xóa tất cả các medicalMethod
-                        .get()
-                        .then((value) => value.docs.forEach((element) {
-                              element.reference.delete();
-                            }));
-
-                    await FirebaseFirestore.instance
-                        .collection('groups')
-                        .doc(groupId)
-                        .collection('patients')
-                        .doc(patients[i].id)
-                        .delete();
+                    deletePatient(
+                        groupId, Profile.fromMap(patients[i]['profile']));
                     Navigator.of(context).pop();
                   },
                   child: Text('Có'),
@@ -199,4 +186,28 @@ class DeleteButton extends StatelessWidget {
       },
     );
   }
+}
+
+Future<void> deletePatient(String groupId, Profile profile) async {
+  var ref = FirebaseFirestore.instance
+      .collection('groups')
+      .doc(groupId)
+      .collection('patients')
+      .doc(profile.id);
+  //b1: xóa collection FastInsulin, trong Sonde
+  await deleteCollection(
+      ref.collection('medicalMethods').doc('Sonde').collection('FastInsulin'));
+  await deleteCollection(ref
+      .collection('medicalMethods')
+      .doc('Sonde')
+      .collection('HistoryOldFast'));
+  await deleteCollection(ref.collection('medicalMethods'));
+  await ref.delete();
+  //xóa
+}
+
+Future<void> deleteCollection(CollectionReference ref) async {
+  await ref.get().then((value) => value.docs.forEach((element) {
+        element.reference.delete();
+      }));
 }

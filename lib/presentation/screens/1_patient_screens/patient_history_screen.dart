@@ -95,13 +95,14 @@ class SondeOldFast extends StatelessWidget {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return Text("Loading");
               } else {
-                if (snapshot.data == null) return Text('No data');
+                if (snapshot.data == null) return Text('no data');
 
                 var docs = snapshot.data!.docs;
                 return Column(children: [
                   for (var doc in docs)
                     Text(
-                      RegimenAndCho.fromMap(doc.data() as Map<String, dynamic>)
+                      RegimenSondeFast.fromMap(
+                              doc.data() as Map<String, dynamic>)
                           .toString(),
                     )
                 ]);
