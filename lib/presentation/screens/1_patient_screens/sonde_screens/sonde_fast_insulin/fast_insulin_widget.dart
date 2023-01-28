@@ -35,13 +35,13 @@ class FastInsulinWidget extends StatelessWidget {
     return NiceScreen(
       child: Column(
         children: [
-          Text('FastInsulinWidget'),
-          BlocBuilder(
-            bloc: sondeCubit,
-            builder: (context, state) {
-              return Text(state.toString());
-            },
-          ),
+          // Text('FastInsulinWidget'),
+          // BlocBuilder(
+          //   bloc: sondeCubit,
+          //   builder: (context, state) {
+          //     return Text(state.toString());
+          //   },
+          // ),
           StreamBuilder(
               stream: RefProvider.fastInsulinStateRef(profile).snapshots(),
               builder: (context, snapshot) {
@@ -54,12 +54,15 @@ class FastInsulinWidget extends StatelessWidget {
                   if (!snapshot.hasData) {
                     return Text('No data');
                   }
+                  if (snapshot.data!.data() == null) {
+                    return Text('No data');
+                  }
                   final map = snapshot.data!.data() as Map<String, dynamic>;
                   RegimenState regimenState = RegimenState.fromMap(map);
 
                   return Column(
                     children: [
-                      Text(regimenState.toString()),
+                      //  Text(regimenState.toString()),
                       FastInsulinSolve(
                           sondeFastInsulinCubit:
                               SondeFastInsulinCubit(regimenState),
@@ -144,7 +147,6 @@ class FastInsulinSolve extends StatelessWidget {
                   return Text('default');
               }
             }),
-        Text('FastInsulinSolve'),
       ],
     );
   }

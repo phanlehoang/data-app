@@ -26,7 +26,6 @@ class FirstAskWidget extends StatelessWidget {
     return NiceScreen(
       child: Column(
         children: [
-      
           BlocBuilder(
             bloc: sondeCubit,
             builder: (context, state) {
@@ -128,14 +127,17 @@ class FirstAskBloc extends FormBloc<String, String> {
         weight: profile.weight,
       ),
     );
-    // update no insulin sonde state 
-    if (sondeStatus == SondeStatus.noInsulin) {
-      var updateNoIns = await FirebaseFirestore.instance
-      .collection('groups').doc(profile.room)
-      .collection('patients').doc(profile.id)
-      .collection('medicalMethods').doc('Sonde')
-      .collection('FastInsulin').doc('regimenState').
-      set(initialRegimenState().toMap());
+    // update no insulin sonde state
+    var updateRegimen = await FirebaseFirestore.instance
+        .collection('groups')
+        .doc(profile.room)
+        .collection('patients')
+        .doc(profile.id)
+        .collection('medicalMethods')
+        .doc('Sonde')
+        .collection('FastInsulin')
+        .doc('regimenState')
+        .set(initialRegimenState().toMap());
 
     if (updateStatus == null) {
       emitSuccess();
@@ -143,5 +145,4 @@ class FirstAskBloc extends FormBloc<String, String> {
       emitFailure(failureResponse: updateStatus);
     }
   }
-}
 }

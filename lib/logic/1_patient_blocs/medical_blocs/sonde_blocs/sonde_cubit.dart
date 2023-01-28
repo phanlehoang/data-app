@@ -60,7 +60,7 @@ class SondeCubit extends Cubit<SondeState> {
     var oldRegimen =
         await RefProvider.fastInsulinHistoryRef(profile).add(regimen.toMap());
     var clearData = await ref.set(
-      {initialRegimenState().toMap()},
+      initialRegimenState().toMap(),
     );
     dynamic newState = SondeStatus.yesInsulin;
     switch (state.status) {

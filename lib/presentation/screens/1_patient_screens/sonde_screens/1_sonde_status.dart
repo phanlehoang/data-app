@@ -45,7 +45,7 @@ class SondeStatusWidget extends StatelessWidget {
                       case SondeStatus.firstAsk:
                         return Column(
                           children: [
-                            Text(sondeState.toString()),
+                            //  Text(sondeState.toString()),
                             FirstAskWidget(
                               sondeCubit: _sondeCubit,
                             ),
@@ -92,22 +92,24 @@ class SondeStatusWidget extends StatelessWidget {
                         return Column(
                           children: [
                             Text('transfer to high'),
-                            // TransferWidget(
-                            //   sondeCubit: _sondeCubit,
-                            //   nextStatus: SondeStatus.highInsulin,
-                            // ),
+                            TransferWidget(
+                              sondeCubit: _sondeCubit,
+                              nextStatus: SondeStatus.highInsulin,
+                            ),
                           ],
                         );
                       case SondeStatus.transferToFinish:
                         return Column(
                           children: [
                             Text('transfer to finish'),
-                            // TransferWidget(
-                            //   sondeCubit: _sondeCubit,
-                            //   nextStatus: SondeStatus.finish,
-                            // ),
+                            TransferWidget(
+                              sondeCubit: _sondeCubit,
+                              nextStatus: SondeStatus.finish,
+                            ),
                           ],
                         );
+                      case SondeStatus.finish:
+                        return Text('Bạn đã xong toàn bộ phác đồ Sonde.');
                       default:
                         return Text('default');
                     }

@@ -55,9 +55,9 @@ class CheckGlucoseWidget extends StatelessWidget {
                         keyboardType: TextInputType.number,
                       ),
                     ),
-                    ElevatedButton(
-                      onPressed: formBloc.submit,
-                      child: Text('Tiếp tục'),
+                    NiceButton(
+                      onTap: formBloc.submit,
+                      text: 'Tiếp tục',
                     ),
                   ],
                 ),

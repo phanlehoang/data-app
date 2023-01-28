@@ -17,14 +17,13 @@ class TransferWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     // TODO: implement build
     //sonde
-    print('trans');
     sondeCubit.transferData(
       context.read<CurrentProfileCubit>().state,
     );
 
     return Column(
       children: [
-        Text('hi hi ha ha'),
+        Text('Đang chuyển phác đồ'),
       ],
     );
   }
