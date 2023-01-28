@@ -95,12 +95,9 @@ class FastInsulinSolve extends StatelessWidget {
             bloc: sondeFastInsulinCubit,
             builder: (context, state) {
               final RegimenState regimenState = sondeFastInsulinCubit.state;
-              // if (regimenState.regimen.checkGoToYesInsAgain()) {
-              //   sondeCubit.goToNextStatus(
-              //     sondeFastInsulinCubit.state.regimen,
-              //       context.read<CurrentProfileCubit>().state,
-              //     );
-              // }
+              if (regimenState.regimen.checkGoToYesInsAgain()) {
+                sondeCubit.transfer(context.read<CurrentProfileCubit>().state);
+              }
               switch (regimenState.status) {
                 case RegimenStatus.error:
                   {
@@ -110,10 +107,10 @@ class FastInsulinSolve extends StatelessWidget {
                 case RegimenStatus.checkingGlucose:
                   {
                     if (regimenState.regimen.isFinishCurrentTask()) {
-                      if (regimenState.regimen.isHot()) {
-                        sondeCubit.transfer(
-                            context.read<CurrentProfileCubit>().state);
-                      }
+                      //   if (regimenState.regimen.isHot()) {
+                      //     sondeCubit.transfer(
+                      //         context.read<CurrentProfileCubit>().state);
+
                       return Column(
                         children: [
                           Text(regimenState.regimen.isHot().toString()),

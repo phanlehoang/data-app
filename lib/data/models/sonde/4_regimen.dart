@@ -6,7 +6,6 @@ import 'package:data_app/data/models/sonde/2.5_list_medical_from_list_map.dart';
 import '../time_controller/sonde_range.dart';
 import 'sonde_lib.dart';
 
-
 class Regimen {
   List<dynamic> medicalActions;
   List<MedicalCheckGlucose> medicalCheckGlucoses;
@@ -56,18 +55,19 @@ class Regimen {
 
   //fromMap
   factory Regimen.fromMap(Map<String, dynamic> map) {
-
     return Regimen(
-      medicalActions: ListMedicalFromListMap.medicalActions(map['medicalActions']),
-      medicalCheckGlucoses: ListMedicalFromListMap.medicalCheckGlucoses(map['medicalCheckGlucoses']),
-      medicalTakeInsulins: ListMedicalFromListMap.medicalTakeInsulins(map['medicalTakeInsulins']),
+      medicalActions:
+          ListMedicalFromListMap.medicalActions(map['medicalActions']),
+      medicalCheckGlucoses: ListMedicalFromListMap.medicalCheckGlucoses(
+          map['medicalCheckGlucoses']),
+      medicalTakeInsulins: ListMedicalFromListMap.medicalTakeInsulins(
+          map['medicalTakeInsulins']),
     );
-   
   }
   //from snapshot
-   factory Regimen.fromSnapshot(DocumentSnapshot snapshot) {
-     Map<String, dynamic> map = snapshot.data() as Map<String, dynamic>;
-     return Regimen.fromMap(map);
+  factory Regimen.fromSnapshot(DocumentSnapshot snapshot) {
+    Map<String, dynamic> map = snapshot.data() as Map<String, dynamic>;
+    return Regimen.fromMap(map);
   }
   Regimen clone() {
     return Regimen(
