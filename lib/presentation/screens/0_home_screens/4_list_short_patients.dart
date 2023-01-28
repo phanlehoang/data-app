@@ -85,36 +85,11 @@ class ListPatients extends StatelessWidget {
                               child: Column(
                                 children: [
                                   SizedBox(
-                                    height: 23,
-                                    child: IconButton(
-                                      //smaller
-                                      icon: Icon(
-                                        Icons.delete,
-                                        size: 20,
-                                        color: Colors.red,
-                                      ),
-                                      onPressed: () async {
-                                        await FirebaseFirestore.instance
-                                            .collection('groups')
-                                            .doc(groupId)
-                                            .collection('patients')
-                                            .doc(patients[i].id)
-                                            .collection('medicalMethods')
-                                            //xóa tất cả các medicalMethod
-                                            .get()
-                                            .then((value) =>
-                                                value.docs.forEach((element) {
-                                                  element.reference.delete();
-                                                }));
-
-                                        await FirebaseFirestore.instance
-                                            .collection('groups')
-                                            .doc(groupId)
-                                            .collection('patients')
-                                            .doc(patients[i].id)
-                                            .delete();
-                                      },
-                                    ),
+                                    height: 20,
+                                    child: DeleteButton(
+                                        groupId: groupId,
+                                        patients: patients,
+                                        i: i),
                                   ),
                                 ],
                               ),
@@ -152,6 +127,75 @@ class ListPatients extends StatelessWidget {
           }
         },
       ),
+    );
+  }
+}
+
+class DeleteButton extends StatelessWidget {
+  const DeleteButton({
+    super.key,
+    required this.groupId,
+    required this.patients,
+    required this.i,
+  });
+
+  final groupId;
+  final List<QueryDocumentSnapshot<Object?>> patients;
+  final int i;
+
+  @override
+  Widget build(BuildContext context) {
+    return IconButton(
+      //smaller
+      icon: Icon(
+        Icons.delete,
+        size: 20,
+        color: Colors.red,
+      ),
+      onPressed: () async {
+        //hiển thị make sure dialog
+        await showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              title: Text('Xác nhận'),
+              content: Text('Bạn có chắc chắn muốn xóa bệnh nhân này?'),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: Text('Không'),
+                ),
+                TextButton(
+                  onPressed: () async {
+                    await FirebaseFirestore.instance
+                        .collection('groups')
+                        .doc(groupId)
+                        .collection('patients')
+                        .doc(patients[i].id)
+                        .collection('medicalMethods')
+                        //xóa tất cả các medicalMethod
+                        .get()
+                        .then((value) => value.docs.forEach((element) {
+                              element.reference.delete();
+                            }));
+
+                    await FirebaseFirestore.instance
+                        .collection('groups')
+                        .doc(groupId)
+                        .collection('patients')
+                        .doc(patients[i].id)
+                        .delete();
+                    Navigator.of(context).pop();
+                  },
+                  child: Text('Có'),
+                ),
+              ],
+            );
+          },
+        );
+      },
     );
   }
 }
