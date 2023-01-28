@@ -23,6 +23,7 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     //var trial = searchGroupId('groups', id)
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: NiceInternetScreen(
         child: Column(
           children: [

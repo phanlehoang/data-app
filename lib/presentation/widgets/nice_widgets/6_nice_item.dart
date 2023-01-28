@@ -28,33 +28,34 @@ class NiceItem extends StatelessWidget {
 
       child: Container(
         width: 300,
-        child: Column(
-          //width
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            SimpleContainer(
-              child: ListTile(
-                title: Text(title),
-                subtitle: Text(subtitle),
-                leading: Container(
-                  child: ClipOval(
-                    child: Image.asset(
-                      "assets/images/gentle_girl.jpg",
-                      fit: BoxFit.fitWidth,
+        child: SingleChildScrollView(
+          child: Column(
+            //width
+            children: [
+              SimpleContainer(
+                child: ListTile(
+                  title: Text(title),
+                  subtitle: Text(subtitle),
+                  leading: Container(
+                    child: ClipOval(
+                      child: Image.asset(
+                        "assets/images/gentle_girl.jpg",
+                        fit: BoxFit.fitWidth,
+                      ),
                     ),
                   ),
+                  trailing: Column(
+                    children: [
+                      trailing,
+                      // const Icon(Icons.arrow_forward_ios),
+                    ],
+                  ),
+                  onTap: onTap,
                 ),
-                trailing: Column(
-                  children: [
-                    trailing,
-                    const Icon(Icons.arrow_forward_ios),
-                  ],
-                ),
-                onTap: onTap,
               ),
-            ),
-            //const Divider(),
-          ],
+              //const Divider(),
+            ],
+          ),
         ),
       ),
     );

@@ -4,6 +4,7 @@ import 'package:data_app/logic/1_patient_blocs/medical_blocs/current_medical_met
 import 'package:data_app/logic/status_cubit/navigator_bar_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:nice_buttons/nice_buttons.dart';
 
 import '../../../data/models/profile.dart';
 import '../../../logic/global/current_group/current_group_cubit.dart';
@@ -72,7 +73,42 @@ class ListPatients extends StatelessWidget {
                     index: i,
                     title: patients[i]['profile']['name'],
                     subtitle: patients[i]['profile']['id'],
-                    trailing: Text(patients[i]['profile']['medicalMethod']),
+                    trailing: SingleChildScrollView(
+                      child: Column(
+                        //size
+                        //top
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          //icon rubbish
+                          ElevatedButton(
+                            //smaller
+                            child: Text('xóa'),
+                            onPressed: () async {
+                              await FirebaseFirestore.instance
+                                  .collection('groups')
+                                  .doc(groupId)
+                                  .collection('patients')
+                                  .doc(patients[i].id)
+                                  .collection('medicalMethods')
+                                  //xóa tất cả các medicalMethod
+                                  .get()
+                                  .then(
+                                      (value) => value.docs.forEach((element) {
+                                            element.reference.delete();
+                                          }));
+
+                              await FirebaseFirestore.instance
+                                  .collection('groups')
+                                  .doc(groupId)
+                                  .collection('patients')
+                                  .doc(patients[i].id)
+                                  .delete();
+                            },
+                          ),
+                          Text(patients[i]['profile']['medicalMethod']),
+                        ],
+                      ),
+                    ),
                     onTap: () {
                       //go to patient screen
                       context.read<CurrentProfileCubit>().getProfile(
