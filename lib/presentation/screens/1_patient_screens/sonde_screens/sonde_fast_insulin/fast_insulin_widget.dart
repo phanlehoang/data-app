@@ -18,6 +18,7 @@ import 'package:data_app/presentation/widgets/nice_widgets/0_nice_screen.dart';
 import '../../../../../data/models/enums.dart';
 import '../../../../../data/models/sonde/2_medical_check_glucose.dart';
 import '../../../../../data/models/sonde/4_regimen.dart';
+import '../../../../../data/models/time_controller/sonde_range.dart';
 import '../../../../../logic/1_patient_blocs/medical_blocs/sonde_blocs/sonde_cubit.dart';
 import '2_1_1_checking_glucose_widget.dart';
 import '2_1_2_giving_insulin_widget.dart';
@@ -111,11 +112,11 @@ class FastInsulinSolve extends StatelessWidget {
                         sondeCubit.transfer(
                             context.read<CurrentProfileCubit>().state);
                       }
-
                       return Column(
                         children: [
-                          //    Text(regimenState.regimen.isHot().toString()),
+                          Text(regimenState.regimen.isHot().toString()),
                           Text('Bạn đã hoàn thành điều trị'),
+                          Text(SondeRange.waitingMessage(DateTime.now())),
                         ],
                       );
                     }

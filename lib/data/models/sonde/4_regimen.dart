@@ -90,12 +90,7 @@ class Regimen {
   bool isFinishCurrentTask() {
     if (medicalTakeInsulins.length == 0) return false;
     DateTime t = medicalTakeInsulins.last.time;
-    if (SondeRange.inSondeRangeToday(t) &&
-        SondeRange.rangeContain(t) == SondeRange.rangeContain(DateTime.now())) {
-      return true;
-    } else {
-      return false;
-    }
+    return SondeRange.isHot(t);
   }
 
   bool isInCurrentTask() {

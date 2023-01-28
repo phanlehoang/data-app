@@ -11,8 +11,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../data/models/time_controller/sonde_range.dart';
 import '../../../widgets/nice_widgets/nice_export.dart';
 
-class InSondeRange extends Cubit<bool> {
-  InSondeRange(bool state) : super(state);
+class InSondeRange extends Cubit<int?> {
+  InSondeRange(int? state) : super(state);
 }
 
 class SondeScreen extends StatelessWidget {
@@ -22,7 +22,7 @@ class SondeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider<InSondeRange>(
       create: (context) => InSondeRange(
-        SondeRange.inSondeRangeToday(DateTime.now()),
+        SondeRange.rangeContain(DateTime.now()),
       ),
       child: NiceScreen(
         child: Column(
@@ -32,17 +32,14 @@ class SondeScreen extends StatelessWidget {
               stream: secondStream(),
               builder: (context, snapshot) {
                 DateTime t = DateTime.now();
-                if (SondeRange.inSondeRangeToday(t)) {
-                  context.read<InSondeRange>().emit(true);
-                } else {
-                  context.read<InSondeRange>().emit(false);
-                }
+                context.read<InSondeRange>().emit(SondeRange.rangeContain(t));
+
                 return Text(t.toString());
               },
             ),
-            BlocBuilder<InSondeRange, bool>(
+            BlocBuilder<InSondeRange, int?>(
               builder: (context, state) {
-                if (!state) {
+                if (state == null) {
                   return Text(SondeRange.waitingMessage(DateTime.now()));
                 } else {
                   return SondeStatusWidget();
