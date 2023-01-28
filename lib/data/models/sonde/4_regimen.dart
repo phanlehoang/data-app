@@ -133,3 +133,59 @@ Regimen initialRegimen() {
     medicalTakeInsulins: [],
   );
 }
+
+class RegimenAndCho extends Regimen {
+  num cho;
+  RegimenAndCho({
+    required this.cho,
+    required List<dynamic> medicalActions,
+    required List<MedicalCheckGlucose> medicalCheckGlucoses,
+    required List<MedicalTakeInsulin> medicalTakeInsulins,
+  }) : super(
+          medicalActions: medicalActions,
+          medicalCheckGlucoses: medicalCheckGlucoses,
+          medicalTakeInsulins: medicalTakeInsulins,
+        );
+  //override  toString
+  @override
+  String toString() {
+    dynamic medicalActions_str = medicalActions.toString();
+    return 'Regimen ${medicalActions_str} cho: $cho';
+  }
+
+  //toMap
+  Map<String, dynamic> toMap() {
+    return {
+      'cho': cho,
+      'medicalActions': [for (dynamic x in medicalActions) x.toMap()],
+      'medicalCheckGlucoses': [
+        for (MedicalCheckGlucose x in medicalCheckGlucoses) x.toMap()
+      ],
+      'medicalTakeInsulins': [
+        for (MedicalTakeInsulin x in medicalTakeInsulins) x.toMap()
+      ],
+    };
+  }
+
+  //fromMap
+  factory RegimenAndCho.fromMap(Map<String, dynamic> map) {
+    return RegimenAndCho(
+      cho: map['cho'],
+      medicalActions:
+          ListMedicalFromListMap.medicalActions(map['medicalActions']),
+      medicalCheckGlucoses: ListMedicalFromListMap.medicalCheckGlucoses(
+          map['medicalCheckGlucoses']),
+      medicalTakeInsulins: ListMedicalFromListMap.medicalTakeInsulins(
+          map['medicalTakeInsulins']),
+    );
+  }
+  //from Regimen and cho
+  factory RegimenAndCho.fromRegimenAndCho(Regimen regimen, num cho) {
+    return RegimenAndCho(
+      cho: cho,
+      medicalActions: regimen.medicalActions,
+      medicalCheckGlucoses: regimen.medicalCheckGlucoses,
+      medicalTakeInsulins: regimen.medicalTakeInsulins,
+    );
+  }
+}
