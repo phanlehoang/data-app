@@ -145,7 +145,7 @@ class DeleteButton extends StatelessWidget {
       //làm sao để ấn vào chính giữa icon
       //increase size of button
       style: ElevatedButton.styleFrom(
-        primary: Colors.grey,
+        primary: Colors.yellow.shade200,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10),
         ),
