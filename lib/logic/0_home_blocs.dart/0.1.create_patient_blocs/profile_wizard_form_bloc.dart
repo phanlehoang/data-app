@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:data_app/data/data_provider/patient_provider.dart';
 import 'package:flutter_form_bloc/flutter_form_bloc.dart';
 
-import '../../../presentation/widgets/vietnamese/validations_vietnamese.dart';
+import '../../../presentation/widgets/vietnamese/vietnamese_field_bloc_validators.dart';
 
 class WizardFormBloc extends FormBloc<String, String> {
   String groupId = 'Unknown';

@@ -1,11 +1,11 @@
 //create class
 
-import 'package:data_app/logic/global/current_group/current_group_cubit.dart';
+import 'package:data_app/logic/global/current_group/current_group_id_cubit.dart';
 import 'package:data_app/presentation/widgets/nice_widgets/nice_export.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_bloc/flutter_form_bloc.dart';
 
-import '../../../logic/0_home_blocs.dart/0.0.find_and_create_group_blocs/group_form.dart';
+import '../../../logic/0_home_blocs.dart/0.0.find_and_create_group_blocs/group_create_form_bloc.dart';
 import '../../widgets/nice_widgets/sizeDevide.dart';
 import '../../widgets/status/loading_dialog.dart';
 

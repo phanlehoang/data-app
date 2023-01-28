@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:data_app/data/models/enums.dart';
+import 'package:data_app/data/models/enum/enums.dart';
 import 'package:data_app/data/models/sonde/sonde_lib.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';

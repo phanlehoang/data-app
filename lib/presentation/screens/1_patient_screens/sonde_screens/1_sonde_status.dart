@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:data_app/data/data_provider/sonde_provider/sonde_state_provider.dart';
-import 'package:data_app/data/models/enums.dart';
+import 'package:data_app/data/models/enum/enums.dart';
 import 'package:data_app/data/models/sonde/sonde_lib.dart';
 import 'package:data_app/presentation/screens/1_patient_screens/sonde_screens/2_0_firstAsk_widget.dart';
 import 'package:data_app/presentation/screens/1_patient_screens/sonde_screens/sonde_fast_insulin/2_1_3_transfer_widget.dart';

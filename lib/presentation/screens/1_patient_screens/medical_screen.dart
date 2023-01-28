@@ -1,4 +1,4 @@
-import 'package:data_app/data/models/enums.dart';
+import 'package:data_app/data/models/enum/enums.dart';
 import 'package:data_app/logic/1_patient_blocs/medical_blocs/choose_medical_method_bloc.dart';
 import 'package:data_app/logic/1_patient_blocs/medical_blocs/current_medical_method_cubit.dart';
 import 'package:data_app/logic/status_cubit/time_check/time_check_cubit.dart';

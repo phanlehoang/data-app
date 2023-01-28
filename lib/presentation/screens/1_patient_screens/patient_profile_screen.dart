@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../data/models/profile.dart';
-import '../../../logic/global/current_group/current_group_cubit.dart';
+import '../../../logic/global/current_group/current_group_id_cubit.dart';
 import '../../widgets/bars/bottom_navitgator_bar.dart';
 import '../../widgets/bars/patient_navigator_bar.dart';
 import 'medical_screen.dart';

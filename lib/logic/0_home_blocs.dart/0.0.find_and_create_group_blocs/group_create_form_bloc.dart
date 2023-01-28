@@ -1,29 +1,9 @@
-import 'dart:async';
-
-import 'package:data_app/presentation/widgets/vietnamese/validations_vietnamese.dart';
 import 'package:flutter_form_bloc/flutter_form_bloc.dart';
 
 import '../../../data/data_provider/group_provider.dart';
+import '../../../presentation/widgets/vietnamese/vietnamese_field_bloc_validators.dart';
 
-class GroupFormBloc extends FormBloc<String, String> {
-  final groupId = TextFieldBloc(
-      validators: [
-        VietnameseFieldBlocValidators.lightRequired,
-      ],
-      asyncValidatorDebounceTime: const Duration(milliseconds: 300),
-      asyncValidators: [GroupValidator.idExist]);
-  //add field blocs
-  @override
-  GroupFormBloc() {
-    addFieldBlocs(fieldBlocs: [
-      groupId,
-    ]);
-  }
-  // function when validate success
-
-  @override
-  FutureOr<void> onSubmitting() {}
-}
+export 'group_form_bloc.dart';
 
 class GroupCreateFormBloc extends FormBloc<String, String> {
   final groupId = TextFieldBloc(
@@ -71,7 +51,7 @@ class GroupCreateFormBloc extends FormBloc<String, String> {
   }
 
   @override
-  FutureOr<void> onSubmitting() async {
+  Future<void> onSubmitting() async {
     //delay 100ms
     try {
       var ans = await GroupCreate.createGroup(

@@ -1,15 +1,17 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:data_app/data/models/enum/enums.dart';
 import 'package:data_app/presentation/widgets/nice_widgets/nice_export.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../data/data_provider/sonde_provider/sonde_fast_insulin_provider.dart';
-import '../../../data/models/sonde/4_regimen.dart';
-import '../../../logic/1_patient_blocs/current_profile_cubit.dart';
-import '../../../logic/global/current_group/current_group_cubit.dart';
-import '../../widgets/bars/bottom_navitgator_bar.dart';
-import '../../widgets/bars/patient_navigator_bar.dart';
-import '../../widgets/nice_widgets/0_nice_screen.dart';
+import '../../../../data/data_provider/sonde_provider/sonde_collections_provider.dart';
+import '../../../../data/models/sonde/4_regimen.dart';
+import '../../../../logic/1_patient_blocs/current_profile_cubit.dart';
+import '../../../../logic/global/current_group/current_group_id_cubit.dart';
+import '../../../widgets/bars/bottom_navitgator_bar.dart';
+import '../../../widgets/bars/patient_navigator_bar.dart';
+import '../../../widgets/nice_widgets/0_nice_screen.dart';
+import 'nice_date_time.dart';
 
 class PatientHistoryScreen extends StatelessWidget {
   const PatientHistoryScreen({super.key});
@@ -66,7 +68,6 @@ class SondeOld extends StatelessWidget {
       ),
       body: SingleChildScrollView(
         child: Column(children: [
-          Text('Tiêm nhanh'),
           SondeOldFast(),
         ]),
       ),
@@ -85,7 +86,7 @@ class SondeOldFast extends StatelessWidget {
       child: Column(
         children: [
           StreamBuilder(
-            stream: RefProvider.fastInsulinHistoryRef(
+            stream: SondeCollectionsProvider.fastInsulinHistoryRef(
                     context.read<CurrentProfileCubit>().state)
                 .snapshots(),
             builder: (context, snapshot) {
@@ -100,17 +101,58 @@ class SondeOldFast extends StatelessWidget {
                 var docs = snapshot.data!.docs;
                 return Column(children: [
                   for (var doc in docs)
-                    Text(
-                      RegimenSondeFast.fromMap(
-                              doc.data() as Map<String, dynamic>)
-                          .toString(),
-                    )
+                    RegimenItem(
+                      regimen: RegimenSondeFast.fromMap(
+                          doc.data() as Map<String, dynamic>),
+                    ),
                 ]);
               }
             },
           )
         ],
       ),
+    );
+  }
+}
+
+class RegimenItem extends StatelessWidget {
+  final RegimenSondeFast regimen;
+  const RegimenItem({
+    super.key,
+    required this.regimen,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Builder(
+          builder: (context) {
+            String firstDate = NiceDateTime.dayMonth(
+              regimen.firstTime(),
+            );
+            String lastDate = NiceDateTime.dayMonth(
+              regimen.lastTime(),
+            );
+            String name = regimen.name;
+            return Text('$firstDate - $lastDate: $name');
+          },
+        ),
+        Text('Lượng CHO: ${regimen.cho} g'),
+        for (var item in regimen.medicalActions)
+          SimpleContainer(
+            child: ListTile(
+              title: Text(MedicalActionToName.name(item)),
+              subtitle: Text(item.toNiceString()),
+              trailing: Column(
+                children: [
+                  Text(NiceDateTime.dayMonth(item.time)),
+                  Text(NiceDateTime.hourMinute(item.time)),
+                ],
+              ),
+            ),
+          ),
+      ],
     );
   }
 }

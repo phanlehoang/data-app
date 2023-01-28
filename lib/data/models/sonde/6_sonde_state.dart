@@ -1,7 +1,4 @@
-
-
-
-import '../enums.dart';
+import '../enum/enums.dart';
 
 class SondeState {
   final SondeStatus status;

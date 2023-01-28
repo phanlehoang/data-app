@@ -1,10 +1,7 @@
-
-import '../../../../data/models/enums.dart';
+import '../enum/enums.dart';
 import '4_regimen.dart';
 
-
- class RegimenState{
-
+class RegimenState {
   RegimenStatus status;
   Regimen regimen;
   RegimenState({
@@ -12,25 +9,28 @@ import '4_regimen.dart';
     required this.regimen,
   });
   //clone
-  RegimenState hotClone(){
+  RegimenState hotClone() {
     return RegimenState(
       status: status,
       regimen: regimen,
     );
   }
+
   //toMap
-  Map<String, dynamic> toMap(){
+  Map<String, dynamic> toMap() {
     return {
       'status': EnumToString.enumToString(status),
       'regimen': regimen.toMap(),
     };
   }
+
   //from Map
-  factory RegimenState.fromMap(Map<String, dynamic>? map){
-    if(map == null) return RegimenState(
-      status: RegimenStatus.checkingGlucose,
-      regimen: initialRegimen(),
-    );
+  factory RegimenState.fromMap(Map<String, dynamic>? map) {
+    if (map == null)
+      return RegimenState(
+        status: RegimenStatus.checkingGlucose,
+        regimen: initialRegimen(),
+      );
     return RegimenState(
       status: StringToEnum.stringToRegimenStatus(map['status']),
       regimen: Regimen.fromMap(map['regimen']),
@@ -38,18 +38,20 @@ import '4_regimen.dart';
   }
   //to String
   @override
-  String toString(){
+  String toString() {
     return 'RegimenState:\n {status: $status, \n regimen: $regimen} ';
   }
 }
-//init Regimen State 
-RegimenState initialRegimenState(){
+
+//init Regimen State
+RegimenState initialRegimenState() {
   return RegimenState(
     status: RegimenStatus.checkingGlucose,
     regimen: initialRegimen(),
   );
 }
-RegimenState errorRegimenState(){
+
+RegimenState errorRegimenState() {
   return RegimenState(
     status: RegimenStatus.error,
     regimen: initialRegimen(),

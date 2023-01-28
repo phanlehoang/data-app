@@ -2,10 +2,10 @@
 import 'package:bloc/bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:data_app/data/data_provider/sonde_provider/sonde_state_provider.dart';
-import 'package:data_app/presentation/screens/1_patient_screens/sonde_screens/sonde_fast_insulin/2_1_1_checking_glucose_widget.dart';
+import 'package:data_app/presentation/screens/1_patient_screens/sonde_screens/sonde_fast_insulin/2_1_1_check_glucose_widget.dart';
 
-import '../../../../data/data_provider/sonde_provider/sonde_fast_insulin_provider.dart';
-import '../../../../data/models/enums.dart';
+import '../../../../data/data_provider/sonde_provider/sonde_collections_provider.dart';
+import '../../../../data/models/enum/enums.dart';
 import '../../../../data/models/profile.dart';
 import '../../../../data/models/sonde/6_sonde_state.dart';
 import '../../../../data/models/sonde/sonde_lib.dart';
@@ -26,7 +26,7 @@ class SondeCubit extends Cubit<SondeState> {
   }
 
   Future<void> transfer(Profile profile) async {
-    var ref = RefProvider.fastInsulinStateRef(profile);
+    var ref = SondeCollectionsProvider.fastInsulinStateRef(profile);
     dynamic newStatus = SondeStatus.transferToYes;
     switch (state.status) {
       case SondeStatus.noInsulin:
@@ -54,12 +54,20 @@ class SondeCubit extends Cubit<SondeState> {
   }
 
   Future<String?> transferData(Profile profile) async {
-    var ref = RefProvider.fastInsulinStateRef(profile);
-    var regimen = await RefProvider.getRegimenFastInsulinState(profile);
-    var regimenAndCho = RegimenSondeFast.fromRegimenAndCho(regimen, state.cho);
-
-    var addHistory = await RefProvider.fastInsulinHistoryRef(profile)
-        .add(regimenAndCho.toMap());
+    var ref = SondeCollectionsProvider.fastInsulinStateRef(profile);
+    var regimen =
+        await SondeCollectionsProvider.getRegimenFastInsulinState(profile);
+    var regimenSondeFast = RegimenSondeFast.fromRegimenAndCho(
+      regimen,
+      state.cho,
+      EnumToName.sondeStatusToName(state.status),
+    );
+    if (regimen.medicalActions.length == 0) {
+      return 'No medical actions';
+    }
+    var addHistory =
+        await SondeCollectionsProvider.fastInsulinHistoryRef(profile)
+            .add(regimenSondeFast.toMap());
     var clearData = await ref.set(
       initialRegimenState().toMap(),
     );
@@ -93,7 +101,7 @@ class SondeCubit extends Cubit<SondeState> {
 
   Future<void> switchStatusOnline(
       Regimen regimen, Profile profile, SondeStatus newStatus) async {
-    var ref = RefProvider.fastInsulinStateRef(profile);
+    var ref = SondeCollectionsProvider.fastInsulinStateRef(profile);
 
     var switchNewStatus = await FirebaseFirestore.instance
         .collection('groups')

@@ -1,4 +1,4 @@
-import 'package:data_app/data/models/enums.dart';
+import 'package:data_app/data/models/enum/enums.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class CurrentMedicalMethodCubit extends Cubit<MedicalMethod> {

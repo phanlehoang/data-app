@@ -1,4 +1,4 @@
-import 'package:data_app/logic/global/current_group/current_group_cubit.dart';
+import 'package:data_app/logic/global/current_group/current_group_id_cubit.dart';
 import 'package:data_app/presentation/widgets/nice_widgets/nice_export.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

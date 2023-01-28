@@ -6,25 +6,26 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_bloc/flutter_form_bloc.dart';
 
-import 'package:data_app/data/data_provider/sonde_provider/sonde_fast_insulin_provider.dart';
+import 'package:data_app/data/data_provider/sonde_provider/sonde_collections_provider.dart';
 import 'package:data_app/data/models/sonde/sonde_lib.dart';
 import 'package:data_app/logic/1_patient_blocs/current_profile_cubit.dart';
 import 'package:data_app/presentation/widgets/nice_widgets/0_nice_screen.dart';
 import 'package:data_app/presentation/widgets/nice_widgets/2_nice_button.dart';
 
 import '../../../../../data/data_provider/regimen_provider.dart';
-import '../../../../../data/models/enums.dart';
-import '../../../../../data/models/glucose-insulin_controller/give_insulin_logic.dart';
+import '../../../../../data/models/enum/enums.dart';
+import '../../../../../data/models/glucose-insulin_controller/glucose_solve.dart';
 import '../../../../../data/models/models_export.dart';
+import '../../../../../logic/1_patient_blocs/medical_blocs/sonde_blocs/check_submit_bloc.dart';
 import '../../../../../logic/1_patient_blocs/medical_blocs/sonde_blocs/sonde_cubit.dart';
 import '../../../../../logic/1_patient_blocs/medical_blocs/sonde_blocs/sonde_fast_insulin_cubit.dart';
-import '2_1_1_checking_glucose_widget.dart';
+import '2_1_1_check_glucose_widget.dart';
 
-class GivingInsulinWidget extends StatelessWidget {
+class GiveInsulinWidget extends StatelessWidget {
   //sonde cubit
   final SondeCubit sondeCubit;
   final SondeFastInsulinCubit sondeFastInsulinCubit;
-  const GivingInsulinWidget({
+  const GiveInsulinWidget({
     Key? key,
     required this.sondeCubit,
     required this.sondeFastInsulinCubit,
@@ -113,55 +114,3 @@ class GivingInsulinWidget extends StatelessWidget {
 
 Future<void> addInsulin(
     {required Profile profile, required num insulin}) async {}
-
-class CheckedSubmit extends FormBloc<String, String> {
-  final Profile profile;
-  final num insulin;
-  final num plus;
-  final SondeFastInsulinCubit sondeFastInsulinCubit;
-  CheckedSubmit({
-    required this.sondeFastInsulinCubit,
-    required this.profile,
-    required this.insulin,
-    required this.plus,
-  });
-  @override
-  FutureOr<void> onSubmitting() async {
-    MedicalTakeInsulin medicalTakeInsulin = MedicalTakeInsulin(
-      insulinUI: insulin,
-      time: DateTime.now(),
-      insulinType: InsulinType.Actrapid,
-    );
-
-    try {
-      var fastInsulinStateRef = RefProvider.fastInsulinStateRef(profile);
-      //update take insulin
-      var add = await fastInsulinStateRef.update(
-        {
-          'regimen.medicalTakeInsulins': FieldValue.arrayUnion(
-            [medicalTakeInsulin.toMap()],
-          ),
-          'regimen.medicalActions': FieldValue.arrayUnion(
-            [medicalTakeInsulin.toMap()],
-          ),
-        },
-      );
-
-      //update status to checkingGlucose
-      var updateStatus =
-          await fastInsulinStateRef.update({'status': 'checkingGlucose'});
-      var updateBonus = await FirebaseFirestore.instance
-          .collection('groups')
-          .doc(profile.room)
-          .collection('patients')
-          .doc(profile.id)
-          .collection('medicalMethods')
-          .doc('Sonde')
-          .update({'bonusInsulin': FieldValue.increment(plus)});
-    } catch (e) {
-      emitFailure(failureResponse: e.toString());
-    }
-    //   sondeFastInsulinCubit.emit(loadingNoInsulinSondeState());
-    emitSuccess();
-  }
-}

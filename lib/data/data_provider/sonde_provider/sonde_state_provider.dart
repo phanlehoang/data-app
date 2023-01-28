@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:data_app/data/models/enums.dart';
+import 'package:data_app/data/models/enum/enums.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
 import '../../../logic/1_patient_blocs/medical_blocs/sonde_blocs/sonde_cubit.dart';
@@ -28,7 +28,7 @@ class SondeStatusUpdate {
   }
 }
 
-class SondeStateCreate{
+class SondeStateCreate {
   static Future<String?> createSondeState({
     required Profile profile,
     required SondeState sondeState,

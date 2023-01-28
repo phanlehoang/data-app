@@ -1,6 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:data_app/data/data_provider/sonde_provider/sonde_fast_insulin_provider.dart';
+import 'package:data_app/data/data_provider/sonde_provider/sonde_collections_provider.dart';
 import 'package:data_app/data/models/sonde/2.5_list_medical_from_list_map.dart';
 import 'package:data_app/data/models/sonde/3_medical_take_insulin.dart';
 import 'package:data_app/data/models/sonde/5_regimen_state.dart';
@@ -15,13 +15,13 @@ import 'package:data_app/data/models/models_export.dart';
 import 'package:data_app/logic/1_patient_blocs/current_profile_cubit.dart';
 import 'package:data_app/presentation/widgets/nice_widgets/0_nice_screen.dart';
 
-import '../../../../../data/models/enums.dart';
+import '../../../../../data/models/enum/enums.dart';
 import '../../../../../data/models/sonde/2_medical_check_glucose.dart';
 import '../../../../../data/models/sonde/4_regimen.dart';
 import '../../../../../data/models/time_controller/sonde_range.dart';
 import '../../../../../logic/1_patient_blocs/medical_blocs/sonde_blocs/sonde_cubit.dart';
-import '2_1_1_checking_glucose_widget.dart';
-import '2_1_2_giving_insulin_widget.dart';
+import '2_1_1_check_glucose_widget.dart';
+import '2_1_2_give_insulin_widget.dart';
 
 class FastInsulinWidget extends StatelessWidget {
   final SondeCubit sondeCubit;
@@ -44,7 +44,8 @@ class FastInsulinWidget extends StatelessWidget {
           //   },
           // ),
           StreamBuilder(
-              stream: RefProvider.fastInsulinStateRef(profile).snapshots(),
+              stream: SondeCollectionsProvider.fastInsulinStateRef(profile)
+                  .snapshots(),
               builder: (context, snapshot) {
                 if (snapshot.hasError) {
                   return Text('Something went wrong');
@@ -135,7 +136,7 @@ class FastInsulinSolve extends StatelessWidget {
                 case RegimenStatus.givingInsulin:
                   return Column(
                     children: [
-                      GivingInsulinWidget(
+                      GiveInsulinWidget(
                         sondeFastInsulinCubit: sondeFastInsulinCubit,
                         sondeCubit: sondeCubit,
                       ),

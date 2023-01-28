@@ -20,8 +20,9 @@ class MedicalCheckGlucose extends MedicalAction {
       'glucoseUI': glucoseUI,
     };
   }
+
   //fromMap
-  factory MedicalCheckGlucose.fromMap(Map<String, dynamic> map) { 
+  factory MedicalCheckGlucose.fromMap(Map<String, dynamic> map) {
     return MedicalCheckGlucose(
       time: map['time'].toDate(),
       glucoseUI: map['glucoseUI'],
@@ -31,5 +32,10 @@ class MedicalCheckGlucose extends MedicalAction {
   @override
   String toString() {
     return '($glucoseUI glucose at $time)';
+  }
+
+  String toNiceString() {
+    String amount = this.glucoseUI.toString();
+    return '$amount mol/l';
   }
 }

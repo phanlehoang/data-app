@@ -1,6 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:data_app/data/models/enums.dart';
+import 'package:data_app/data/models/enum/enums.dart';
 
 import '1_medical_action.dart';
 
@@ -45,6 +45,10 @@ class MedicalTakeInsulin extends MedicalAction {
   String toString() {
     return '(${this.insulinUI} ${this.insulinType} lúc ${this.time})';
   }
-}
 
-Timestamp a = Timestamp.now();
+  String toNiceString() {
+    String insulinType = EnumToString.enumToString(this.insulinType);
+    String amount = this.insulinUI.toString();
+    return '$amount $insulinType UI';
+  }
+}

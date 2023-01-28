@@ -4,7 +4,7 @@ import 'package:data_app/logic/1_patient_blocs/medical_blocs/sonde_blocs/sonde_c
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../../data/models/enums.dart';
+import '../../../../../data/models/enum/enums.dart';
 
 class TransferWidget extends StatelessWidget {
   final SondeCubit sondeCubit;

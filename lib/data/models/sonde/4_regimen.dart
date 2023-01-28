@@ -1,6 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:data_app/data/models/enums.dart';
+
+import 'package:data_app/data/models/enum/enums.dart';
 import 'package:data_app/data/models/sonde/2.5_list_medical_from_list_map.dart';
 
 import '../time_controller/sonde_range.dart';
@@ -112,6 +113,11 @@ class Regimen {
     return medicalTakeInsulins.last.time;
   }
 
+  DateTime firstTime() {
+    if (medicalTakeInsulins.length == 0) return DateTime(1999);
+    return medicalTakeInsulins.first.time;
+  }
+
   bool checkGoToYesInsAgain() {
     return isFull50() && !isInCurrentTask();
   }
@@ -131,11 +137,13 @@ Regimen initialRegimen() {
 
 class RegimenSondeFast extends Regimen {
   num cho;
+  String name;
   RegimenSondeFast({
-    required this.cho,
     required List<dynamic> medicalActions,
     required List<MedicalCheckGlucose> medicalCheckGlucoses,
     required List<MedicalTakeInsulin> medicalTakeInsulins,
+    required this.cho,
+    required this.name,
   }) : super(
           medicalActions: medicalActions,
           medicalCheckGlucoses: medicalCheckGlucoses,
@@ -145,12 +153,13 @@ class RegimenSondeFast extends Regimen {
   @override
   String toString() {
     dynamic medicalActions_str = medicalActions.toString();
-    return 'Regimen ${medicalActions_str} cho: $cho';
+    return 'Regimen ${medicalActions_str}\n cho: $cho \n name: $name';
   }
 
   //toMap
   Map<String, dynamic> toMap() {
     return {
+      'name': name,
       'cho': cho,
       'medicalActions': [for (dynamic x in medicalActions) x.toMap()],
       'medicalCheckGlucoses': [
@@ -165,6 +174,7 @@ class RegimenSondeFast extends Regimen {
   //fromMap
   factory RegimenSondeFast.fromMap(Map<String, dynamic> map) {
     return RegimenSondeFast(
+      name: map['name'],
       cho: map['cho'],
       medicalActions:
           ListMedicalFromListMap.medicalActions(map['medicalActions']),
@@ -175,12 +185,17 @@ class RegimenSondeFast extends Regimen {
     );
   }
   //from Regimen and cho
-  factory RegimenSondeFast.fromRegimenAndCho(Regimen regimen, num cho) {
+  factory RegimenSondeFast.fromRegimenAndCho(
+    Regimen regimen,
+    num cho,
+    String name,
+  ) {
     return RegimenSondeFast(
       cho: cho,
       medicalActions: regimen.medicalActions,
       medicalCheckGlucoses: regimen.medicalCheckGlucoses,
       medicalTakeInsulins: regimen.medicalTakeInsulins,
+      name: name,
     );
   }
 }

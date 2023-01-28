@@ -3,7 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import '../../models/profile.dart';
 import '../../models/sonde/sonde_lib.dart';
 
-class RefProvider {
+class SondeCollectionsProvider {
   static DocumentReference fastInsulinStateRef(Profile profile) {
     return FirebaseFirestore.instance
         .collection('groups')
@@ -37,6 +37,6 @@ class RefProvider {
         .doc(profile.id)
         .collection('medicalMethods')
         .doc('Sonde')
-        .collection('HistoryOldFast');
+        .collection('HistoryOld');
   }
 }
