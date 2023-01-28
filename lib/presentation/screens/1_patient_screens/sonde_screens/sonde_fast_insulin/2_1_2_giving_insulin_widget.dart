@@ -38,7 +38,7 @@ class GivingInsulinWidget extends StatelessWidget {
         BlocBuilder(
           bloc: sondeFastInsulinCubit,
           builder: (context, state) {
-            final  value = sondeFastInsulinCubit.state;
+            final value = sondeFastInsulinCubit.state;
             switch (value.status) {
               case RegimenStatus.givingInsulin:
                 {
@@ -47,8 +47,12 @@ class GivingInsulinWidget extends StatelessWidget {
                     regimen: value.regimen,
                     sondeState: sondeCubit.state,
                   );
-                  String plusGuide = GlucoseSolve.plusInsulinGuide(glu );
+                  String plusGuide = GlucoseSolve.plusInsulinGuide(glu);
                   num plus = GlucoseSolve.plusInsulinAmount(glu);
+                  if (plus == 4 &&
+                      sondeCubit.state.status == SondeStatus.highInsulin) {
+                    plus = 6;
+                  }
                   num insulin = GlucoseSolve.insulinGuide(
                     regimen: value.regimen,
                     sondeState: sondeCubit.state,
@@ -56,8 +60,7 @@ class GivingInsulinWidget extends StatelessWidget {
                   return Column(
                     children: [
                       Text('Tạm ngừng thuốc hạ đường máu'),
-                                            Text(plusGuide),
-
+                      Text(plusGuide),
                       Text(guide),
                       BlocProvider<CheckedSubmit>(
                           create: (context) => CheckedSubmit(
@@ -76,7 +79,6 @@ class GivingInsulinWidget extends StatelessWidget {
                                     content: Text('Success'),
                                   ),
                                 );
-                               
                               },
                               onFailure: (cc, state) {
                                 ScaffoldMessenger.of(cc).showSnackBar(
@@ -130,26 +132,24 @@ class CheckedSubmit extends FormBloc<String, String> {
       time: DateTime.now(),
       insulinType: InsulinType.Actrapid,
     );
-    
+
     try {
       var fastInsulinStateRef = RefProvider.fastInsulinStateRef(profile);
-      //update take insulin 
+      //update take insulin
       var add = await fastInsulinStateRef.update(
         {
           'regimen.medicalTakeInsulins': FieldValue.arrayUnion(
-            [medicalTakeInsulin .toMap()],
+            [medicalTakeInsulin.toMap()],
           ),
           'regimen.medicalActions': FieldValue.arrayUnion(
             [medicalTakeInsulin.toMap()],
           ),
         },
       );
-      
+
       //update status to checkingGlucose
       var updateStatus =
-          await fastInsulinStateRef.update({
-            'status': 'checkingGlucose'
-          });
+          await fastInsulinStateRef.update({'status': 'checkingGlucose'});
       var updateBonus = await FirebaseFirestore.instance
           .collection('groups')
           .doc(profile.room)
