@@ -2,6 +2,7 @@ import '../enum/enums.dart';
 import '4_regimen.dart';
 
 class RegimenState {
+ // String name;
   RegimenStatus status;
   Regimen regimen;
   RegimenState({

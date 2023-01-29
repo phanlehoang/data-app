@@ -24,7 +24,7 @@ enum SondeStatus {
   transferToHigh,
   highInsulin,
   transferToFinish,
-  finish,
+  finish, 
 }
 
 enum RegimenStatus {

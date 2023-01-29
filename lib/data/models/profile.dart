@@ -1,5 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 import 'enum/enums.dart';
 
 class Profile {
@@ -71,6 +73,16 @@ class Profile {
       medicalMethod: medicalMethod,
       room: room,
     );
+  }
+  DocumentReference ref(){
+    return FirebaseFirestore.instance.collection('groups').doc(room)
+    .collection('patients').doc(id);
+  }
+
+
+  DocumentReference regimenStateStream() {
+    return ref().collection('medicalMethods').doc('Sonde')
+    .collection('regimen').doc('state');
   }
 }
 

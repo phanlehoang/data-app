@@ -105,7 +105,7 @@ class Regimen {
     for (var x in medicalCheckGlucoses) {
       if (x.glucoseUI > 8.3) counter++;
     }
-    return counter >= 1;
+    return counter >= 5;
   }
 
   DateTime lastTime() {
