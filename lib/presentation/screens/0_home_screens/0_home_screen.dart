@@ -1,9 +1,9 @@
 //create a home screen
-import 'package:data_app/data/data_provider/search_document.dart';
-import 'package:data_app/logic/global/current_group/current_group_id_cubit.dart';
-import 'package:data_app/logic/0_home_blocs.dart/0.0.find_and_create_group_blocs/group_form_bloc.dart';
-import 'package:data_app/presentation/widgets/nice_widgets/add_patient_icon.dart';
-import 'package:data_app/presentation/widgets/nice_widgets/nice_export.dart';
+import 'package:demo_app2/data/data_provider/search_document.dart';
+import 'package:demo_app2/logic/global/current_group/current_group_id_cubit.dart';
+import 'package:demo_app2/logic/0_home_blocs.dart/0.0.find_and_create_group_blocs/group_form_bloc.dart';
+import 'package:demo_app2/presentation/widgets/nice_widgets/add_patient_icon.dart';
+import 'package:demo_app2/presentation/widgets/nice_widgets/nice_export.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_bloc/flutter_form_bloc.dart';

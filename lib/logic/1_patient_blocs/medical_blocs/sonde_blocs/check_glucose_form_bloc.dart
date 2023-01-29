@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:data_app/logic/1_patient_blocs/medical_blocs/sonde_blocs/sonde_fast_insulin_cubit.dart';
+import 'package:demo_app2/logic/1_patient_blocs/medical_blocs/sonde_blocs/sonde_fast_insulin_cubit.dart';
 import 'package:flutter_form_bloc/flutter_form_bloc.dart';
 
 import '../../../../data/data_provider/sonde_provider/sonde_collections_provider.dart';

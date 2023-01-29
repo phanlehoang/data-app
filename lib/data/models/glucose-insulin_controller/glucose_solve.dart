@@ -1,5 +1,5 @@
-import 'package:data_app/logic/1_patient_blocs/medical_blocs/sonde_blocs/sonde_fast_insulin_cubit.dart';
-import 'package:data_app/logic/1_patient_blocs/medical_blocs/sonde_blocs/sonde_cubit.dart';
+import 'package:demo_app2/logic/1_patient_blocs/medical_blocs/sonde_blocs/sonde_fast_insulin_cubit.dart';
+import 'package:demo_app2/logic/1_patient_blocs/medical_blocs/sonde_blocs/sonde_cubit.dart';
 
 import '../sonde/sonde_lib.dart';
 

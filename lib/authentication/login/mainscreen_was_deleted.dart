@@ -1,4 +1,4 @@
-import 'package:data_app/authentication/login/signup.dart';
+import 'package:demo_app2/authentication/login/signup.dart';
 import 'package:flutter/material.dart';
 
 import 'login.dart';

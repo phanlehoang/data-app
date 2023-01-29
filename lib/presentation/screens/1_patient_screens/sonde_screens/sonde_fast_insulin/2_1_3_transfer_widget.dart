@@ -1,6 +1,6 @@
 // TransferWidget
-import 'package:data_app/logic/1_patient_blocs/current_profile_cubit.dart';
-import 'package:data_app/logic/1_patient_blocs/medical_blocs/sonde_blocs/sonde_cubit.dart';
+import 'package:demo_app2/logic/1_patient_blocs/current_profile_cubit.dart';
+import 'package:demo_app2/logic/1_patient_blocs/medical_blocs/sonde_blocs/sonde_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

@@ -1,5 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'package:data_app/presentation/widgets/status/internet_check_widgets.dart';
+import 'package:demo_app2/presentation/widgets/status/internet_check_widgets.dart';
 import 'package:flutter/material.dart';
 
 //nice screen stateless widget

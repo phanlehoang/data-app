@@ -1,8 +1,8 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:bloc/bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:data_app/data/data_provider/sonde_provider/sonde_state_provider.dart';
-import 'package:data_app/presentation/screens/1_patient_screens/sonde_screens/sonde_fast_insulin/2_1_1_check_glucose_widget.dart';
+import 'package:demo_app2/data/data_provider/sonde_provider/sonde_state_provider.dart';
+import 'package:demo_app2/presentation/screens/1_patient_screens/sonde_screens/sonde_fast_insulin/2_1_1_check_glucose_widget.dart';
 
 import '../../../../data/data_provider/sonde_provider/sonde_collections_provider.dart';
 import '../../../../data/models/enum/enums.dart';

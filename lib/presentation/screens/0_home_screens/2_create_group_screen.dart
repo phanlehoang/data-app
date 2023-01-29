@@ -1,7 +1,7 @@
 //create class
 
-import 'package:data_app/logic/global/current_group/current_group_id_cubit.dart';
-import 'package:data_app/presentation/widgets/nice_widgets/nice_export.dart';
+import 'package:demo_app2/logic/global/current_group/current_group_id_cubit.dart';
+import 'package:demo_app2/presentation/widgets/nice_widgets/nice_export.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_bloc/flutter_form_bloc.dart';
 

@@ -1,4 +1,4 @@
-import 'package:data_app/authentication/verify/forget_password.dart';
+import 'package:demo_app2/authentication/verify/forget_password.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';

@@ -1,9 +1,9 @@
-import 'package:data_app/data/models/enum/enums.dart';
-import 'package:data_app/logic/1_patient_blocs/medical_blocs/choose_medical_method_bloc.dart';
-import 'package:data_app/logic/1_patient_blocs/medical_blocs/current_medical_method_cubit.dart';
-import 'package:data_app/logic/status_cubit/time_check/time_check_cubit.dart';
-import 'package:data_app/presentation/screens/1_patient_screens/sonde_screens/0_sonde_screen.dart';
-import 'package:data_app/presentation/widgets/nice_widgets/0_nice_screen.dart';
+import 'package:demo_app2/data/models/enum/enums.dart';
+import 'package:demo_app2/logic/1_patient_blocs/medical_blocs/choose_medical_method_bloc.dart';
+import 'package:demo_app2/logic/1_patient_blocs/medical_blocs/current_medical_method_cubit.dart';
+import 'package:demo_app2/logic/status_cubit/time_check/time_check_cubit.dart';
+import 'package:demo_app2/presentation/screens/1_patient_screens/sonde_screens/0_sonde_screen.dart';
+import 'package:demo_app2/presentation/widgets/nice_widgets/0_nice_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_bloc/flutter_form_bloc.dart';

@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:data_app/logic/1_patient_blocs/current_profile_cubit.dart';
-import 'package:data_app/presentation/widgets/nice_widgets/0_nice_screen.dart';
+import 'package:demo_app2/logic/1_patient_blocs/current_profile_cubit.dart';
+import 'package:demo_app2/presentation/widgets/nice_widgets/0_nice_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

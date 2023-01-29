@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:data_app/data/models/enum/enums.dart';
-import 'package:data_app/data/models/sonde/sonde_lib.dart';
-import 'package:data_app/presentation/screens/2_doctor_screens/candies.dart';
+import 'package:demo_app2/data/models/enum/enums.dart';
+import 'package:demo_app2/data/models/sonde/sonde_lib.dart';
+import 'package:demo_app2/presentation/screens/2_doctor_screens/candies.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';

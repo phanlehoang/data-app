@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:data_app/authentication/verify/verify_screen.dart';
+import 'package:demo_app2/authentication/verify/verify_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 

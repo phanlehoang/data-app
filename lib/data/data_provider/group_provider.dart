@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:data_app/data/data_provider/patient_provider.dart';
-import 'package:data_app/data/data_provider/search_document.dart';
+import 'package:demo_app2/data/data_provider/patient_provider.dart';
+import 'package:demo_app2/data/data_provider/search_document.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
 class GroupValidator {

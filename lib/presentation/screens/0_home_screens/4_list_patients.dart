@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:data_app/logic/1_patient_blocs/current_profile_cubit.dart';
-import 'package:data_app/logic/1_patient_blocs/medical_blocs/current_medical_method_cubit.dart';
-import 'package:data_app/logic/status_cubit/navigator_bar_cubit.dart';
+import 'package:demo_app2/logic/1_patient_blocs/current_profile_cubit.dart';
+import 'package:demo_app2/logic/1_patient_blocs/medical_blocs/current_medical_method_cubit.dart';
+import 'package:demo_app2/logic/status_cubit/navigator_bar_cubit.dart';
 import 'package:expand_tap_area/expand_tap_area.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

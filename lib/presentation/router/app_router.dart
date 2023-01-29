@@ -1,4 +1,4 @@
-import 'package:data_app/logic/status_cubit/time_check/time_check_cubit.dart';
+import 'package:demo_app2/logic/status_cubit/time_check/time_check_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

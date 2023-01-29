@@ -10,7 +10,7 @@ class MedicalMixing extends MedicalAction {
   @override
   String toString() {
     // TODO: implement toString
-    return 'Truyền glucose 10% 500ml pha truyền 10UI Actrapid (100ml/h)'
+    return 'Truyền glucose 10% 500ml pha truyền 10UI Actrapid (100ml/h)';
   }
 
 }

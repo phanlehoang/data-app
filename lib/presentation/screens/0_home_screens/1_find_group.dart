@@ -1,5 +1,5 @@
-import 'package:data_app/logic/global/current_group/current_group_id_cubit.dart';
-import 'package:data_app/presentation/widgets/status/loading_dialog.dart';
+import 'package:demo_app2/logic/global/current_group/current_group_id_cubit.dart';
+import 'package:demo_app2/presentation/widgets/status/loading_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_bloc/flutter_form_bloc.dart';

@@ -2,7 +2,7 @@
 
 import 'dart:async';
 
-import 'package:data_app/data/models/sonde/4_regimen.dart';
+import 'package:demo_app2/data/models/sonde/4_regimen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../enum/enums.dart';
@@ -37,14 +37,6 @@ class SondeProcedureOnlineCubit extends Cubit<SondeProcedure> {
     historyOld: [],
     regimenState: initialRegimenState(),
   )){
-    _regimenStateSubscription = profile.regimenStateStream.listen((regimenState) {
-      emit(state.copyWith(regimenState: regimenState));
-    });
-    _sondeStateSubscription = profile.sondeStateStream.listen((sondeState) {
-      emit(state.copyWith(state: sondeState));
-    });
-    _historyOldSubscription = profile.historyOldStream.listen((historyOld) {
-      emit(state.copyWith(historyOld: historyOld));
-    });
+  
   }
 }

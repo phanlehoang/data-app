@@ -1,9 +1,9 @@
 //create a simple app
 import 'package:connectivity_plus/connectivity_plus.dart';
-import 'package:data_app/logic/global/current_export.dart';
-import 'package:data_app/logic/status_cubit/time_check/time_check_cubit.dart';
-import 'package:data_app/presentation/router/app_router.dart';
-import 'package:data_app/presentation/widgets/nice_widgets/nice_export.dart';
+import 'package:demo_app2/logic/global/current_export.dart';
+import 'package:demo_app2/logic/status_cubit/time_check/time_check_cubit.dart';
+import 'package:demo_app2/presentation/router/app_router.dart';
+import 'package:demo_app2/presentation/widgets/nice_widgets/nice_export.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

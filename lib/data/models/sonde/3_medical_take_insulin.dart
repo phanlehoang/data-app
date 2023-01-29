@@ -1,6 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:data_app/data/models/enum/enums.dart';
+import 'package:demo_app2/data/models/enum/enums.dart';
 
 import '1_medical_action.dart';
 

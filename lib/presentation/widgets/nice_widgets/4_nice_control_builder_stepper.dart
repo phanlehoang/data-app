@@ -1,4 +1,4 @@
-import 'package:data_app/presentation/widgets/nice_widgets/nice_export.dart';
+import 'package:demo_app2/presentation/widgets/nice_widgets/nice_export.dart';
 import 'package:flutter/material.dart';
 
 //create a widget is a function

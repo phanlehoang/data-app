@@ -1,6 +1,6 @@
 {
-    "name": "data_app",
-    "short_name": "data_app",
+    "name": "demo_app2",
+    "short_name": "demo_app2",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

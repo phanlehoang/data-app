@@ -1,10 +1,10 @@
 import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:data_app/logic/1_patient_blocs/current_profile_cubit.dart';
-import 'package:data_app/logic/status_cubit/time_check/time_check_cubit.dart';
-import 'package:data_app/presentation/screens/1_patient_screens/sonde_screens/1_sonde_status.dart';
-import 'package:data_app/presentation/widgets/images/doctor_image.dart';
+import 'package:demo_app2/logic/1_patient_blocs/current_profile_cubit.dart';
+import 'package:demo_app2/logic/status_cubit/time_check/time_check_cubit.dart';
+import 'package:demo_app2/presentation/screens/1_patient_screens/sonde_screens/1_sonde_status.dart';
+import 'package:demo_app2/presentation/widgets/images/doctor_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

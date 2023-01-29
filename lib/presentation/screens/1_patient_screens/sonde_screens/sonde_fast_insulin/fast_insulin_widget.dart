@@ -1,19 +1,19 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:data_app/data/data_provider/sonde_provider/sonde_collections_provider.dart';
-import 'package:data_app/data/models/sonde/2.5_list_medical_from_list_map.dart';
-import 'package:data_app/data/models/sonde/3_medical_take_insulin.dart';
-import 'package:data_app/data/models/sonde/5_regimen_state.dart';
-import 'package:data_app/logic/1_patient_blocs/medical_blocs/sonde_blocs/sonde_fast_insulin_cubit.dart';
-import 'package:data_app/logic/status_cubit/time_check/time_check_cubit.dart';
+import 'package:demo_app2/data/data_provider/sonde_provider/sonde_collections_provider.dart';
+import 'package:demo_app2/data/models/sonde/2.5_list_medical_from_list_map.dart';
+import 'package:demo_app2/data/models/sonde/3_medical_take_insulin.dart';
+import 'package:demo_app2/data/models/sonde/5_regimen_state.dart';
+import 'package:demo_app2/logic/1_patient_blocs/medical_blocs/sonde_blocs/sonde_fast_insulin_cubit.dart';
+import 'package:demo_app2/logic/status_cubit/time_check/time_check_cubit.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:data_app/data/data_provider/regimen_provider.dart';
-import 'package:data_app/data/models/models_export.dart';
-import 'package:data_app/logic/1_patient_blocs/current_profile_cubit.dart';
-import 'package:data_app/presentation/widgets/nice_widgets/0_nice_screen.dart';
+import 'package:demo_app2/data/data_provider/regimen_provider.dart';
+import 'package:demo_app2/data/models/models_export.dart';
+import 'package:demo_app2/logic/1_patient_blocs/current_profile_cubit.dart';
+import 'package:demo_app2/presentation/widgets/nice_widgets/0_nice_screen.dart';
 
 import '../../../../../data/models/enum/enums.dart';
 import '../../../../../data/models/sonde/2_medical_check_glucose.dart';
